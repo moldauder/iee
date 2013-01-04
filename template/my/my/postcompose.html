@@ -1,0 +1,85 @@
+<div class="panel-hd"><h2>撰写新文章</h2></div>
+<div class="panel-bd">
+    <form>
+        <div class="hide">
+            <input type="text" name="operate" />
+            <input type="text" name="id" />
+            <input type="text" name="params" />
+        </div>
+
+        <div class="toolbar toolbar-bg">
+            <!--<button type=button class="btn-minor preview" data-act=postcompose/preview>预览</button>-->
+            <button type="button" class="btn" data-act=postcompose/save>保存草稿</button>
+            <button type="button" class="btn btn-primary" data-act=postcompose/publish>保存并发布</button>
+            <button type="button" class="btn cancel" data-act=postcompose/cancel>取消</button>
+            <span class="action-tip"></span>
+        </div>
+        <div class="main">
+            <!--
+            <div class="col-sub">
+            <dl class="field field-photo">
+                <dt><label>图片</label></dt>
+                <dd>
+                <div class=photo-uploade>
+                    <div class=photo-uploader-viewer><span class=tip>320x420</span></div>
+                    <div class=photo-uploader-preview></div>
+                    <div class=photo-uploader-toolbar>
+                        <span title=放大 class=fn-zoom-out></span>
+                        <span title=收缩 class=fn-zoom-in></span>
+                        <span title=重置 class=fn-zoom-reset></span>
+                    </div>
+                    <div class=photo-uploader-action>
+                        <span class=photo-uploader-btn>
+                            <label>选取图片</label>
+                            <input type=file name=file class=photo-uploader-file />
+                        </span>
+                        <span class=photo-uploader-feedback>只允许上次jpg格式图片</span>
+                    </div>
+                    <input class=photo-uploader-key type=hidden name=post_img_key />
+                    <input class=photo-uploader-crop type=hidden name=post_img_crop />
+                </div>
+                </dd>
+            </dl>
+            </div>
+            <div class="col-main">
+            -->
+            <dl class="field field-title">
+                <dt><label for="title">标题</label></dt>
+                <dd><input type="text" id="title" name="title" class="text" /></dd>
+            </dl>
+            <dl class="field">
+                <dt><label for="postcontent">描述</label></dt>
+                <dd><textarea class="text" rows="3" id="postcontent" name="content"></textarea></dd>
+            </dl>
+
+            <dl class="field">
+                <dt><label for="img">图片</label></dt>
+                <dd><input type="text" id="img" name="img" class="text" /></dd>
+            </dl>
+
+            <dl class="field">
+                <dt><label for=outer_url>链接</label></dt>
+                <dd><input type=text id=outer_url name=outer_url class=text /></dd>
+            </dl>
+
+            <?php if(IS_SUPER_USER): ?>
+            <dl class="field">
+                <dt><label for="author_3rd">第三方作者</label></dt>
+                <dd><input type="text" id="author_3rd" name="author_3rd" class="text" /></dd>
+            </dl>
+            <dl class="field">
+                <dt><label>关联商品</label></dt>
+                <dd><div class="relate-item"></div></dd>
+            </dl>
+            <?php endif; ?>
+
+        </div>
+        <div class="toolbar toolbar-bg">
+            <!--<button type=button class="btn-minor preview" data-act=postcompose/preview>预览</button>-->
+            <button type="button" class="btn" data-act=postcompose/save>保存草稿</button>
+            <button type="button" class="btn btn-primary" data-act=postcompose/publish>保存并发布</button>
+            <button type="button" class="btn cancel" data-act=postcompose/cancel>取消</button>
+            <span class="action-tip"></span>
+        </div>
+    </form>
+</div>

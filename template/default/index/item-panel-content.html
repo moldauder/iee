@@ -1,0 +1,23 @@
+<?php if(!$isComplexItem && !$isRelateItem): ?>
+<div class="side">
+    <div class="hd"><h2><a title=<?php __($postData->nick); ?>的推荐 href=/author/<?php __($postData->username); ?>><span class="stdauthor stdauthor-<?php __($postData->username); ?>"><span class=num>(<?php __($postsNum); ?>)</span></span><s></s></a></h2></div>
+    <div class=bd>
+    <?php
+    $currentPostId = $postData->id;
+
+    $maxRecentCount = 6;
+    foreach($recentPostResult['list'] as $recentPostData){
+        if(0 < $maxRecentCount  && $recentPostData->id !== $currentPostId){
+            $maxRecentCount--;
+            __('<a href="/' . $recentPostData->id . '" title="' . $recentPostData->title . '"><img width=80 height=105 src="'.$recentPostData->img.'"/></a>');
+        }
+    }
+    ?>
+    </div>
+</div>
+<div class="main"><?php __(stdpost($postData, 'h1')); ?></div>
+<?php else: ?>
+<div class="main complex-main"><?php __(stdpost($postData, 'h1')); ?></div>
+<?php endif;?>
+<textarea><?php if($prevPostData): ?><a href="/<?php __($prevPostData->id); ?>" data-id="<?php __($prevPostData->id); ?>" title="上一篇：<?php __($prevPostData->title); ?>" class=prev></a><?php endif; ?><?php if($nextPostData): ?><a href="<?php __($nextPostData->id); ?>" data-id="<?php __($nextPostData->id); ?>" title="下一篇：<?php __($nextPostData->title); ?>" class=next></a><?php endif; ?></textarea>
+
