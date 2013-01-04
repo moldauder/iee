@@ -1,0 +1,11 @@
+<?php
+/**
+ * 一味首页
+ */
+$pageCls = 'index';
+require 'header.html';
+$asset->import('js/index');
+?>
+<textarea id="sh"><div class="box"><div class="formCont"><span class="close"></span><span class="arrow"></span><div class="fieldCont"><form><div class="field-url"><input id="s1" type="text" name="url" autocomplete="off" /><label for="s1">http://</label></div><div class="field-remark"><input id="s2" type="text" name="remark" autocomplete="off" /><label for="s2">如果你愿意，可以在这里输入您的推荐理由</label></div><div class="field-nick"><input id="s3" type="text" name="nick" autocomplete="off" /><label for="s3">输入你的昵称</label></div><div class="field-weibo"><input id="s4" type="text" name="weibo" autocomplete="off" /><label for="s4">输入你的新浪微博账号</label></div></form></div><div class="field-btn"><button></button><span class="err"></span></div></div></div></textarea>
+<div id="pi"><div id="waterfall" class="waterfall"></div><div id="loading"></div></div>
+<?php require 'footer.html';

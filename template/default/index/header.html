@@ -1,0 +1,20 @@
+<?php
+$asset->import('css/base');
+$asset->import('js/s');
+
+$title = isset($title) ? $title : C('site_name');
+
+$headerTag = isset($headerTag) ? $headerTag : 'h1';
+$headerTag = ('h1' === strtolower($headerTag)) ? 'h1' : 'div';
+
+$pageCls = isset($pageCls) ? ('tpl-' . $pageCls) : '';
+$desc = isset($desc) ? $desc : '一味，拥有生活的灵感。我们呈现那些美的、有灵气的、带着生活的经历和温度的物品。唤醒察觉的心，去获取感知生活的灵力与发现美。';
+?>
+<!DOCTYPE HTML><html class="<?php __($pageCls); ?>"><head><meta charset="utf-8" /><meta name="description" content="<?php __($desc); ?>"/><meta property="wb:webmaster" content="f7d4153e5eb8642c" /><title><?php __($title); ?></title><?php $asset->css();?><script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy-min.js"></script><?php $asset->js(); ?><base target="_blank" /></head><body><div id="header"><div id="logo"><div id="logo-box"><<?php __($headerTag); ?> id="site-title"><a href="/" title="一味 拥有生活的灵感" rel="home" target="_self"><img src="http://pic.yupoo.com/iewei/CsyJBJHp/Sc6vB.png" height="53" width="53" /><s></s><span>一味</span></a></<?php __($headerTag);?>></div>
+<div id="socialm">
+    <a class="fp" href="/"><span>首页</span><s></s></a>
+    <a class="about" href="/about"><span>关于一味</span><s></s></a>
+    <a class="weibo" href="http://weibo.com/iiiewei"><span>关注</span><s></s></a>
+    <a class="mail" href="mailto:iewei.inc@gmail.com"><span>联系</span><s></s></a>
+</div>
+</div></div><div id="content">

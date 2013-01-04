@@ -1,0 +1,3 @@
+[submodule "tinyphp"]
+	path = tinyphp
+	url = https://github.com/penapena/tinyphp.git

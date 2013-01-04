@@ -1,0 +1,152 @@
+/**
+ * list
+ */
+.postlist{
+    min-height: 500px;
+}
+
+.post-item .checkbox{
+    position: relative;
+    top: -1px;
+    margin-right: 4px;
+}
+
+.post-locked .post-edit-btn,
+.post-locked .post-trash-btn,
+.post-untrash-btn,
+.post-delete-btn,
+.post-trash .post-trash-btn,
+.post-trash .post-edit-btn{
+    display: none
+}
+
+.post-trash .post-untrash-btn,
+.post-trash .post-delete-btn{
+    display: inline;
+}
+
+.post-trash .title a{
+    color: #888;
+}
+
+.post-item p{
+    margin-bottom: 3px;
+}
+
+.post-item .title a{ font-size: 14px; font-weight: bold; }
+
+.post-item .idx{
+    color: #31BF00;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.post-item .buylink,
+.post-item .buyinfo{
+    margin-right: 3px;
+    border-radius: 4px;
+    font-size: 11px;
+    padding: 1px 6px;
+}
+
+.post-item .buylink{
+    background: #338dcd;
+    color: #fff;
+    font-style: italic;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.post-item .buyinfo{
+    background: #f6f3d2;
+    border: 1px solid #e0e0e0;
+    color: #666;
+}
+
+.post-item .price{
+    margin-right: 3px;
+    color: #b20000;
+    font-family: tahoma;
+    letter-spacing: 1px;
+}
+.buyinfo .price span{
+    font-family: arial;
+}
+
+.post-item .buyinfo-onsale-off{
+    border-color: #b20000;
+}
+.buyinfo-onsale-off .onsale{
+    color: #b20000;
+}
+
+.post-item .nick,
+.post-item .modified{
+    margin: 0 2px;
+    font-weight: bold;
+}
+
+.post-item .mark a,
+.post-item .mark span{
+    padding: 2px 6px 2px 16px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 3px;
+}
+.post-item .mark span{
+    cursor: default;
+}
+
+.post-item .on{
+    background-color: #bffcc6;
+    color: #11a222;
+}
+.post-item .off{
+    color: #a5a5a6;
+    background-color: #ededed;
+}
+
+.post-item .action a{ margin-right: 3px; }
+.post-item .action .async{ background-image: none; }
+
+.post-item .post-mark{
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 0 3px 0 3px;
+    border: 1px solid #efefef;
+    border-width: 0 0 1px 1px;
+    background: #fffbcc;
+    padding: 0 2px 0 4px;
+    cursor: default;
+    margin: 0;
+    font-size: 11px;
+    color: #666;
+}
+
+.post-mark span{
+    margin: 0 2px;
+}
+
+.post-item:hover .post-mark{ border-color: #ddd; }
+.post-item-selected .post-mark,
+.post-item-selected:hover .post-mark{
+    border-color: #8CD4DE;
+}
+
+.post-empty{
+    background: #000;
+    width: 480px;
+    padding: 8px;
+    color: #efefef;
+    border-radius: 4px;
+    color: #a6e22e;
+    margin: 0 1px;
+}
+.post-empty strong{
+    font-weight: bold;
+    margin: 0 4px;
+}
+
