@@ -20,4 +20,4 @@
 <div class="main complex-main"><?php __(stdpost($postData, 'h1')); ?></div>
 <?php endif;?>
 <textarea><?php if($prevPostData): ?><a href="/<?php __($prevPostData->id); ?>" data-id="<?php __($prevPostData->id); ?>" title="上一篇：<?php __($prevPostData->title); ?>" class=prev></a><?php endif; ?><?php if($nextPostData): ?><a href="<?php __($nextPostData->id); ?>" data-id="<?php __($nextPostData->id); ?>" title="下一篇：<?php __($nextPostData->title); ?>" class=next></a><?php endif; ?></textarea>
-
+<?php __($sql); ?>

@@ -93,7 +93,7 @@ class MyAction extends Action{
             }
 
             $args = array(
-                'id'              => $_GET['id'],
+                'modified'        => $_GET['modified'],
                 'num'             => $_GET['num'],
                 'q'               => $_GET['q'],
                 'author'          => $author,
