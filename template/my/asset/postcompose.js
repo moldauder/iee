@@ -220,9 +220,9 @@ KISSY.add('iee/postcompose', function(S, DOM, Event, IO, Modal){
         }
 
         //处理relateitem
-        if(data.xitems && this.hasRelateItem){
+        if(data.relateitem && this.hasRelateItem){
             S.use('iee/relateitem', function(S, M){
-                M.fill(data.xitems);
+                M.fill(data.relateitem.list);
             });
         }
 
