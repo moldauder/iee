@@ -4,7 +4,7 @@
  */
 return array(
     'css' => array(
-        'base' => array('base', 10),
+        'base' => array('base', 11),
     ),
     'js' => array(
         's' => array('base', 12),

@@ -13,6 +13,7 @@ class PostModel extends Model{
     const ATTR_RELATE_POST = -1;                //包含专辑
     const ATTR_SUBMITURL = -2;                  //由submit生成
 
+
     /**
      * 查询文章
      *
@@ -28,6 +29,8 @@ class PostModel extends Model{
      * $param string $args['author']                作者ID
      * $param string $args['trash']                 是否回收站
      *
+     * $param string $args['orderBy']               排序依据，默认是按照修改时间排布，对于专辑等还是要按照id排序
+     *
      * @param boolean $args['queryRelateInfo']      是否查询关联专辑项目，默认false
      * @param boolean $args['queryPageInfo']        是否查询翻页信息，默认false
      * $param boolean $args['returnAllFields']      返回全部的字段，供后台使用
@@ -41,16 +44,15 @@ class PostModel extends Model{
             'page'              => 'next',
             'queryPageInfo'     => false,
             'queryRelateInfo'   => false,
-            'queryOneItem'      => false,
         ), $args);
 
         $this->_processArgs($args);
 
         $list = $this->db->select();
 
-        if('prev' === $args['page']){    //要反转顺序
-            $list = array_reverse($list);
-        }
+        //if('prev' === $args['page']){    //要反转顺序
+            //$list = array_reverse($list);
+        //}
 
         $ret = array();
         $size = count($list);
@@ -59,12 +61,12 @@ class PostModel extends Model{
             $args['queryPageInfo'] = false;
 
             $args['page'] = 'prev';
-            $args['id'] = $list[0]->id;
+            $args['modified'] = $list[0]->modified;
             $this->_processArgs($args);
             $ret['prev'] = (bool)$this->db->selectOne($args);
 
             $args['page'] = 'next';
-            $args['id'] = $list[$size - 1]->id;
+            $args['modified'] = $list[$size - 1]->modified;
             $this->_processArgs($args);
             $ret['next'] = (bool)$this->db->selectOne($args);
         }
@@ -121,7 +123,6 @@ class PostModel extends Model{
         }
 
         $ret = $this->select(array_merge(array(
-            'queryOneItem'  => true,
             'queryPageInfo' => false,
             'page' => 'current'
         ), $args));
@@ -134,10 +135,11 @@ class PostModel extends Model{
      */
     public function findRelateItems($parentID){
         return $this->select(array(
-            'sid' => $parentID,
-            'type' => self::TYPE_RELATE_POST,
-            'num' => -1,
-            'page' => 'next',
+            'sid'           => $parentID,
+            'type'          => self::TYPE_RELATE_POST,
+            'num'           => -1,
+            'page'          => 'next',
+            'orderBy'       => 'id',
             'queryPageInfo' => false,
         ));
     }
@@ -220,18 +222,23 @@ class PostModel extends Model{
         $page = $args['page'];
 
         $id = $args['id'];
+        $modified = $args['modified'];
+
         if($id){
-            if(false === strpos($id, ',')){
-                $whereCond[] = 'posts.id ' . ('prev' === $page ? '>' : ('next' === $page ? '<' : '=')) . $id;
-            }else{
-                $whereCond[] = 'posts.id in (' . $id . ')';
-            }
+            //if(false === strpos($id, ',')){
+                //$whereCond[] = 'posts.id ' . ('prev' === $page ? '>' : ('next' === $page ? '<' : '=')) . $id;
+            //}else{
+            $whereCond[] = 'posts.id in (' . $id . ')';
+            //}
+        }else if($modified){
+            $whereCond[] = 'posts.modified ' . ('prev' === $page ? '>' : ('next' === $page ? '<' : '=')) . " '" . $modified . "'";
         }
+
 
         $this->db->table('^posts posts')->join('^users users on users.id=posts.author')
             ->field('posts.*, users.nick, users.username')
             ->where(implode(' AND ', $whereCond))
-            ->order('posts.id ' . ('prev' === $page ? 'asc' : 'desc'));
+            ->order('posts.modified ' . ('prev' === $page ? 'asc' : 'desc'));
 
         if($args['num'] > 0){
             $this->db->limit($args['num']);
