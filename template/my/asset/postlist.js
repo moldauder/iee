@@ -241,12 +241,12 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
         var size = data.size;
 
         if(1 < size){
-            var firstID = list[0].id;
-            var lastID = list[size - 1].id;
+            var first = list[0].modified;
+            var end = list[size - 1].modified;
 
             html += '<div class="pagination">';
-            html += data.prev ?  '<a title="上一页" href="/my/query/?action=post&page=prev&id=' + firstID + '" class="pager-prev" data-act="postlist/prev:' + firstID + '"></a>' : '<span class="pager-prev"></span>';
-            html += data.next ? '<a title="下一页" href="/my/query?action=post&page=next&id=' + lastID + '" class="pager-next" data-act="postlist/next:' + lastID + '"></a>' : '<span class="pager-next"></span>';
+            html += data.prev ?  '<a title="上一页" data-tag="' + first + '" href="/my/query/?action=post&page=prev&modified=' + first + '" class="pager-prev" data-act="postlist/prev' + '"></a>' : '<span class="pager-prev"></span>';
+            html += data.next ? '<a title="下一页" data-tag="' + end + '" href="/my/query?action=post&page=next&modified=' + end + '" class="pager-next" data-act="postlist/next' + '"></a>' : '<span class="pager-next"></span>';
             html += '</div>';
         }
 
@@ -498,21 +498,21 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
     };
 
     //翻页
-    Module.pager = function(el, id, page){
+    Module.pager = function(el, page){
         var params = this.form2Map();
 
         params.page = page;
-        params.id = id;
+        params.modified = DOM.attr(el, 'data-tag');
 
         this.list(params);
     };
 
-    Module.prev = function(el, id){
-        this.pager(el, id, 'prev');
+    Module.prev = function(el){
+        this.pager(el, 'prev');
     };
 
-    Module.next = function(el, id){
-        this.pager(el, id, 'next');
+    Module.next = function(el){
+        this.pager(el, 'next');
     };
 
     /**

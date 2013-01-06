@@ -79,18 +79,22 @@ class IndexAction extends Action{
             }
 
             $this->assign('isComplexItem', $isComplexItem);
+
+            $modified = $postData->modified;
             $this->assign('prevPostData', $model->selectOne(array(
-                'id'        => $id,
+                'modified'  => $modified,
                 'page'      => 'prev',
                 'status'    => 'publish',
                 'trash'     => 'n'
             )));
+
             $this->assign('nextPostData', $model->selectOne(array(
-                'id'        => $id,
+                'modified'  => $modified,
                 'page'      => 'next',
                 'status'    => 'publish',
                 'trash'     => 'n'
             )));
+
             $this->assign('postData', $postData);
 
             if($isAjax){
