@@ -27,7 +27,8 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
 .stdpost .title{ line-height: 30px; font-size: 16px; border-top: 2px solid #000; border-bottom: 1px dotted #000; }
 .stdpost .title a{ color: #000; }
 .stdpost .title a:hover{ text-decoration: none; }
-.stdpost .content{ color :#7f7f7f; line-height: 21px; margin: 10px 0 25px; }
+.stdpost .content{ color :#7f7f7f; line-height: 20px; margin: 10px 0 25px; }
+.stdpost .content p{ margin-bottom: 10px; }
 .stdpost .action{ height: 30px; }
 .stdpost .action a{ float: left; margin-right: 10px; width: 90px; height: 26px; overflow: hidden; text-indent: -99em; outline: none; }
 .stdpost .go-view{ background-position: -50px 0;  }
