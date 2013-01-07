@@ -37,7 +37,7 @@
                 IO({
                     url: '/query',
                     data: {
-                        id: last_post_id,
+                        modified: last_post_id,
                         author: window.authorId
                     },
                     dataType: 'jsonp',
@@ -46,7 +46,7 @@
                         if(data.size){
                             var html = '';
                             S.each(data.list, function(vo){
-                                last_post_id = vo.id;
+                                last_post_id = vo.modified;
 
                                 var viewlink = vo.buylink || vo.outer_url;
 

@@ -10,8 +10,8 @@ return array(
         's' => array('base', 12),
         'fall' => array('waterfall', 0),
 
-        'index' => array('index', 10),       //首页
-        'author' => array('author', 13),     //作者集合页
+        'index' => array('index', 11),       //首页
+        'author' => array('author', 14),     //作者集合页
         'item' => array('item', 11),         //单品页
     ),
 );
