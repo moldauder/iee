@@ -47,7 +47,7 @@
                 IO({
                     url: '/query',
                     data: {
-                        id: last_post_id,
+                        modified: last_post_id,
                         from: 'fp'
                     },
                     dataType: 'jsonp',
@@ -59,7 +59,7 @@
                             S.each(data.list, function(vo){
                                 var dateArr = parseDate(vo.modified);
 
-                                last_post_id = vo.id;
+                                last_post_id = vo.modified;
 
                                 html += '<a href="/' + vo.id + '" class="pin ks-waterfall">' +
                                              '<img src="' + vo.img + '" width=320 height=420 />' +

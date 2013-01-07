@@ -18,6 +18,7 @@ class IndexAction extends Action{
             'author'        => $_GET['author'],
             'status'        => 'publish',
             'trash'         => 'n',
+            'modified'      => $_GET['modified'],
             'queryPageInfo' => true,
         );
 
