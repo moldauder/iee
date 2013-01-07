@@ -1,5 +1,7 @@
 body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;}body,button,input,select,textarea{font:12px/1.5 tahoma,arial,\5b8b\4f53,sans-serif;}h1,h2,h3,h4,h5,h6{font-size:100%;}address,cite,dfn,em,var{font-style:normal;}code,kbd,pre,samp{font-family:courier new,courier,monospace;}small{font-size:12px;}ul,ol{list-style:none;}a{text-decoration:none;}a:hover{text-decoration:underline;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}legend{color:#000;}fieldset,img{border:0;}button,input,select,textarea{font-size:100%;}table{border-collapse:collapse;border-spacing:0;}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{display:block;margin:0;padding:0;}mark{background:#ff0;}
 
+
+.tpl-author .relateitem .trigger span,
 .tpl-item #trigger a,
 .price,
 .off-sign,
@@ -12,7 +14,7 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
 .stdpage a,
 .submiturl button,
 .submiturl .close,
-#go-top s{ background-image: url(http://pic.yupoo.com/iewei/CsyJBud3/G72KY.png); background-repeat: no-repeat; }
+#go-top s{ background-image: url(http://pic.yupoo.com/iewei/Cy5jdxGp/3E2Ax.png); background-repeat: no-repeat; }
 
 #content{ width: 990px; margin: 0 auto; padding: 40px 0; overflow: hidden; }
 .tpl-index #content{ width: 100%; padding: 0 0 10px; overflow: visible; }
@@ -184,7 +186,9 @@ html{ overflow-y:scroll; }
 .tpl-author .post{ border-top: 2px solid #000; margin-bottom: 40px; padding-left: 126px; position: absolute; }
 
 .tpl-author .stddate{ top: 3px; }
-.tpl-author .stdpost{ border-top: 0; }
+.tpl-author .stdpost{ border-top: 0; padding: 50px 0 0; }
+.tpl-author .stdpost .core,
+.tpl-author .stdpost .relateitem .content{ padding: 0 50px; }
 
 .price{ margin-bottom: 25px; font-family: arial; font-weight: bold; font-size: 18px; padding-left: 12px; background-position: -210px -348px }
 
@@ -389,10 +393,29 @@ s.connector{ display: inline-block; width: 16px; height: 1px; background: #7f7f7
 
 /* 作者集合页 */
 .tpl-author .relateitem{
-    width: 680px;
+    width: 780px;
     position: relative;
     left: 0;
 }
+
+.tpl-author .relateitem .trigger{
+    background: #f7f7f7;
+    height: 47px;
+    border-top: 1px solid #ebebeb;
+    cursor: pointer;
+}
+.tpl-author .relateitem .trigger span{
+    display: block;
+    width: 23px;
+    height: 16px;
+    margin: 15px auto 0;
+    background-position: -172px -413px;
+}
+
+.tpl-author .relateitem .content{
+    display: none;
+}
+
 .tpl-author .relateitem a{
     width: 221px;
     height: 291px;
