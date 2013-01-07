@@ -40,8 +40,8 @@ class IndexAction extends Action{
             //展示专辑里的某个单品，仅展示它自己
             $relateitems = $model->findRelateItems($id);
             $pos = intval($_GET['subitem']);
-            if($relateitems && count($relateitems) >= $pos){
-                $this->assign('postData', $relateitems[$pos - 1]);
+            if($relateitems && count($relateitems['list']) >= $pos){
+                $this->assign('postData', $relateitems['list'][$pos - 1]);
                 $this->assign('isRelateItem', true);
                 $this->display('item');
             }
