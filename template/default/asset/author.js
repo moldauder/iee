@@ -53,16 +53,16 @@
                                 html += '<div class="post pin ks-waterfall">' +
                                             '<div class=stdpost><div class="core">' +
                                                 '<div class=photo>' +
-                                                    '<a title="' + vo.title + '" href="' + viewlink + '">' +
-                                                        '<img src="' + vo.img + '" width=320 height=420/>' +
-                                                    '</a>' +
+                                                    (viewlink ? ('<a title="' + vo.title + '" href="' + viewlink + '">') : '') +
+                                                        '<img src="' + vo.img + '" width="320" height="420"/>' +
+                                                    (viewlink ? '</a>' : '') +
                                                 '</div>' +
-                                                '<div class=detail>' +
-                                                    '<h2 class=title>' + vo.title + '</h2>' +
-                                                    '<div class=content>' + vo.content + '</div>' +
-                                                    '<div class=action>' +
-                                                        '<a class=go-view href="' + viewlink + '">点此拥有</a>' +
-                                                        '<a class=go-share href="' + util.shareLink({
+                                                '<div class="detail">' +
+                                                    '<h2 class="title">' + vo.title + '</h2>' +
+                                                    '<div class="content">' + vo.content + '</div>' +
+                                                    '<div class="action">' +
+                                                        (viewlink ? ('<a class="go-view" href="' + viewlink + '">点此拥有</a>') : '') +
+                                                        '<a class="go-share" href="' + util.shareLink({
                                                             pic: vo.img,
                                                             url: 'http://iewei.com/' + vo.id,
                                                             title:'#中意一味# ' + util.filterHtmlTag(vo.content)
@@ -72,7 +72,7 @@
                                             '</div>';
 
                                     if(vo.relateitem){  //关联商品
-                                        html += '<div class="relateitem">';
+                                        html += '<div class="relateitem"><div class="trigger relateitem-trigger"><span></span></div><div class="content"><textarea>';
                                         S.each(vo.relateitem.list, function(rvo, idx){
                                             html += '<a title="' + rvo.title + '" href="/' + vo.id + '?subitem=' + (idx + 1) + '">' +
                                                         '<img src="' + rvo.img + '" /><div class="extra"><div class="mask"></div>' +
@@ -80,7 +80,7 @@
                                                         '<div class="desc">' + rvo.content  + '</div>' +
                                                     '</div></a>';
                                         });
-                                        html += '</div>';
+                                        html += '</textarea></div></div>';
                                     }
 
                                     html += '</div>' + util.stddate(vo.modified) + '</div>';
@@ -91,6 +91,17 @@
 
                             var el = document.createElement('div');
                             el.innerHTML = html;
+
+                            Event.on(DOM.query('div.relateitem-trigger', el), 'click', function(){
+                                var textarea = DOM.get('textarea', this.parentNode);
+                                var contentEl = textarea.parentNode;
+                                contentEl.innerHTML = textarea.value;
+                                contentEl.style.display = 'block';
+                                this.style.display = 'none';
+
+                                waterfall.adjust();
+                            });
+
                             success(S.all(el.children));
                         }else{
                             afterEnd();
