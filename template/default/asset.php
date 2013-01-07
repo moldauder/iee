@@ -4,14 +4,14 @@
  */
 return array(
     'css' => array(
-        'base' => array('base', 11),
+        'base' => array('base', 12),
     ),
     'js' => array(
         's' => array('base', 12),
         'fall' => array('waterfall', 0),
 
         'index' => array('index', 10),       //首页
-        'author' => array('author', 12),     //作者集合页
+        'author' => array('author', 13),     //作者集合页
         'item' => array('item', 11),         //单品页
     ),
 );
