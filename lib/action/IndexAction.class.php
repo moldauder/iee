@@ -150,6 +150,14 @@ class IndexAction extends Action{
         }
     }
 
+
+    /**
+     * about
+     */
+    public function about(){
+        $this->display();
+    }
+
     /**
      * 404
      */
