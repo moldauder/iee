@@ -380,6 +380,10 @@ class MyAction extends Action{
         $postData['outer_url'] = str_replace('&amp;', '&', trim(safe_input($_POST['outer_url'])));
 
         $postData['author_3rd'] = trim(safe_input($_POST['author_3rd']));
+        if($postData['author_3rd']){
+            //mark: if author_3rd not empty, force rewrite author is thank_you(id=6)
+            $postData['author'] = '6';
+        }
 
         $postData['img'] = trim(safe_input($_POST['img']));
 
