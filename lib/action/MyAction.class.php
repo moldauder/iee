@@ -375,7 +375,10 @@ class MyAction extends Action{
         $postData['modified'] = date('Y-m-d H:i:s');
         $postData['title'] = trim(safe_input($_POST['title']));
         $postData['content'] = '<p>' . preg_replace('/[\n\r]+/', '</p><p>', trim(safe_input($_POST['content']))) . '</p>';
-        $postData['outer_url'] = trim(safe_input($_POST['outer_url']));
+
+        //@todo 规约外链，特别的对淘宝、天猫的URL进行优化，保留必须的参数
+        $postData['outer_url'] = str_replace('&amp;', '&', trim(safe_input($_POST['outer_url'])));
+
         $postData['author_3rd'] = trim(safe_input($_POST['author_3rd']));
 
         $postData['img'] = trim(safe_input($_POST['img']));
