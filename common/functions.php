@@ -151,7 +151,19 @@ function stdpost($post, $headerTag = 'h2'){
     $html .= '<' . $headerTag . ' class="title">' . $post->title . '</' . $headerTag . '>';
 
     //描述
-    $html .= '<div class="content">' . $post->content . '</div>';
+    $content = $post->content;
+    $author_3rd = $post->author_3rd;
+    if($author_3rd){
+        $author_3rd = '（来自 ' . $author_3rd . '）';
+        if('</p>' === strtolower(substr($content, -4))){
+            $content = substr_replace($content, $author_3rd . '</p>', -4);
+        }else{
+            $content .= $author_3rd;
+        }
+    }
+
+
+    $html .= '<div class="content">' . $content . '</div>';
 
     //价格
     if($post->price){
