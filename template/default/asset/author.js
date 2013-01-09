@@ -49,6 +49,7 @@
                                 last_post_id = vo.modified;
 
                                 var viewlink = vo.buylink || vo.outer_url;
+                                var content = util.addAuthor3rd(vo.content, vo.author_3rd);
 
                                 html += '<div class="post pin ks-waterfall">' +
                                             '<div class=stdpost><div class="core">' +
@@ -59,13 +60,13 @@
                                                 '</div>' +
                                                 '<div class="detail">' +
                                                     '<h2 class="title">' + vo.title + '</h2>' +
-                                                    '<div class="content">' + vo.content + '</div>' +
+                                                    '<div class="content">' + content + '</div>' +
                                                     '<div class="action">' +
                                                         (viewlink ? ('<a class="go-view" href="' + viewlink + '">点此拥有</a>') : '') +
                                                         '<a class="go-share" href="' + util.shareLink({
                                                             pic: vo.img,
                                                             url: 'http://iewei.com/' + vo.id,
-                                                            title:'#中意一味# ' + util.filterHtmlTag(vo.content)
+                                                            title:'#中意一味# ' + util.filterHtmlTag(content)
                                                         }) + '">分享灵感</a>' +
                                                     '</div>' +
                                                 '</div>' +
