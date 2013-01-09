@@ -28,6 +28,8 @@
             return arr;
         }
 
+        var util = iee.util;
+
         var waterfall = new Waterfall.Loader({
             container: '#waterfall',
             minColCount: 3,
@@ -58,6 +60,7 @@
                             var html = '';
                             S.each(data.list, function(vo){
                                 var dateArr = parseDate(vo.modified);
+                                var content = util.addAuthor3rd(vo.content, vo.author_3rd);
 
                                 last_post_id = vo.modified;
 
@@ -71,7 +74,7 @@
                                                     '<span class=year>' + dateArr[0] + '</span>' +
                                                 '</div>' +
                                                 '<div class=title>' + vo.title + '</div>' +
-                                                '<div class=desc>' + vo.content + '</div>' +
+                                                '<div class=desc>' + content + '</div>' +
                                                 '<div class=author><s></s>' + vo.nick + '</div>' +
                                              '</div>' +
                                         '</a>';
