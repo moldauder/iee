@@ -9,6 +9,19 @@ window.iee = function(){
 
     var util = {};
 
+    util.addAuthor3rd = function(content, author_3rd){
+        if(author_3rd){
+            author_3rd = '（来自 ' + author_3rd + '）';
+
+            if('</p>' === content.substr(-4).toLowerCase()){
+                content = content.substr(0, content.length - 4) + author_3rd + '</p>';
+            }else{
+                content += author_3rd;
+            }
+        }
+        return content;
+    };
+
     var MonthName = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
     /**
