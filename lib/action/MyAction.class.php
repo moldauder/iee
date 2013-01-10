@@ -277,18 +277,29 @@ class MyAction extends Action{
 
         $model = F('PostModel');
 
+        //multi ids
         $postData = $model->select(array(
-            'id' => $id
+            'id' => $id,
+            'returnAllFields' => true
         ));
 
-        if($postData && !IS_SUPER_USER){
-            $id = array();
-            foreach($postData['list'] as $postData){
-                if($postData->author === $userId){
-                    $id[] = $postData->id;
+        if($postData){
+            if(!IS_SUPER_USER){
+                $id = array();
+                $newPostDataList = array();
+
+                foreach($postData['list'] as $onePostData){
+                    if($onePostData->author === $userId){
+                        $id[] = $onepostData->id;
+                        $newPostDataList[] = $onePostData;
+                    }
                 }
+
+                $id = implode(',', $id);
+                $postData = $onePostData;
+            }else{
+                $postData = $postData['list'];
             }
-            $id = implode(',', $id);
         }else{
             $result['msg'] = '文章不存在';
             $this->ajax($result, 'json');
@@ -296,18 +307,16 @@ class MyAction extends Action{
 
         //移除文章
         if('remove' === $field){
-            $result['success'] = (bool)$model->remove(array(
-                'id' => $id
-            ));
+            $result['success'] = (bool)$model->remove($id);
             $this->ajax($result, 'json');
         }
 
         //要更新的数据
         $data = array();
 
-        $data[$field] = $isBatchOperate ? $value : ('y' === $postData->$field ? 'n' : 'y');
+        $data[$field] = $isBatchOperate ? $value : ('y' === $postData[0]->$field ? 'n' : 'y');
 
-        if(false !== $db->table('^posts')->where('id in (' . $id .')')->save($data)){
+        if(false !== $model->save(array('id' => $id), $data)){
             $result = array_merge($result, $data);
             $result['success'] = true;
         }else{
