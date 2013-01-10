@@ -151,6 +151,7 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
     Module.renderPostItem = function(vo){
         var fp = vo.fp;
         var lock = vo.lock;
+        var dotop = vo.dotop;
         var status = vo.status;
         var inTrash = 'y' === vo.trash;
         var cls = ['grid-item post-item'];
@@ -176,6 +177,7 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
             html += '<p class=mark>' +
                 '<a class="post-fp-btn ' + class_map[fp] + '" href="/my/status/?action=post&field=fp&id=' + id + '" data-act="postlist/fp:' + id + '">' + fp_map[fp] + '</a>' +
                 '<a class="post-lock-btn ' + class_map[lock] + '" href="/my/status/?action=post&field=lock&id=' + id +'" data-act="postlist/lock:' + id + '">' + lock_map[lock] + '</a>' +
+                '<a class="post-top-btn ' + class_map[dotop ? 'y' : 'n'] + '" href="/my/status/?action=post&field=dotop&id=' + id + '" data-act="postlist/dotop:' + id + '">首页置顶</a>' +
                 '</p>';
         }else{
             if('y' === lock){   //已经被锁定
@@ -218,7 +220,7 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
             html += '</p>';
         }
 
-        html += '<p>由<span class=nick>' + (vo.nick === this.userNick ? '你' : vo.nick) + '</span>最后编辑于<span class=modified>' + vo.modified + '</span></p>';
+        html += '<p>由<span class=nick>' + (vo.nick === this.userNick ? '你' : vo.nick) + '</span>最后编辑于<span class=modified>' + (dotop || vo.modified) + '</span></p>';
 
         var mark = [];
         if(inTrash){ mark.push('<span class=trash>回收站</span>'); }
@@ -292,6 +294,22 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
             el.innerHTML = '首页展现';
 
             Module.addMark(el, 'fp');
+        }
+    };
+
+    Module.dotop = function(el){
+        Module.status(el, function(data){
+            Module.dotop_response(el, data);
+        });
+    };
+
+    Module.dotop_response = function(el, data){
+        if(data.dotop){
+            DOM.addClass(el, 'on');
+            DOM.removeClass(el, 'off');
+        }else{
+            DOM.removeClass(el, 'on');
+            DOM.addClass(el, 'off');
         }
     };
 

@@ -259,7 +259,7 @@ class MyAction extends Action{
         $field = $_GET['field'];
         $id = $_GET['id'];
 
-        if(in_array($field, array('fp', 'lock')) && !IS_SUPER_USER){
+        if(in_array($field, array('fp', 'lock', 'dotop')) && !IS_SUPER_USER){
             $result['msg'] = '对不起，您没有权限执行此操作';
             $this->ajax($result, 'json');
         }
@@ -314,7 +314,18 @@ class MyAction extends Action{
         //要更新的数据
         $data = array();
 
-        $data[$field] = $isBatchOperate ? $value : ('y' === $postData[0]->$field ? 'n' : 'y');
+        //首页置顶
+        if('dotop' === $field){
+            if($postData[0]->dotop){    //need cancel top
+                $data['modified'] = $postData[0]->dotop;
+                $data['dotop'] = '';
+            }else{
+                $data['dotop'] = $postData[0]->modified;
+                $data['modified'] = date(((int)date('Y') + 80 ) .'-m-d H:i:s');
+            }
+        }else{
+            $data[$field] = $isBatchOperate ? $value : ('y' === $postData[0]->$field ? 'n' : 'y');
+        }
 
         if(false !== $model->save(array('id' => $id), $data)){
             $result = array_merge($result, $data);
