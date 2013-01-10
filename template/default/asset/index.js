@@ -59,7 +59,7 @@
                         if(data.size){
                             var html = '';
                             S.each(data.list, function(vo){
-                                var dateArr = parseDate(vo.modified);
+                                var dateArr = parseDate(vo.dotop || vo.modified);
                                 var content = util.addAuthor3rd(vo.content, vo.author_3rd);
 
                                 last_post_id = vo.modified;
