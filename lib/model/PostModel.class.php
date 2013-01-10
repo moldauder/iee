@@ -147,7 +147,17 @@ class PostModel extends Model{
     /**
      * 彻底移除文章
      */
-    public function remove($args = array()){
+    public function remove($id){
+        return $this->db->table('^posts')->where('id in (' . $id . ')')->remove();
+    }
+
+    /**
+     * update post
+     */
+    public function save($args = array(), $data){
+        $this->_processArgs($args);
+        $this->db->data($data);
+        return $this->db->save();
     }
 
     /**
@@ -243,6 +253,10 @@ class PostModel extends Model{
         if($args['num'] > 0){
             $this->db->limit($args['num']);
         }
+    }
+
+    public function sql(){
+        return $this->db->getLastSql();
     }
 
 }
