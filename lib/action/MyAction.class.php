@@ -321,7 +321,7 @@ class MyAction extends Action{
                 $data['dotop'] = '';
             }else{
                 $data['dotop'] = $postData[0]->modified;
-                $data['modified'] = '2099-12-31 23:59:59';
+                $data['modified'] = date(((int)date('Y') + 80 ) .'-m-d H:i:s');
             }
         }else{
             $data[$field] = $isBatchOperate ? $value : ('y' === $postData[0]->$field ? 'n' : 'y');
