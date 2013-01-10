@@ -9,7 +9,7 @@ return array(
     ),
     'js' => array(
         'app' => array('app', 2),
-        'postlist' => array('postlist', 1),
+        'postlist' => array('postlist', 2),
         'postcompose' => array('postcompose', 4),
         'submiturl' => array('submiturl', 0),
         'myaccount' => array('myaccount', 0),
