@@ -110,6 +110,21 @@ html{ overflow-y:scroll; }
 .waterfall .stddate{ top: 110px; left: 100px; color: #ccc; }
 .waterfall .author{ top: 374px; left: 10px; text-align: right; color: #fff; font-size: 14px; font-family: georgia; text-transform: capitalize;  }
 .waterfall .author s{ display: inline-block; width: 16px; height: 1px; background: #fff; overflow: hidden; vertical-align: super; margin-right: 3px; }
+.waterfall .type-album{
+    border-width: 15px;
+    border-color: #fff #fff #000 #000;
+    border-style: dashed dashed solid solid;
+
+    filter: alpha(opacity=90);
+    opacity: 0.9;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+}
+.waterfall .pin:hover .type-album{ visibility: hidden; }
 
 
 .tpl-item, .tpl-author{ background: url(http://pic.yupoo.com/iewei/C9TCNuSu/fQAH5.png) repeat; }

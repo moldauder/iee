@@ -87,7 +87,7 @@ function query_post($args = array(), $params = array() /*$queryPageInfo = false*
     if($params['queryRelateItem']){
         //要查找关联商品信息
         foreach($list as $postData){
-            if('1' === postAttr($postData->attr, POST_ATTR_RELATEITEM)){
+            if('album' === $postData->type){
                 $postData->xitems = query_relateitem($postData->id);
             }
         }
@@ -135,10 +135,17 @@ function query_relateitem($postId){
         ->select();
 }
 
+function get_post_id($postObj){
+    $sid = $postObj->sid;
+    return intval($sid, 10) ? $sid : $postObj->id;
+}
+
 /**
  * 标准输出流
  */
 function stdpost($post, $headerTag = 'h2'){
+    $sid = get_post_id($post);
+
     $html = '<div class="stdpost" data-id="' . $post->id . '"><div class="core">';
 
     //图片
@@ -185,8 +192,8 @@ function stdpost($post, $headerTag = 'h2'){
     //管理商品
     if($post->relateitem){
         $html .= '<div class="relateitem">';
-        foreach($post->relateitem['list'] as $idx => $item){
-            $html .= '<a href="/' . $post->id . '?subitem=' . ($idx + 1) . '" title="' . $item->title . '">' .
+        foreach($post->relateitem as $idx => $item){
+            $html .= '<a href="/' . $sid . '?subitem=' . ($idx + 1) . '" title="' . $item->title . '">' .
                         '<img src="' . $item->img . '" /><div class="extra"><div class="mask"></div>' .
                         '<div class="title">' . $item->title . '</div><div class="desc">' . $item->content . '</div>' .
                     '</div></a>';
@@ -207,38 +214,13 @@ function stdshare($title, $url){
 
 function stdpost_photo($post, $imgWidth = '320', $imgHeight = '420'){
     $viewLink = empty($post->buylink) ? $post->outer_url : $post->buylink;
-    return '<a href="' . $viewLink . '" title="' . $post->title . '"><img width=' . $imgWidth . ' height=' . $imgHeight . ' src="'.$post->img.'"/></a>';
+    $viewLink = $viewLink ? ('href="' . $viewLink . '"') : '';
+    return '<a '. $viewLink . ' title="' . $post->title . '"><img width=' . $imgWidth . ' height=' . $imgHeight . ' src="'.$post->img.'"/></a>';
 }
 
 /**
  * post值查询与更新值
  */
-
-//SELECT SUBSTRING('Sakila', -1, 1); => a
-//从右到左定义，保持增长而不影响原来的数据
-define('POST_ATTR_RELATEITEM', -1);
-define('POST_ATTR_SUBMITURL', -2);
-
-function postAttr($data, $pos, $newval = null){
-    $len = strlen($data);
-    $diff = $pos + $len; //如果pos没有越界，那么$diff >= 0
-
-    if(is_null($newval)){   //查询
-        //这里不能越界--substr的$pos允许越界，需要自己额外判断
-        return ($diff >= 0) ? substr($data, $pos, 1) : null;
-    }else{
-        //返回更新后的$data
-        if($diff < 0){
-            //如果长度不够就要补全，也正说明要加上的位置在最左边
-            return $newval . str_pad($data, -1 - $pos, '0', STR_PAD_LEFT);
-        }else{
-            //更新指定位置
-            return substr($data, 0, $diff) . $newval . substr($data, $diff + 1);
-        }
-    }
-}
-
-
 
 /**
  * 解析商品链接等
@@ -337,3 +319,31 @@ function getURLTitle($url){
 
     return $url;
 }
+
+function dump($var, $label = null, $echo = true, $strict = true) {
+    $label = ($label === null) ? '' : rtrim($label) . ' ';
+    if(!$strict){
+        if(ini_get('html_errors')){
+            $output = print_r($var, true);
+            $output = '<pre>' . $label . htmlspecialchars($output, ENT_QUOTES) . '</pre>';
+        }else{
+            $output = $label . print_r($var, true);
+        }
+    }else{
+        ob_start();
+        var_dump($var);
+        $output = ob_get_clean();
+        if(!extension_loaded('xdebug')){
+            $output = preg_replace("/\]\=\>\n(\s+)/m", '] => ', $output);
+            $output = '<pre>' . $label . htmlspecialchars($output, ENT_QUOTES) . '</pre>';
+        }
+    }
+    if($echo){
+        echo($output);
+        return null;
+    }else{
+        return $output;
+    }
+}
+
+

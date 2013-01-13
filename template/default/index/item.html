@@ -7,14 +7,14 @@ require 'header.html';
 $asset->import('js/item');
 ?>
 <script>curPostId=<?php __($postData->id); ?>;hashId=(function(hash){return hash.match(/^\d+$/) ? hash : false;})(KISSY.trim(location.hash.substr(2)));</script>
-<div id=container>
-    <div id=slider><div id=post<?php __($postData->id); ?> class=panel><script>if(hashId){KISSY.DOM.css('#post<?php __($postData->id); ?>','visibility','hidden')}</script><?php require 'item-panel-content.html'; ?></div></div>
+<div id="container">
+    <div id="slider"><div id="post<?php __($postData->id); ?>" class="panel"><script>if(hashId){KISSY.DOM.css('#post<?php __($postData->id); ?>','visibility','hidden')}</script><?php require 'item-panel-content.html'; ?></div></div>
     <div id="trigger"><script>if(hashId){KISSY.DOM.css('#trigger','visibility','hidden')}</script>
-        <?php if($prevPostData): ?>
-        <a href="/<?php __($prevPostData->id); ?>" data-id="<?php __($prevPostData->id); ?>" title="上一篇：<?php __($prevPostData->title); ?>" class=prev></a>
+        <?php if($prevPostData): $prevPostId = get_post_id($prevPostData); ?>
+        <a href="/<?php __($prevPostId); ?>" data-id="<?php __($prevPostId); ?>" title="上一篇：<?php __($prevPostData->title); ?>" class="prev"></a>
         <?php endif; ?>
-        <?php if($nextPostData): ?>
-            <a href="<?php __($nextPostData->id); ?>" data-id="<?php __($nextPostData->id); ?>" title="下一篇：<?php __($nextPostData->title); ?>" class=next></a>
+        <?php if($nextPostData): $nextPostId = get_post_id($nextPostData); ?>
+            <a href="<?php __($nextPostId); ?>" data-id="<?php __($nextPostId); ?>" title="下一篇：<?php __($nextPostData->title); ?>" class="next"></a>
         <?php endif; ?>
     </div>
 </div>

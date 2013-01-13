@@ -164,7 +164,8 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
             cls.push('post-trash');
         }
 
-        var id = vo.id;
+        var id = parseInt(vo.sid, 10) ? vo.sid : vo.id;
+
         var html = '<div id="post' + id + '" class="' + cls.join(' ') + '">';
 
         html += '<p class=title>' +
@@ -177,7 +178,7 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
             html += '<p class=mark>' +
                 '<a class="post-fp-btn ' + class_map[fp] + '" href="/my/status/?action=post&field=fp&id=' + id + '" data-act="postlist/fp:' + id + '">' + fp_map[fp] + '</a>' +
                 '<a class="post-lock-btn ' + class_map[lock] + '" href="/my/status/?action=post&field=lock&id=' + id +'" data-act="postlist/lock:' + id + '">' + lock_map[lock] + '</a>' +
-                '<a class="post-top-btn ' + class_map[dotop ? 'y' : 'n'] + '" href="/my/status/?action=post&field=dotop&id=' + id + '" data-act="postlist/dotop:' + id + '">首页置顶</a>' +
+                '<a class="post-top-btn ' + class_map[dotop > 0 ? 'y' : 'n'] + '" href="/my/status/?action=post&field=dotop&id=' + id + '" data-act="postlist/dotop:' + id + '">置顶</a>' +
                 '</p>';
         }else{
             if('y' === lock){   //已经被锁定
@@ -220,7 +221,7 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
             html += '</p>';
         }
 
-        html += '<p>由<span class=nick>' + (vo.nick === this.userNick ? '你' : vo.nick) + '</span>最后编辑于<span class=modified>' + (dotop || vo.modified) + '</span></p>';
+        html += '<p>由<span class=nick>' + (vo.nick === this.userNick ? '你' : vo.nick) + '</span>最后编辑于<span class=modified>' + (vo.modified) + '</span></p>';
 
         var mark = [];
         if(inTrash){ mark.push('<span class=trash>回收站</span>'); }
@@ -243,12 +244,12 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
         var size = data.size;
 
         if(1 < size){
-            var first = list[0].modified;
-            var end = list[size - 1].modified;
+            var first = list[0].id;
+            var end = list[size - 1].id;
 
             html += '<div class="pagination">';
-            html += data.prev ?  '<a title="上一页" data-tag="' + first + '" href="/my/query/?action=post&page=prev&modified=' + first + '" class="pager-prev" data-act="postlist/prev' + '"></a>' : '<span class="pager-prev"></span>';
-            html += data.next ? '<a title="下一页" data-tag="' + end + '" href="/my/query?action=post&page=next&modified=' + end + '" class="pager-next" data-act="postlist/next' + '"></a>' : '<span class="pager-next"></span>';
+            html += data.prev ?  '<a title="上一页" data-tag="' + first + '" href="/my/query/?action=post&page=prev&id=' + first + '" class="pager-prev" data-act="postlist/prev' + '"></a>' : '<span class="pager-prev"></span>';
+            html += data.next ? '<a title="下一页" data-tag="' + end + '" href="/my/query?action=post&page=next&id=' + end + '" class="pager-next" data-act="postlist/next' + '"></a>' : '<span class="pager-next"></span>';
             html += '</div>';
         }
 
@@ -520,7 +521,7 @@ KISSY.add('iee/postlist', function(S, DOM, Event, IO, Anim){
         var params = this.form2Map();
 
         params.page = page;
-        params.modified = DOM.attr(el, 'data-tag');
+        params.id = DOM.attr(el, 'data-tag');
 
         this.list(params);
     };
