@@ -19,10 +19,15 @@
             <form class="query-form">
                 <input class="text" type="text" name="q" />
                 <select name="range">
-                    <option value="all" selected>全部</option>
+                    <option value="all" selected>全部状态</option>
                     <option value="publish">已发布</option>
                     <option value="draft">草稿箱</option>
                     <option value="trash">回收站</option>
+                </select>
+                <select name="type">
+                    <option value="all" selected>全部类型</option>
+                    <option value="post">文章</option>
+                    <option value="album">专辑</option>
                 </select>
                 <?php if(IS_SUPER_USER): ?>
                 <?php

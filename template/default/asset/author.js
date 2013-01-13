@@ -37,7 +37,7 @@
                 IO({
                     url: '/query',
                     data: {
-                        modified: last_post_id,
+                        id: last_post_id,
                         author: window.authorId
                     },
                     dataType: 'jsonp',
@@ -46,7 +46,7 @@
                         if(data.size){
                             var html = '';
                             S.each(data.list, function(vo){
-                                last_post_id = vo.modified;
+                                last_post_id = vo.id;
 
                                 var viewlink = vo.buylink || vo.outer_url;
                                 var content = util.addAuthor3rd(vo.content, vo.author_3rd);
@@ -74,11 +74,11 @@
 
                                     if(vo.relateitem){  //关联商品
                                         html += '<div class="relateitem"><div class="trigger relateitem-trigger"><span></span></div><div class="content"><textarea>';
-                                        S.each(vo.relateitem.list, function(rvo, idx){
+                                        S.each(vo.relateitem, function(rvo, idx){
                                             html += '<a title="' + rvo.title + '" href="/' + vo.id + '?subitem=' + (idx + 1) + '">' +
                                                         '<img src="' + rvo.img + '" /><div class="extra"><div class="mask"></div>' +
                                                         '<div class="title">' + rvo.title + '</div>' +
-                                                        '<div class="desc">' + rvo.content  + '</div>' +
+                                                        '<div class="desc">' + (rvo.content || '')  + '</div>' +
                                                     '</div></a>';
                                         });
                                         html += '</textarea></div></div>';

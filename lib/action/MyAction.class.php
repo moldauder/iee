@@ -77,12 +77,12 @@ class MyAction extends Action{
      * $_GET['type'] 指定是查询单个文章（item），还是批量查询（默认）
      */
     private function postQuery(){
-        $model = F('PostModel');
+        $postModel = F('PostModel');
 
         if('item' === $_GET['type']){
-            $result = $model->selectOne(array(
-                'id' => $_GET['id'],
-                'queryRelateInfo' => true
+            $result = $postModel->getPostById($_GET['id'], array(
+                'queryRelateInfo' => true,
+                'returnAllFields' => true
             ));
         }else{
             $author = $_GET['author'];
@@ -93,7 +93,7 @@ class MyAction extends Action{
             }
 
             $args = array(
-                'modified'        => $_GET['modified'],
+                'id'              => $_GET['id'],
                 'num'             => $_GET['num'],
                 'q'               => $_GET['q'],
                 'author'          => $author,
@@ -109,7 +109,12 @@ class MyAction extends Action{
                 $args['trash'] = 'y';
             }
 
-            $result = $model->select($args);
+            $type = $_GET['type'];
+            if($type && 'all' !== $type){
+                $args['type'] = array($type);
+            }
+
+            $result = $postModel->find($args);
         }
 
         $this->ajax($result, 'json');
@@ -275,11 +280,12 @@ class MyAction extends Action{
             $isBatchOperate = true;
         }
 
-        $model = F('PostModel');
+        $postModel = F('PostModel');
 
         //multi ids
-        $postData = $model->select(array(
+        $postData = $postModel->find(array(
             'id' => $id,
+            'page' => 'current',
             'returnAllFields' => true
         ));
 
@@ -295,7 +301,6 @@ class MyAction extends Action{
                     }
                 }
 
-                $id = implode(',', $id);
                 $postData = $onePostData;
             }else{
                 $postData = $postData['list'];
@@ -307,27 +312,26 @@ class MyAction extends Action{
 
         //移除文章
         if('remove' === $field){
-            $result['success'] = (bool)$model->remove($id);
+            $result['success'] = (bool)$postModel->delete($id);
             $this->ajax($result, 'json');
         }
 
-        //要更新的数据
         $data = array();
 
-        //首页置顶
         if('dotop' === $field){
             if($postData[0]->dotop){    //need cancel top
-                $data['modified'] = $postData[0]->dotop;
-                $data['dotop'] = '';
+                $data['dotop'] = 0;
             }else{
-                $data['dotop'] = $postData[0]->modified;
-                $data['modified'] = date(((int)date('Y') + 80 ) .'-m-d H:i:s');
+                $data['dotop'] = time();
             }
         }else{
             $data[$field] = $isBatchOperate ? $value : ('y' === $postData[0]->$field ? 'n' : 'y');
         }
 
-        if(false !== $model->save(array('id' => $id), $data)){
+        if(false !== $postModel->save(array(
+            'id' => $id,
+            'page' => 'current'
+        ), $data)){
             $result = array_merge($result, $data);
             $result['success'] = true;
         }else{
@@ -346,16 +350,20 @@ class MyAction extends Action{
         );
 
         $operate = safe_input($_POST['operate']);
-        $id = safe_input($_POST['id']);
         $postData = array();
+
+        $id = safe_input($_POST['id']);
+        $source = safe_input($_POST['sid']);
+
+        $relateitem = $_POST['relateitem'];
+        $isAlbum = !empty($relateitem);
 
         $db = F('db');
 
-        $isInsert = true;       //是否是新建文章
-        $attr = str_pad('', 12, '0');         //文章属性
+        $isInsert = true;
 
         if($id){
-            $postObj = $db->table('^posts')->where('id=' . $id)->selectOne();
+            $postObj = $db->table('^posts')->where('id', $id)->selectOne();
 
             if(!$postObj){
                 $result['msg'] = '文章不存在';
@@ -363,30 +371,34 @@ class MyAction extends Action{
             }
 
             if(!IS_SUPER_USER){
-                if($postObj>author != $this->userId){
+                if($postObj->author != $this->userId){
                     $result['msg'] = '您没有权限编辑这篇文章';
                     $this->ajax($result, 'json');
                 }
 
-                if($postObj>lock === '1'){
+                if($postObj->lock === '1'){
                     $result['msg'] = '文章已经被锁定，请联系管理员';
                     $this->ajax($result, 'json');
                 }
             }
 
-            $attr = $postObj->attr;
-
-            //含有id，即是插入模式
             $isInsert = false;
+
+            $source = $source ? $source : $id;
+
+            $postData['sid'] = $source;
+            $postData['lock'] = $postObj->lock;
+            $postData['fp'] = $postObj->fp;
+            $postData['trash'] = $postObj->trash;
+            $postData['author'] = $postObj->author;
         }else{
-            $postData['author'] = $this->userId;
             $postData['lock'] = 'n';
             $postData['fp'] = IS_SUPER_USER ? 'y' : 'n';
             $postData['trash'] = 'n';
-            $postData['type'] = 'post';
+            $postData['author'] = $this->userId;    //作者保持不变
         }
 
-        $oldAttr = $attr;
+        $postData['type'] = $isAlbum ? 'album' : 'post';
 
         //额外参数
         parse_str(safe_input($_POST['params']), $params);
@@ -423,20 +435,17 @@ class MyAction extends Action{
             $result['msg'] = '请填写有效的链接地址';
         }
 
+        $dbResult = $db->table('^posts')->data($postData)->add();
+        if(false === $dbResult){
+            $result['msg'] = '文章写入失败:';
+        }
+
         if($result['msg']){
             $this->ajax($result, 'json');
         }
 
-        $db->table('^posts')->data($postData);
-
         //数据库写入操作
-        if($isInsert){
-            $dbResult = $db->add();
-            $id = $db->getLastInsID();
-            $postData['id'] = $id;
-        }else{
-            $dbResult = $db->where('id=' . $id)->save();
-        }
+        $id = $db->getLastInsID();
 
         //额外处理
         //submiturl
@@ -447,21 +456,12 @@ class MyAction extends Action{
                 'agency' => $this->userId
             ))->save()){
                 $result['isFromSubmit'] = true;
-                $attr = postAttr($attr, POST_ATTR_SUBMITURL, 1);     //从submiturl而来
             }
-        }else{
-            $attr = postAttr($attr, POST_ATTR_SUBMITURL, 0);     //从submiturl而来
         }
 
-        //关联商品
-        if(!$isInsert){         //先删除之前得关联商品 and 新的文章本来就没有数据，不需要删除
-            $db->table('^posts')->where("sid=" . $id . " and type='relateitem'")->remove();
-        }
-
-        $relateitem = $_POST['relateitem'];
-        if($relateitem){
+        if($isAlbum){
             foreach($relateitem as $idx => $relateData){
-                $relateData['sid'] = $id;
+                $relateData['pid'] = $id;
                 $relateData['type'] = 'relateitem';
 
                 $relateData['modified'] = $postData['modified'];
@@ -469,17 +469,12 @@ class MyAction extends Action{
 
                 $db->table('^posts')->data($relateData)->add();
             }
-
-            //设置用relateitem的标志位
-            $attr = postAttr($attr, POST_ATTR_RELATEITEM, 1);     //从submiturl而来
-        }else{
-            $attr = postAttr($attr, POST_ATTR_RELATEITEM, 0);
         }
 
-        //更新attr
-        if($oldAttr !== $attr){
-            $db->table('^posts')->where('id=' . $id)->data(array('attr' => $attr))->save();
-        }
+        //更新此前版本为revision
+        $db->table('^posts')->data(array(
+            'type' => 'revision'
+        ))->where('(sid=' . $source . ' or id=' . $source . ') and id <>' . $id)->save();
 
         if(false === $dbResult){
             $result['msg'] = '文章' . ('draft' === $operate ? '保存' : '发布') . '失败';
@@ -523,10 +518,10 @@ class MyAction extends Action{
                 $this->login();
             }
 
-            $db = F('db');
-            $userData = $db->table('^users')->where("username='" . $userName . "' and pwd='" . $this->encryptPwd($pwd) . "'")->selectOne();
+            $userModel = F('UserModel');
+            $userData = $userModel->getUserByName($userName);
 
-            if(!$userData){
+            if(!$userData || $this->encryptPwd($pwd) !== $userData->pwd){
                 $this->assign('errMsg', '用户名或密码错误');
                 $this->assign('userName', $userName);
                 $this->login();

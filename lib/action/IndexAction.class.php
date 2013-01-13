@@ -12,22 +12,45 @@ class IndexAction extends Action{
      * 前台post查询接口
      */
     public function query(){
+        $num = 12;
+
         $params = array(
             'id'            => $_GET['id'],
             'fp'            => 'fp' === $_GET['from'] ? 'y' : '',
             'author'        => $_GET['author'],
             'status'        => 'publish',
             'trash'         => 'n',
-            'modified'      => $_GET['modified'],
+            'num'           => $num,
             'queryPageInfo' => true,
         );
 
-        if($_GET['author']){        //如果有作者信息，那么可以认为是来自于作者集合页，需要查找关联商品
+        if($_GET['author']){
             $params['queryRelateInfo'] = true;
         }
 
-        $model = F('PostModel');
-        $this->jsonp($model->select($params));
+        $postModel = F('PostModel');
+
+        if(!$params['id']){
+            //query dotop post first
+            $topPosts = $postModel->findTopPosts($params);
+            $topNum = count($topPosts);
+
+            if($topNum < $num){
+                $params['num'] = $num - count($topPosts);
+            }else{
+                $topNum - 0;
+            }
+        }
+
+        $params['excludeTopPost'] = true;
+
+        $result = $postModel->find($params);
+        if($topNum){
+            $result['list'] = array_merge($topPosts, $result['list']);
+            $result['size'] = $num;
+        }
+
+        $this->jsonp($result);
     }
 
     /**
@@ -35,11 +58,11 @@ class IndexAction extends Action{
      */
     public function item(){
         $id = $_GET['id'];
-        $model = F('PostModel');
+        $postModel = F('PostModel');
 
         if(preg_match('/^\d+$/', $_GET['subitem'])){
             //展示专辑里的某个单品，仅展示它自己
-            $relateitems = $model->findRelateItems($id);
+            $relateitems = $postModel->findRelateItems($id);
             $pos = intval($_GET['subitem']);
             if($relateitems && count($relateitems['list']) >= $pos){
                 $this->assign('postData', $relateitems['list'][$pos - 1]);
@@ -48,23 +71,21 @@ class IndexAction extends Action{
             }
         }
 
-        $postData = $model->selectOne(array(
-            'id'                => $id,
-            'status'            => 'publish',
-            'trash'             => 'n',
-            'queryPageInfo'     => true,
-            'queryRelateInfo'   => true
+        $postData = $postModel->getPostById($id, array(
+            'status'          => 'publish',
+            'trash'           => 'n',
+            'queryRelateInfo' => true,
         ));
 
         $isAjax = 'json' === $_GET['type'];
 
         if($postData){
-            $isComplexItem = (bool)$postData->relateitem;
+            $isComplexItem = $postData->relateitem;
 
             if(!$isComplexItem){
                 $authorID = $postData->author;
 
-                $this->assign('recentPostResult', $model->select(array(
+                $this->assign('recentPostResult', $postModel->find(array(
                     'num'         => 7,
                     'author'      => $authorID,
                     'status'      => 'publish',
@@ -72,7 +93,7 @@ class IndexAction extends Action{
                 )));
 
                 //查询作者的文章总数
-                $this->assign('postsNum', $model->count(array(
+                $this->assign('postsNum', $postModel->count(array(
                     'author'    => $authorID,
                     'status'    => 'publish',
                     'trash'     => 'n'
@@ -81,19 +102,20 @@ class IndexAction extends Action{
 
             $this->assign('isComplexItem', $isComplexItem);
 
-            $modified = $postData->modified;
-            $this->assign('prevPostData', $model->selectOne(array(
-                'modified'  => $modified,
-                'page'      => 'prev',
-                'status'    => 'publish',
-                'trash'     => 'n'
+            $realId = $postData->id;
+
+            $this->assign('prevPostData', $postModel->findOne(array(
+                'id'     => $realId,
+                'page'   => 'prev',
+                'status' => 'publish',
+                'trash'  => 'n'
             )));
 
-            $this->assign('nextPostData', $model->selectOne(array(
-                'modified'  => $modified,
-                'page'      => 'next',
-                'status'    => 'publish',
-                'trash'     => 'n'
+            $this->assign('nextPostData', $postModel->findOne(array(
+                'id'     => $realId,
+                'page'   => 'next',
+                'status' => 'publish',
+                'trash'  => 'n'
             )));
 
             $this->assign('postData', $postData);
@@ -104,7 +126,6 @@ class IndexAction extends Action{
                 $this->display('item');
             }
         }else{
-            //说明文件不存在，转到404模块去
             if($isAjax){
                 print 'not found';
             }else{
@@ -117,11 +138,8 @@ class IndexAction extends Action{
      * 作者集合页
      */
     public function author(){
-        $model = F('UserModel');
-
-        $authorData = $model->selectOne(array(
-            'username' => $_GET['username']
-        ));
+        $userModel = F('UserModel');
+        $authorData = $userModel->getUserByName($_GET['username']);
 
         if($authorData){
             $this->assign('authorData', $authorData);
