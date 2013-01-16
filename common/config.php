@@ -10,4 +10,6 @@ return array(
     'db_charset'  => 'utf8',
     'db_port'     => '3306',
     'db_prefix'   => 'tp_',
+
+    'log_level'   => 'SQL,ERR',
 );
