@@ -43,13 +43,14 @@ label{
 .backto a{
     color: #0a8cd2;
 }
-.tpl-login .err{
+.login .err{
     margin: 0 0 25px 0;
     padding: 6px 8px;
     background: #ffebeb;
-    border: 1px solid #cc0;
+    border: 1px solid #fcc;
     border-radius: 4px;
     color: #666;
+    font-size: 14px;
 }
 
 

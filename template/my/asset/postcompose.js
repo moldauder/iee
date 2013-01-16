@@ -178,7 +178,7 @@ KISSY.add('iee/relateitem', function(S, DOM, Event, IO, Modal){
     requires: ['dom', 'event', 'ajax', 'iee/modal']
 });
 
-KISSY.add('iee/postcompose', function(S, DOM, Event, IO, Modal){
+KISSY.add('iee/postcompose', function(S, DOM, Event, IO, Modal, RelateItem){
 
     var Module = {};
 
@@ -221,9 +221,7 @@ KISSY.add('iee/postcompose', function(S, DOM, Event, IO, Modal){
 
         //处理relateitem
         if(data.relateitem && this.hasRelateItem){
-            S.use('iee/relateitem', function(S, M){
-                M.fill(data.relateitem.list);
-            });
+            RelateItem.fill(data.relateitem);
         }
 
         S.each(data, function(value, key){
@@ -253,9 +251,7 @@ KISSY.add('iee/postcompose', function(S, DOM, Event, IO, Modal){
             var relateItemEl = DOM.get('div.relate-item', root);
             if(relateItemEl){
                 self.hasRelateItem = true;
-                S.use('iee/relateitem', function(S, M){
-                    M.init(relateItemEl);
-                });
+                RelateItem.init(relateItemEl);
             }else{
                 self.hasRelateItem = false;
             }
@@ -264,7 +260,7 @@ KISSY.add('iee/postcompose', function(S, DOM, Event, IO, Modal){
                 App.Panel.switch('postcompose');
 
                 if(this.hasRelateItem){
-                    S.use('iee/relateitem', function(S, M){ M.init(); });
+                    RelateItem.init();
                 }
 
                 if(S.isFunction(then)){
@@ -332,9 +328,7 @@ KISSY.add('iee/postcompose', function(S, DOM, Event, IO, Modal){
         self.isSubmiting = true;
 
         if(self.hasRelateItem){
-            S.use('iee/relateitem', function(S, M){
-                M.beforeSubmit();
-            });
+            RelateItem.beforeSubmit();
         }
 
         IO({
@@ -398,5 +392,5 @@ KISSY.add('iee/postcompose', function(S, DOM, Event, IO, Modal){
 
     return Module;
 }, {
-    requires: ['dom', 'event', 'ajax', 'iee/modal']
+    requires: ['dom', 'event', 'ajax', 'iee/modal', 'iee/relateitem']
 });

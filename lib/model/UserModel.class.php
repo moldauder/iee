@@ -1,13 +1,11 @@
 <?php
 class UserModel extends Model{
 
-
-    public function select($args = array()){
+    public function find($args = array()){
         $args = array_merge(array(
-            'num'               => 15,
-            'page'              => 'next',
-            'queryPageInfo'     => false,
-            'queryOneItem'      => false,
+            'num'           => 15,
+            'page'          => 'next',
+            'queryPageInfo' => false
         ), $args);
 
         $list = $this->db->table('^users')
@@ -23,25 +21,8 @@ class UserModel extends Model{
         return $list;
     }
 
-    /**
-     * 找到某个用户的信息
-     */
-    public function selectOne($args = array()){
-        return $this->select(array_merge(array(
-            'num'           => 1,
-            'queryOneItem'  => true
-        ), $args));
-    }
-
-    private function _buildWhereConds($args = array()){
-        $whereCond = array();
-
-        $username = safe_input($args['username']);
-        if($username){
-            $whereCond[] = "username='" . $username . "'";
-        }
-
-        return $whereCond;
+    public function getUserByName($username){
+        return $this->db->table('^users')->where('username', $username)->selectOne();
     }
 
 }
