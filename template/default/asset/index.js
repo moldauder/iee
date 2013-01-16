@@ -49,7 +49,7 @@
                 IO({
                     url: '/query',
                     data: {
-                        modified: last_post_id,
+                        id: last_post_id,
                         from: 'fp'
                     },
                     dataType: 'jsonp',
@@ -59,12 +59,14 @@
                         if(data.size){
                             var html = '';
                             S.each(data.list, function(vo){
-                                var dateArr = parseDate(vo.dotop || vo.modified);
+                                var dateArr = parseDate(vo.modified);
                                 var content = util.addAuthor3rd(vo.content, vo.author_3rd);
 
-                                last_post_id = vo.modified;
+                                last_post_id = vo.id;
 
-                                html += '<a href="/' + vo.id + '" class="pin ks-waterfall">' +
+                                var id = parseInt(vo.sid, 10) ? vo.sid : vo.id;
+
+                                html += '<a href="/' + id + '" class="pin ks-waterfall">' +
                                              '<img src="' + vo.img + '" width=320 height=420 />' +
                                              '<div class=extra>' +
                                                 '<div class=mask></div>' +
@@ -77,6 +79,7 @@
                                                 '<div class=desc>' + content + '</div>' +
                                                 '<div class=author><s></s>' + vo.nick + '</div>' +
                                              '</div>' +
+                                             ('album' === vo.type ? '<s class="type-album"></s>' : '') +
                                         '</a>';
                             });
 

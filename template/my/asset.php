@@ -9,8 +9,8 @@ return array(
     ),
     'js' => array(
         'app' => array('app', 2),
-        'postlist' => array('postlist', 2),
-        'postcompose' => array('postcompose', 4),
+        'postlist' => array('postlist', 3),
+        'postcompose' => array('postcompose', 5),
         'submiturl' => array('submiturl', 0),
         'myaccount' => array('myaccount', 0),
     ),
