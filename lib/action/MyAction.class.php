@@ -216,7 +216,7 @@ class MyAction extends Action{
         );
 
         if('remove' === $field){    //删除
-            if($db->table('^submit_url')->where('id=' . $id)->remove()){
+            if($db->table('^submit_url')->where('id=' . $id)->delete()){
                 $result['success'] = true;
                 $result['status'] = 'remove';
             }
