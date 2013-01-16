@@ -184,7 +184,7 @@ class PostModel extends Model{
         if(is_string($id)){
             $id = explode(',', $id);
         }
-        return $this->db->table('^posts')->where('id', $id, 'in')->remove();
+        return $this->db->table('^posts')->where('id', $id, 'in')->delete();
     }
 
     public function count($args){
