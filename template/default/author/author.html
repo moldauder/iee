@@ -1,0 +1,14 @@
+<?php
+$title = $authorObj->nick . ' | ' . System::config('site_name');
+$headerTag = 'div';
+$pageCls = 'author';
+require '../common/header.html';
+
+$nick = $authorObj->nick;
+?>
+<h1 class="header" title="<?php print($nick); ?>的推荐"><span class="stdauthor stdauthor-<?php print($nick); ?>"><?php print($nick);?>'s selection</span></h1><div id="waterfall"></div><div id="loading"></div><script>authorId=<?php print($authorObj->id); ?></script>
+<?php
+$assetTool->import('fp.author,fp.waterfall');
+$initJSMod = 'fp.author';
+require '../common/footer.html';
+?>

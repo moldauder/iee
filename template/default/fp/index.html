@@ -1,0 +1,13 @@
+<?php
+/**
+ * 一味首页
+ */
+$pageCls = 'index';
+require '../common/header.html';
+$assetTool->import('fp,waterfall,submit');
+?>
+<div id="pi"><div id="waterfall" class="waterfall"><?php foreach($list as $idx=>$obj){ print renderTinyPost($obj, array(
+    'lazyImg' => $idx > 5
+)); }; ?></div><div id="loading"></div></div>
+<?php if(isset($startId)):?><script>var startId='<?php print $startId; ?>';</script><?php endif; ?>
+<?php $initJSMod = 'fp.fp'; require '../common/footer.html';

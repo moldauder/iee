@@ -1,0 +1,89 @@
+{
+    "util": {
+        "version": "1.0.0"
+    },
+    "reset.css": {
+        "version": "1.0.0"
+    },
+    "fp.base.css": {
+        "version": "1.0.0"
+    },
+    "fp.base": {
+        "version": "1.0.0"
+    },
+    "fp.gotop":{
+        "version": "1.0.0"
+    },
+    "fp.waterfall": {
+        "version": "1.0.0"
+    },
+    "fp.fp": {
+        "version": "1.0.0"
+    },
+    "fp.submit": {
+        "version": "1.0.0"
+    },
+    "fp.author": {
+        "version": "1.0.0"
+    },
+    "fp.item": {
+        "version": "1.0.0"
+    },
+    "fp.album": {
+        "version": "1.0.0"
+    },
+
+    "my.base.css": {
+        "version": "1.0.0"
+    },
+    "my.app.css": {
+        "version": "1.0.0"
+    },
+    "my.login.css": {
+        "version": "1.0.0"
+    },
+    "my.postlist.css": {
+        "version": "1.0.0"
+    },
+    "my.postcompose.css": {
+        "version": "1.0.0"
+    },
+    "my.submit": {
+        "version": "1.0.0"
+    },
+    "my.submit.css": {
+        "version": "1.0.0"
+    },
+
+    "my.app": {
+        "version": "1.0.0"
+    },
+    "my.postlist": {
+        "version": "1.0.0"
+    },
+    "my.postcompose": {
+        "version": "1.0.0"
+    },
+    "my.modal": {
+        "version": "1.0.0"
+    },
+    "my.account": {
+        "version": "1.0.0"
+    },
+
+    "util.album-editor": {
+        "version": "1.0.0"
+    },
+    "util.album-editor.css": {
+        "version": "1.0.0"
+    },
+    "util.modal": {
+        "version": "1.0.0"
+    },
+    "util.modal.css": {
+        "version": "1.0.0"
+    },
+    "util.validation": {
+        "version": "1.0.0"
+    }
+}

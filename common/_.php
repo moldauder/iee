@@ -1,148 +1,10 @@
 <?php
-/**
- * 通用函数集
- */
-/**
- * 查询posts集合
- *
- * @param array $args 查询参数，同时也会从GET中获取，有些值不会从GET中获取
- *
- * $param string $args['id'] 起始id
- * $param number $args['num'] 数量，默认15
- * $param string $args['page'] 翻页方向 next 下一页, prev 上一页，默认next
- * $param string $args['q'] 关键字
- * $param string $args['status'] 文章状态
- * $param string $args['author'] 用户ID
- * $param string $args['trash'] 是否回收站
- *
- * @param bool $queryPageInfo 是否查询翻页信息
- *
- * @return array $postDatas 返回查询结果集
- */
-function query_post($args = array(), $params = array() /*$queryPageInfo = false*/){ /* {{{ */
-    $db = F('db');
-
-    //组合条件--start
-    $whereCond = array(
-        "posts.type='post'"     //默认条件
-    );
-
-    $q = safe_input($args['q']);
-    if($q){
-        $whereCond[] = "posts.title like '%" . $q . "%'";
-    }
-
-    $author = safe_input($args['author']);
-    if($author){
-        $whereCond[] = "posts.author=" . $author . "";
-    }
-
-    //只从params中获取的值，防止外部刷结果
-    $status = safe_input($args['status']);
-    if($status){
-        $whereCond[] = "posts.status='" . $status . "'";
-    }
-
-    $trash = safe_input($args['trash']);
-    if(strlen($trash)){
-        $whereCond[] = "posts.trash='" . $trash . "'";
-    }
-
-    $fp = safe_input($args['fp']);
-    if(strlen($fp)){
-        $whereCond[] = "posts.fp='" . $fp . "'";
-    }
-
-    //组合条件--end
-
-    //翻页方向 默认下一页 -- next
-    $isPagePrev = 'prev' === safe_input($args['page']);
-
-    //where语句
-    $whereStr = implode(' and ', $whereCond);
-
-    //起始id
-    $id = intval(safe_input($args['id']));
-    if(0 < $id){
-        $db->where($whereStr . ($whereStr ? ' and ' : '') . (' posts.id' . ($isPagePrev ? '>' : '<') . ' ' . $id));
-    }else{
-        $db->where($whereStr);
-    }
-
-    $num = safe_input($args['num']);
-    $num = $num ? $num : 15;
-
-    $list = $db->field('posts.*, users.nick')
-               ->table('^posts posts')
-               ->join('^users users on users.id=posts.author')
-               ->order('posts.id ' . ($isPagePrev ? 'asc' : 'desc'))
-               ->limit($num)
-               ->select();
-
-    if($isPagePrev){    //要反转顺序
-        $list = array_reverse($list);
-    }
-
-
-    if($params['queryRelateItem']){
-        //要查找关联商品信息
-        foreach($list as $postData){
-            if('album' === $postData->type){
-                $postData->xitems = query_relateitem($postData->id);
-            }
-        }
-    }
-
-    $size = count($list);
-    $ret = array();
-
-    if(0 < $size && $params['queryPageInfo']){
-        //注意排序，排在前面的时ID大的，按id降序排的
-        $ret['prev'] = (bool)$db->table('^posts posts')->where($whereStr . ($whereStr ? ' and ' : '') . ' posts.id>' . $list[0]->id)->selectOne();
-        $ret['next'] = (bool)$db->table('^posts posts')->where($whereStr . ($whereStr ? ' and ' : '') . ' posts.id<' . $list[$size - 1]->id)->selectOne();
-    }
-
-    $ret['list'] = $list;
-    $ret['size'] = $size;
-
-    return $ret;
-} /* }}} */
-
-/**
- * 获得一篇文章
- *
- * @param string|number $id 文章ID
- * @return object $postObject 文章对象
- */
-function find_post($id){
-    $db = F('db');
-    return $db->field('posts.*, users.nick, users.username')
-        ->table('^posts posts')
-        ->join('^users users on users.id=posts.author')
-        ->where('posts.id=' . $id)
-        ->selectOne();
-}
-
-/**
- * 查找关联商品
- */
-function query_relateitem($postId){
-    $db = F('db');
-    return $db->table('^posts')
-        ->field('id,title,content,outer_url,img')
-        ->where("sid=" . $postId . " and type='relateitem'")
-        ->order('id asc')
-        ->select();
-}
 
 function get_post_id($postObj){
     $sid = $postObj->sid;
     return intval($sid, 10) ? $sid : $postObj->id;
 }
 
-/**
- * 标准输出流
- */
 function stdpost($post, $headerTag = 'h2'){
     $sid = get_post_id($post);
 
@@ -189,12 +51,11 @@ function stdpost($post, $headerTag = 'h2'){
     $html .= '<ins class="share-holder"></ins>';
     $html .= '</div></div></div>';
 
-    //管理商品
     if($post->relateitem){
         $html .= '<div class="relateitem">';
         foreach($post->relateitem as $idx => $item){
-            $html .= '<a href="/' . $sid . '?subitem=' . ($idx + 1) . '" title="' . $item->title . '">' .
-                        '<img src="' . $item->img . '" /><div class="extra"><div class="mask"></div>' .
+            $html .= '<a>' .
+                        '<img width="288" height="378" src="' . $item->img . '" /><div class="extra"><div class="mask"></div>' .
                         '<div class="title">' . $item->title . '</div><div class="desc">' . $item->content . '</div>' .
                     '</div></a>';
         }
