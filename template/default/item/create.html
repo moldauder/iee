@@ -1,0 +1,73 @@
+<?php
+$isEditMode = isset($postObj);
+$title = $isEditMode ? '编辑文章 &rsaquo; ' . $postObj->title : '撰写新文章';
+$css = 'my.postcompose.css';
+require '../my/header.html';
+?>
+<h2><?php print $title; ?></h2>
+<form id="postComposeForm" action="item/save" method="post">
+    <div class="hide">
+        <input type="text" name="operate" />
+        <input type="text" name="submit" value="<?php print $isEditMode ? $postObj->submit : ''; ?>" />
+        <input type="text" name="id" value="<?php print $isEditMode ? $postObj->id : ''; ?>"/>
+    </div>
+
+    <div class="toolbar">
+        <span class="btn" data-act="my.postcompose/save">保存草稿</span>
+        <span class="btn btn-primary" data-act="my.postcompose/publish">保存并发布</span>
+    </div>
+    <div class="grid">
+        <div class="lft">
+            <div class="form-field">
+                <div class="field-hd"><label for="title">标题</label></div>
+                <div class="field-bd"><input type="text" id="title" value="<?php print $isEditMode ? $postObj->title : '' ?>" name="title" class="text" data-validate='["require"]' /></div>
+            </div>
+            <div class="form-field">
+                <div class="field-hd"><label for="postcontent">描述</label></div>
+                <div class="field-bd"><textarea class="text" id="postcontent" name="content" data-validate='["require"]'><?php print $isEditMode ? $postObj->content : ''; ?></textarea></div>
+            </div>
+            <div class="form-field">
+                <div class="field-hd"><label for="img">图片</label></div>
+                <div class="field-bd"><input type="text" id="img" name="img" class="text" value="<?php print $isEditMode ? $postObj->img : ''; ?>" data-validate='["require"]' /></div>
+            </div>
+            <div class="form-field">
+                <div class="field-hd"><label for="outer_url">链接</label></div>
+                <div class="field-bd"><input type="text" id="outer_url" name="outer_url" class="text" value="<?php print $isEditMode ? $postObj->outer_url : ''; ?>" /></div>
+            </div>
+            <?php if(IS_SUPER_USER): ?>
+            <div class="form-field">
+                <div class="field-hd"><label for="author_3rd">第三方作者</label></div>
+                <div class="field-bd"><input type="text" id="author_3rd" name="author_3rd" value="<?php print $isEditMode ? $postObj->author_3rd : '';  ?>" class="text" /></div>
+            </div>
+            <div class="form-field">
+                <div class="field-hd"><label>专辑商品</label></div>
+                <div class="field-bd"><div class="fn-util fn-album-editor" data-var="albumItems"></div></div>
+            </div>
+            <?php if($isEditMode && $postObj->albumItems): ?>
+            <script>var albumItems=<?php print System::JSON($postObj->albumItems);  ?>;</script>
+            <?php endif; ?>
+            <?php endif; ?>
+        </div>
+        <div class="rgt">
+            <?php if($isEditMode): ?>
+            <div class="box">
+                <div class="box-hd">文章信息</div>
+                <div class="box-bd">
+                    <dl class="attr">
+                        <dt>原始作者：</dt>
+                        <dd><?php print $postObj->nick; ?></dd>
+                    </dl>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="toolbar">
+        <span class="btn" data-act="my.postcompose/save">保存草稿</span>
+        <span class="btn btn-primary" data-act="my.postcompose/publish">保存并发布</span>
+    </div>
+</form>
+
+<?php
+$initJSMod = 'my.postcompose';
+require '../my/footer.html';
