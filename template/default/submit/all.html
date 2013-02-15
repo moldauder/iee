@@ -1,0 +1,74 @@
+<?php
+$title = 'Submit列表';
+$css = 'my.submit.css';
+require '../my/header.html';
+?>
+<h2>Submit列表</h2>
+<script>var queryvars={status:'<?php print $args['status'] ?>',agency:'<?php print $args['agency']; ?>'};</script>
+<div class="toolbar">
+    <div class="toolbar-filter">
+        <form class="filter-form">
+            <select name="status"><?php
+                renderOptions(array(
+                    array('html' => '待通过', 'value' => 's'),
+                    array('html' => '已通过', 'value' => 'p'),
+                    array('html' => '全部'),
+                ), $args['status']);
+            ?></select>
+            <select name="agency"><?php
+                $agencyOpts = array(
+                    array('html' => '全部处理人')
+                );
+                foreach($userList as $user){
+                    $agencyOpts[] = array(
+                        'html' => $user->nick,
+                        'value' => $user->id
+                    );
+                }
+                renderOptions($agencyOpts, $args['agency']);
+            ?></select>
+            <span tabindex="0" class="btn" data-act="my.submit/search">筛选</span>
+        </form>
+    </div>
+    <div class="toolbar-pager"><?php renderPager($submitList, $hasPrev, $hasNext, 'my.submit/pager'); ?></div>
+</div>
+<div class="grid">
+<?php foreach($submitList as $vo): ?>
+<div class="grid-item" data-id="<?php print $vo->id; ?>">
+    <div class="item-title"><a href="<?php print $vo->url; ?>" target="_blank"><?php print $vo->url; ?></a></div>
+    <?php
+    if($vo->nick){
+        print '<dl class="attr"><dt>来自：</dt><dd>' . $vo->nick . '</dd></dl>';
+    }
+
+    if($vo->weibo){
+        print '<dl class="attr"><dt>微博：</dt><dd><a href="http://s.weibo.com/user/' . urlencode($vo->weibo) . '" target="_blank">' . $vo->weibo . '</a></dd></dl>';
+    }
+
+    if($vo->remark){
+        print '<dl class="attr"><dt>理由：</dt><dd>' . $vo->remark . '</dd></dl>';
+    }
+    ?>
+    <div class="item-action">
+        <?php if('s' === $vo->status): ?>
+        <a href="/submit/pass/<?php print $vo->id; ?>" data-act="my.submit/pass">通过</a>
+        <a href="/item/create/?submit=<?php print $vo->id; ?>">发表文章</a>
+        <a href="/submit/remove/<?php print $vo->id; ?>" data-act="my.submit/remove">删除</a>
+        <?php else: ?>
+        <span class="label info" title="处理人：<?php print $vo->agencyNick; ?>">已通过</span>
+        <?php if($vo->postid): ?>
+        <a href="/item/<?php print $vo->postid; ?>" target="_blank">关联文章</a>
+        <?php else: ?>
+        <a href="/item/create/?submit=<?php print $vo->id; ?>">发表文章</a>
+        <?php endif; ?>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endforeach; ?>
+<?php if(empty($submitList)): ?>
+没有找到匹配的结果，请尝试更换搜索条件
+<?php endif; ?>
+</div>
+<?php
+$initJSMod = 'my.submit';
+require '../my/footer.html';

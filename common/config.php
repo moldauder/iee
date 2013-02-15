@@ -12,4 +12,11 @@ return array(
     'db_prefix'   => 'tp_',
 
     'log_level'   => 'SQL,ERR',
+
+    'taoke' => array(
+        'url' => 'http://gw.api.taobao.com/router/rest',
+        'appKey' => '21090431',
+        'appSecret' => 'ede538d3fb343c90bd1427b79803f18f',
+        'userNick' => 'fattyq'
+    ),
 );

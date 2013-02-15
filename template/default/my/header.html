@@ -1,0 +1,31 @@
+<?php
+$site_name = '我的' . System::config('site_name');
+$pageTitle = isset($title) ? ($title . ' &rsaquo; ' . $site_name) : $site_name;
+?>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title><?php print $pageTitle; ?></title>
+        <?php $assetTool->import('reset.css,my.base.css' . (isset($css) ? (',' . $css) : ''))->css(); ?>
+        <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy-min.js"></script>
+        <base target="_self" />
+    </head>
+    <body>
+        <div id="header">
+            <div class="container">
+                <ul class="menu">
+                    <li><a href="/item/all">文章列表</a></li>
+                    <li><a href="/item/create">撰写新文章</a></li>
+                    <?php if(IS_SUPER_USER): ?>
+                    <li><a href="/submit/all">Submit</a></li>
+                    <?php endif; ?>
+                    <li><a href="/account">我的账号</a></li>
+                </ul>
+                <ul class="user-links">
+                    <li><?php print USERNAME; ?></li>
+                    <li><a id="logout" href="/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="content">

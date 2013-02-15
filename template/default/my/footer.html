@@ -1,0 +1,6 @@
+    </div>
+    <div id="footer"><p>iewei.com 拥有生活的灵感</p><p>Thank you for your amazing contribution!</p></div>
+    <?php require '../common/ks-config.html'; ?>
+    <script>KISSY.use('iee/my.app,iee/<?php print $initJSMod; ?>', function(S,App,Biz){App.init({isSuper:<?php print IS_SUPER_USER ? 1 : 0; ?>,userNick:'<?php print $curUserName; ?>'});Biz.init();});</script>
+</body>
+</html>

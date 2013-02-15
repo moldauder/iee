@@ -199,7 +199,7 @@ class PostModel extends Model{
     }
 
     private function _processArgs($args){
-        $q = safe_input($args['q']);
+        $q = System::filterVar($args['q']);
         if($q){
             $this->db->where('post.title', '%' . $q . '%', 'like');
         }
