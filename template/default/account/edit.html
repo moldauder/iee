@@ -1,0 +1,31 @@
+<?php
+$title = '我的账号';
+require '../my/header.html';
+?>
+<h2><?php print $title; ?></h2>
+<form id="accountForm" action="account/save" method="post">
+    <div class="toolbar">
+        <span class="btn btn-primary" data-act="my.account/save">保存</span>
+    </div>
+    <div class="grid">
+        <div class="form-field">
+            <div class="field-hd"><label for="old_password">当前密码</label></div>
+            <div class="field-bd"><input type="password" id="old_password" name="old_password" class="text" data-validate='["require"]' /></div>
+        </div>
+        <div class="form-field">
+            <div class="field-hd"><label for="new_password">新密码</label></div>
+            <div class="field-bd"><input type="password" id="new_password" name="new_password" class="text" data-validate='["require"]' /></div>
+        </div>
+        <div class="form-field">
+            <div class="field-hd"><label for="renew_password">确认密码</label></div>
+            <div class="field-bd"><input type="password" id="renew_password" class="text" data-validate='[["require"],["equal","new_password","两次输入的密码不一致"]]' /></div>
+        </div>
+    </div>
+    <div class="toolbar">
+        <span class="btn btn-primary" data-act="my.account/save">保存</span>
+    </div>
+</form>
+
+<?php
+$initJSMod = 'my.account';
+require '../my/footer.html';

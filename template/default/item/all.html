@@ -1,0 +1,153 @@
+<?php
+$title = '文章列表';
+$css = 'my.postlist.css';
+require '../my/header.html';
+?>
+<h2>文章列表</h2>
+<script>var queryvars={range:'<?php print $args['range'] ?>',type:'<?php print $args['type']; ?>',author:'<?php print $args['author']; ?>'};</script>
+<div class="toolbar">
+    <div class="toolbar-action">
+        <input type="checkbox" data-act="my.postlist/selectAll" />
+        <select class="batchAction"><?php
+            $actionOpts = array(
+                array('html' => '批量操作')
+            );
+            if(IS_SUPER_USER){
+                $actionOpts = array_merge($actionOpts, array(
+                    array('html' => '首页展现', 'value' => 'fp'),
+                    array('html' => '取消首页展现', 'value' => 'unfp'),
+                    array('html' => '锁定', 'value' => 'lock'),
+                    array('html' => '取消锁定', 'value' => 'unlock'),
+                ));
+            }
+            $actionOpts[] = array('html' => '移至回收站', 'value' => 'trash');
+            renderOptions($actionOpts);
+        ?></select>
+        <span tabindex="0" class="btn" data-act="postlist/batch">应用</span>
+    </div>
+    <div class="toolbar-filter">
+        <form class="filter-form">
+            <input class="text" type="text" name="q" />
+            <select name="range"><?php
+            renderOptions(array(
+                array('html' => '全部状态', 'value' => 'all'),
+                array('html' => '已发布', 'value' => 'publish'),
+                array('html' => '草稿箱', 'value' => 'draft'),
+                array('html' => '回收站', 'value' => 'trash'),
+            ), $args['range']);
+            ?></select>
+            <select name="type"><?php
+            renderOptions(array(
+                array('html' => '全部类型', 'value' => 'all'),
+                array('html' => '文章', 'value' => 'post'),
+                array('html' => '专辑', 'value' => 'album')
+            ), $args['type']);
+            ?></select>
+            <?php if(IS_SUPER_USER): ?>
+            <select name="author"><?php
+                $authorOpts = array(
+                    array('html' => '全部作者')
+                );
+                foreach($userList as $user){
+                    $authorOpts[] = array(
+                        'html' => $user->nick,
+                        'value' => $user->id
+                    );
+                }
+                renderOptions($authorOpts, $args['author']);
+            ?></select>
+            <?php endif; ?>
+            <span tabindex="0" class="btn" data-act="my.postlist/search">筛选</span>
+        </form>
+    </div>
+    <div class="toolbar-pager"><?php renderPager($postList, $hasPrev, $hasNext, 'my.postlist/pager'); ?></div>
+</div>
+<div class="grid">
+<?php
+$classMap = array(
+    'y' => 'on',
+    'n' => 'off'
+);
+foreach($postList as $vo):
+    $id = $vo->id;
+
+    $cls = array('grid-item');
+
+    if('y' === $vo->trash){
+        $cls[] = 'post-trash';
+    }
+
+    if(!IS_SUPER_USER && 'y' === $vo->lock){
+        $cls[] = 'post-locked';
+    }
+?>
+<div class="<?php print implode(' ', $cls); ?>" data-id="<?php print $vo->id; ?>">
+    <div class="item-title">
+        <input type="checkbox" data-act="my.postlist/select" />
+        <a title="<?php print $vo->title; ?>" href="/item/edit/<?php print $id; ?>"><?php if('album' === $vo->type){ print '<sup>专辑</sup>'; } ?><?php print $vo->title; ?></a>
+    </div>
+    <?php
+    if(IS_SUPER_USER){
+    ?>
+    <div class="mark">
+        <span class="url <?php print $classMap[$vo->fp]; ?>" data-url="/item/status/<?php print $id; ?>/fp" data-act="my.postlist/status">首页展现</span>
+        <span class="url <?php print $classMap[$vo->lock]; ?>" data-url="/item/status/<?php print $id; ?>/lock" data-act="my.postlist/lock">锁定</span>
+        <span class="url <?php print $classMap['0' === $vo->dotop ? 'n' : 'y']; ?>" data-url="/item/dotop/<?php print $id; ?>" data-act="my.postlist/status">置顶</span>
+    </div>
+    <?php
+    }else{
+        if('y' === $vo->lock){
+        ?>
+    <div class="mark">
+        <span class="label info" title="管理员已经锁定了这篇文章，如果您需要编辑此文章，请联系管理员">已锁定，不能更改</span>
+    </div>
+        <?php
+        }
+    }
+    ?>
+    <?php
+    $buylink = $vo->buylink;
+    $buylink = $buylink ? $buylink : $vo->outer_url;
+
+    if($buylink):
+    ?>
+    <dl class="attr">
+        <dt>外链：</dt>
+        <dd>
+        <a class="buylink" href="<?php print $buylink; ?>" target="_blank"><?php print $vo->host ? $vo->host : 'website'; ?></a>
+        <?php
+        if($vo->price){
+        ?>
+        <span class="buyinfo sale-<?php print $classMap[$vo->onsale]; ?>">
+            <span class="price"><span><?php print $vo->price_unit; ?></span><?php print $vo->price; ?></span>
+        </span>
+        <?php
+        }
+        ?>
+        </dd>
+    </dl>
+    <?php endif; ?>
+    <?php if($vo->author_3rd): ?>
+    <dl class="attr">
+        <dt>第三方作者：</dt>
+        <dd><?php print $vo->author_3rd; ?></dd>
+    </dl>
+    <?php endif; ?>
+    <div class="history">由<span class="author"><?php print $vo->author === USERID ? '你' : $vo->nick; ?></span>最后编辑于<span class="modified"><?php print $vo->modified;?></span></div>
+    <?php if(IS_SUPER_USER || 'n' === $vo->lock): ?>
+    <div class="item-action">
+        <a href="/item/edit/<?php print $id; ?>" class="edit">编辑</a>
+        <span data-url="/item/trash/<?php print $id; ?>/y" class="url trash" data-act="my.postlist/trash">移入回收站</span>
+        <span data-url="/item/trash/<?php print $id; ?>/n" class="url untrash" data-act="my.postlist/untrash">移出回收站</span>
+        <span data-url="/item/remove/<?php print $id; ?>" class="url remove" data-act="my.postlist/remove">永久删除</span>
+    </div>
+    <?php endif; ?>
+</div>
+<?php endforeach; ?>
+<?php if(empty($postList)): ?>
+没有找到匹配的结果，请尝试更换搜索条件
+<?php endif; ?>
+</div>
+<?php
+$initJSMod = 'my.postlist';
+require '../my/footer.html';
