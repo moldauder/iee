@@ -80,4 +80,12 @@ class SubmitBiz extends Biz{
             ->delete();
     }
 
+    public function addSubmit($data){
+        $db = $this->getDBConnection();
+        if($db->table($this->tableName)->data($data)->add()){
+            return $db->getLastInsID();
+        }
+        return false;
+    }
+
 }

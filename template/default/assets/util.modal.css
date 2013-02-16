@@ -1,6 +1,6 @@
 .modal {
   position: absolute;
-  z-index: 1050;
+  z-index: 250;
   background-color: #ffffff;
   border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -71,7 +71,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  z-index: 240;
   background-color: #000000;
   visibility: hidden;
   opacity: .6;

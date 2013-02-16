@@ -44,7 +44,7 @@ img{ vertical-align: top; }
 .stdpost .item-off .go-view{ background-position: 0 -387px; }
 .stdpost .go-share{ background-position: -50px -26px;  }
 
-.off-sign{ height: 106px; width: 172px; background-position: 0 -418px; }
+.off-sign{ display: block; height: 100px; width: 172px; background-position: 0 -418px; }
 
 .stddate{ position: absolute; top: 0; left: 0; width: 150px; height: 80px; }
 .stddate span{ position: absolute; font-family: Times,"Times New Roman",Georgia,serif; height: 30px; line-height: 30px; width: 90px;  }

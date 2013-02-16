@@ -42,7 +42,7 @@ KISSY.add('iee/my.postlist', function(S, DOM, Event, IO, Anim){
         var self = this;
         IO.get(DOM.attr(target, 'data-url'), function(data){
             if(data.success){
-                if('all' === queryvars.range){
+                if('' === queryvars.range){
                     DOM.addClass(self.getItemEl(target), 'post-trash');
                 }else{
                     self.removeItemEl(target);

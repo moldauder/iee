@@ -1,0 +1,68 @@
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;}body,button,input,select,textarea{font:12px/1.5 tahoma,arial,\5b8b\4f53,sans-serif;}h1,h2,h3,h4,h5,h6{font-size:100%;}ul,ol{list-style:none;}a{text-decoration:none;}a:hover{text-decoration:underline;}
+
+html,
+.stdpost .detail{
+    background: url(http://pic.yupoo.com/iewei/C9TCNuSu/fQAH5.png) repeat;
+}
+
+img{
+    vertical-align: top;
+    border: 0;
+}
+/* 单品详情页  */
+.stdpost{
+    position: relative;
+    width: 320px;
+    height: 420px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+/**
+ * dest width: 320 - 30 * 2 = 260
+ * dest height: 420 - 20 * 2 = 380
+ */
+.stdpost .detail{
+    position: absolute;
+    top: 0;
+    left: 305px;
+
+    width: 260px;
+    height: 360px;
+    padding: 40px 30px 20px;
+
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    opacity: 0.96;
+}
+.stdpost .title{
+    border-bottom: 1px dotted #000;
+    border-top: 2px solid #000;
+    font-size: 16px;
+    line-height: 30px;
+}
+.stdpost .content{
+    color: #7f7f7f;
+    line-height: 20px;
+    margin: 10px 0 20px;
+}
+.stdpost .content p{
+    margin-bottom: 10px;
+}
+.stdpost .price{
+    font-family: arial;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.stdpost .action a{
+    display: inline-block;
+    vertical-align: top;
+    background: #000;
+    color: #fff;
+    width: 90px;
+    height: 26px;
+    text-align: center;
+    line-height: 26px;
+    margin-right: 10px;
+}
+.stdpost .action a:hover{
+    text-decoration: none;
+}

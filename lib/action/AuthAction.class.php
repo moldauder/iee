@@ -49,8 +49,8 @@ class AuthAction extends Action{
             $this->login();
         }
 
-        $userModel = System::M('User');
-        $userData = $userModel->getUserByName($userName);
+        $userBiz = System::B('User');
+        $userData = $userBiz->getUserByName($userName);
 
         if(!$userData || $this->encryptPwd($pwd) !== $userData->pwd){
             $this->assign('errMsg', '用户名或密码错误');

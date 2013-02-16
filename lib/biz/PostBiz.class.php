@@ -29,7 +29,7 @@ class PostBiz extends Biz{
         }
 
         //是否回收站、首页等参数
-        foreach(array('trash', 'fp', 'pid') as $strKey){
+        foreach(array('trash', 'fp', 'pid', 'host') as $strKey){
             $strVal = $args[$strKey];
             if($strVal){
                 $db->where('post.' . $strKey, $strVal);
@@ -181,11 +181,21 @@ class PostBiz extends Biz{
         return $this->updateStatus('trash', $id, $value);
     }
 
-    public function remove($id){
-        return $this->getDBConnection()
-            ->table($this->tableName)
-            ->where('id in (' . $id . ')')
-            ->delete();
+    public function removePost($postObj){
+        $where = array();
+
+        $id = $postObj->id;
+        $where[] = 'id=' . $id;         //本身
+        $where[] = 'pid=' . $id;        //附属的项目（专辑等情况）
+
+        //删除过去的版本
+        $sid = $postObj->sid;
+        if('0' !== $sid){
+            $where[] = 'sid=' . $sid;
+            $where[] = 'id=' . $sid;
+        }
+
+        return $this->getDBConnection()->table($this->tableName)->where(implode(' or ', $where))->delete();
     }
 
     public function hasRightToEdit($id){
@@ -203,7 +213,7 @@ class PostBiz extends Biz{
     }
 
     //只读取文章信息，不读取关联的作者、专辑商品等信息
-    private function getPurePostById($id){
+    public function getPurePostById($id){
         return $this->getDBConnection()
             ->table($this->tableName)
             ->where('id', $id)
@@ -211,26 +221,26 @@ class PostBiz extends Biz{
     }
 
     //过滤掉不需要传递给前台的字段
-    public function filterResult($list){
-        $fields = array(
-            'pid',
-            'dotop',
-            'status',
-            'trash',
-            'img_key',
-            'img_crop',
-            'fp',
-            'lock',
-            'price_unit',
-            'content',
-            'host'
+    public function filterResult($list, $leftFields = ''){
+        $leftFields = $leftFields ? $leftFields : array(
+            'id',
+            'sid',
+            'author',
+            'modified',
+            'type',
+            'title',
+            'fullcontent',
+            'img',
+            'outer_url',
+            'buylink',
+            'nick'
         );
 
         $arr = array();
 
         foreach($list as $postObj){
             foreach($postObj as $property => $val){
-                if(is_null($val) || '' === $val || in_array($property, $fields)){
+                if(is_null($val) || '' === $val || !in_array($property, $leftFields)){
                     unset($postObj->$property);
                 }
             }
@@ -271,9 +281,19 @@ class PostBiz extends Biz{
                     $db->table($this->tableName)->data($item)->add();
                 }
             }
+
+            return $id;
         }
 
         return false;
+    }
+
+    public function updatePost($id, $data){
+        $this->getDBConnection()
+            ->table($this->tableName)
+            ->data($data)
+            ->where('id', $id)
+            ->save();
     }
 
 }

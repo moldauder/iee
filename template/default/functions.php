@@ -50,10 +50,10 @@ function getPostRootId($postObj){
  */
 function renderPost($postObj, $params = array()){
     $params = array_merge(array_merge(array(
-        'headerTag' => 'div',
-        'albumImgWidth' => 288,
+        'headerTag'      => 'div',
+        'albumImgWidth'  => 288,
         'albumImgHeight' => 378,
-        'lazyImg' => false
+        'lazyImg'        => false
     ), $params));
 
     $id = getPostRootId($postObj);
@@ -83,7 +83,9 @@ function renderPost($postObj, $params = array()){
     }
     $html .= '<ins class="post-share"></ins></div>';
 
-    //@todo 售罄标志
+    if('n' === $postObj->onsale){
+        $html .= '<ins class="off-sign"></ins>';
+    }
 
     $html .= '</div>';
     $html .= '</div>';
@@ -146,11 +148,12 @@ function renderTinyPost($postObj, $params = array()){
         $html .= '<div class="author"><s></s>' . $postObj->nick . '</div>';
     }
 
+    $html .= '</div>';
+
     if('album' === $postObj->type){
         $html .= '<s class="type-album"></s>';
     }
 
-    $html .= '</div>';
     $html .= '</a>';
 
     return $html;

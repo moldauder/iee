@@ -18,8 +18,8 @@ class SubmitAction extends AuthAction{
             return;
         }
 
-        $model = System::M('SubmitUrl');
-        $model->add(array(
+        $biz = System::B('Submit');
+        $biz->addSubmit(array(
             'url'     => $url,
             //'title' => getURLTitle($url),  //@todo 自动获取title
             'title'   => '',
