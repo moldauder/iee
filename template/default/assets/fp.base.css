@@ -17,7 +17,7 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
 .submiturl .close,
 #go-top s{
     /*background-image: url(http://pic.yupoo.com/iewei/Cy5jdxGp/3E2Ax.png);*/
-    background-image: url(/template/default/assets/res/s.png);
+    background-image: url(res/s.png);
     background-repeat: no-repeat;
 }
 

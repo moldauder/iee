@@ -119,7 +119,7 @@ class PostBiz extends Biz{
         return $this->getDBConnection()->table($this->tableName)
                 ->field('title,buylink,outer_url,img,content,fullcontent')
                 ->where('pid=' . $postId . " and type='albumitem'")
-                ->order('id desc')
+                ->order('id asc')
                 ->select();
     }
 

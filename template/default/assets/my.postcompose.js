@@ -18,12 +18,10 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
     Biz.submit = function(type){
         var self = this;
 
-        if(self.isSubmiting){
-            return;
-        }
-        self.isSubmiting = true;
-
         this.formEl.elements.operate.value = type;
+
+        var progress = new Modal.ProgressBar();
+        progress.show();
 
         self.checkObj.validate(function(isPass){
             if(isPass){
@@ -34,11 +32,11 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
                     dataType : 'json',
                     success  : function(data){
                         self.submitSuccess(data);
-                        self.isSubmiting = false;
+                        progress.hide();
                     },
                     error    : function(){
                         self.submitError();
-                        self.isSubmiting = false;
+                        progress.hide();
                     }
                 });
             }
@@ -104,7 +102,7 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
     Biz.getFeedbackModal = function(){
         if(!this.feedbackModal){
             this.feedbackModal = new Modal({
-                title: '撰写新文章',
+                title: DOM.text('#content h2'),
                 cls: 'postcompose-modal'
             });
         }

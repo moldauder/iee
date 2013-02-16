@@ -151,6 +151,83 @@ KISSY.add('iee/util.modal', function(S, DOM, Event, IO, Anim){
         }
     });
 
+    /**
+     * 进度指示
+     */
+    function ProgressBar(){
+    }
+
+    S.augment(ProgressBar, {
+        show: function(tip){
+            var self = this;
+            self._init();
+
+            self.tipEl.innerHTML = tip || '处理中...';
+
+            var idx = 0;
+            var lastEl;
+            var els = self.els;
+            var len = self.length;
+            DOM.removeClass(els);
+
+            self._stop();
+
+            var highlight = function(){
+                DOM.removeClass(lastEl, 'active');
+                lastEl = els[idx++];
+                DOM.addClass(lastEl, 'active');
+
+                if(idx >= len){
+                    idx = 0;
+                }
+
+                self.timer = S.later(highlight, 300);
+            };
+            highlight();
+
+            self.modal.show();
+        },
+        _stop: function(){
+            if(this.timer){
+                this.timer.cancel();
+            }
+        },
+        hide: function(){
+            if(this.modal){
+                this._stop();
+                this.modal.hide();
+            }
+        },
+        _init: function(){
+            if(this.modal){
+                return;
+            }
+            var html = '<div class="list">';
+            var i = 12;
+
+            do{
+                html += '<span></span>';
+                i--;
+            }while(i > 0);
+
+            html += '</div><div class="tip"></div>';
+
+            var modal = new Modal({
+                cls: 'progressbar',
+                body: html
+            });
+
+            var bodyEl = modal.bodyEl;
+            this.tipEl = DOM.get('div.tip', bodyEl);
+            this.els = DOM.children(DOM.get('div.list', bodyEl));
+            this.length = this.els.length;
+
+            this.modal = modal;
+        }
+    });
+
+    Modal.ProgressBar = ProgressBar;
+
     return Modal;
 }, {
     requires: [
@@ -158,4 +235,3 @@ KISSY.add('iee/util.modal', function(S, DOM, Event, IO, Anim){
         'iee/util.modal.css'
     ]
 });
-
