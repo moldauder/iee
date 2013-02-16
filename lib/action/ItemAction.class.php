@@ -466,7 +466,7 @@ class ItemAction extends AuthAction{
                 $albumItem['type'] ='albumitem';
 
                 $albumItem['content'] = $this->filterContent($albumItem['content']);
-                $postData['fullcontent']  = $postBiz->toDisplayContent($albumItem['content']);
+                $albumItem['fullcontent']  = $postBiz->toDisplayContent($albumItem['content']);
 
                 $outerUrlData = $this->_parseOuterUrl($albumItem['outer_url']);
                 if(!$outerUrlData){
