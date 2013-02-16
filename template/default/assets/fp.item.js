@@ -159,7 +159,7 @@ KISSY.add('iee/fp.item', function(S, DOM, Event, Anim, IO, Base){
         var albumEl = DOM.get('div.albumitem', root);
         if(!albumEl){ return; }
 
-        var triggers = DOM.children(root);
+        var triggers = DOM.children(albumEl);
         var data = [];
 
         S.each(triggers, function(el){

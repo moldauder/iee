@@ -34,13 +34,14 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
                     dataType : 'json',
                     success  : function(data){
                         self.submitSuccess(data);
+                        self.isSubmiting = false;
                     },
                     error    : function(){
                         self.submitError();
+                        self.isSubmiting = false;
                     }
                 });
             }
-            self.isSubmiting = false;
         });
     };
 
@@ -70,7 +71,7 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
             if(isPublish){
                 btns.push({
                     title : '查看文章',
-                    href: '/' + data.id
+                    href: '/' + (data.sid || data.id)
                 });
             }
 

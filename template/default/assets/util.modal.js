@@ -1,10 +1,7 @@
 /**
  * 模式对话框
  */
-KISSY.add('iee/util.modal', function(S, DOM, Event, IO){
-
-    var eles;
-    var isShow;
+KISSY.add('iee/util.modal', function(S, DOM, Event, IO, Anim){
 
     function Modal(params){
         this.init();
@@ -19,9 +16,11 @@ KISSY.add('iee/util.modal', function(S, DOM, Event, IO){
             DOM.addClass(this.el, params.cls);
             DOM.addClass(this.maskEl, params.cls + '-mask');
         }
+
+        this.params = params;
     }
 
-    S.augment(Modal, S.EventTarget, S.Base.Attribute, {
+    S.augment(Modal, S.EventTarget, {
         init: function(){
             var self = this;
 
@@ -81,7 +80,7 @@ KISSY.add('iee/util.modal', function(S, DOM, Event, IO){
                         if(vo.href){
                             footerHtml += '<a class="' + cls.join(' ') + '" ' + ' href="' + vo.href + '" ' + dismiss + ' target="' + (vo.target || '_blank') + '">' + vo.title + '</a>';
                         }else{
-                            footerHtml += '<span class="' + cls.join(' ') + '" ' + dismiss + ' data-act="' + vo.act + '">' + vo.title + '</span>';
+                            footerHtml += '<span tabindex="0" class="' + cls.join(' ') + '" ' + dismiss + ' data-act="' + vo.act + '">' + vo.title + '</span>';
                         }
                     });
                     this.footerEl.innerHTML = footerHtml;
@@ -110,17 +109,38 @@ KISSY.add('iee/util.modal', function(S, DOM, Event, IO){
             }, 'html');
         },
         show: function(){
-            this.el.style.visibility = 'visible';
-            this.maskEl.style.visibility = 'visible';
-            this.isShow = true;
-            this.center();
-            this.fire('show');
+            var self = this;
+
+            self.maskEl.style.visibility = 'visible';
+            self.el.style.visibility = 'visible';
+            self.isShow = true;
+            self.center();
+
+            if('fade' === self.params.effect){
+                DOM.css(self.el, 'opacity', 0);
+                (new Anim(self.el, {opacity: 1}, 0.6, 'easeOutString', function(){
+                    self.fire('show');
+                })).run();
+            }else{
+                self.fire('show');
+            }
         },
         hide: function(){
-            this.el.style.visibility = 'hidden';
-            this.maskEl.style.visibility = 'hidden';
-            this.isShow = false;
-            this.fire('hide');
+            var self = this;
+
+            self.isShow = false;
+            self.maskEl.style.visibility = 'hidden';
+
+            if('fade' === self.params.effect){
+                (new Anim(self.el, {opacity: 0}, 0.6, 'easeInString', function(){
+                    self.el.style.visibility = 'hidden';
+                    self.fire('hide');
+                })).run();
+            }else{
+                self.el.style.visibility = 'hidden';
+                self.fire('hide');
+            }
+
         },
         center: function(){
             var el = this.el;
@@ -134,7 +154,7 @@ KISSY.add('iee/util.modal', function(S, DOM, Event, IO){
     return Modal;
 }, {
     requires: [
-        'dom', 'event', 'ajax',
+        'dom', 'event', 'ajax', 'anim',
         'iee/util.modal.css'
     ]
 });

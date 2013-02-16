@@ -1,4 +1,4 @@
-KISSY.add('iee/util.album-editor', function(S, DOM, Event, Modal, Validation){
+KISSY.add('iee/util.album-editor', function(S, DOM, Event, Modal, Validation, Suggest){
 
     function AlbumEditor(el){
         this.el = DOM.get(el);
@@ -17,28 +17,28 @@ KISSY.add('iee/util.album-editor', function(S, DOM, Event, Modal, Validation){
                 body  : '<div class="album-item-list"><div class="album-editor-item empty" data-event="addItem">add</div></div>' +
                         '<div class="album-item-editor"><form>' +
                             '<div class="form-field">' +
-                                '<div class="field-hd"><label>标题</label></div>' +
-                                '<div class="field-bd"><input autocomplete="off" value="海鸥食堂 かもめ食堂" data-validate=\'["require"]\' type="text" name="title" /></div>' +
+                                '<div class="field-hd"><label for="albumEditorTitle">标题</label></div>' +
+                                '<div class="field-bd"><input id="albumEditorTitle" class="text" autocomplete="off" value="" data-validate=\'["require"]\' type="text" name="title" /></div>' +
                             '</div>' +
                             '<div class="form-field">' +
-                                '<div class="field-hd"><label>描述</label></div>' +
-                                '<div class="field-bd"><textarea type="text" name="content" data-validate=\'["require"]\'>我想练合气道</textarea></div>' +
+                                '<div class="field-hd"><label for="albumEditorContent">描述</label></div>' +
+                                '<div class="field-bd"><textarea id="albumEditorContent" class="text" type="text" name="content" data-validate=\'["require"]\'></textarea></div>' +
                             '</div>' +
                             '<div class="form-field">' +
-                                '<div class="field-hd"><label>图片</label></div>' +
-                                '<div class="field-bd"><input autocomplete="off" value="http://pic.yupoo.com/iewei/CCtEbRds/dVXmM.jpg" type="text" data-validate=\'["require"]\' name="img" /></div>' +
+                                '<div class="field-hd"><label for="albumEditorImg">图片</label></div>' +
+                                '<div class="field-bd"><input id="albumEditorImg" class="text" autocomplete="off" value="" type="text" data-validate=\'["require"]\' name="img" /></div>' +
                             '</div>' +
                             '<div class="form-field">' +
-                                '<div class="field-hd"><label>链接</label></div>' +
-                                '<div class="field-bd"><input autocomplete="off" value="http://v.youku.com/v_show/id_XMzY5Mjg4NTMy.html" type="text" data-validate=\'["require"]\' name="outer_url" /></div>' +
+                                '<div class="field-hd"><label for="albumEditorLink">链接</label></div>' +
+                                '<div class="field-bd"><input id="albumEditorLink" class="text" autocomplete="off" value="" type="text" data-validate=\'["require"]\' name="outer_url" /></div>' +
                             '</div>' +
                             '<div class="form-field">' +
                                 '<div class="field-hd"></div><div class="field-bd">' +
-                                '<span tabIndex="0" data-event="saveItem" class="btn">保存</span>' +
-                                '<span tabIndex="0" data-event="closeItemEditor" class="btn">取消</span>' +
+                                '<span tabindex="0" data-event="saveItem" class="btn">确定</span>' +
+                                '<span tabindex="0" data-event="closeItemEditor" class="btn">取消</span>' +
                             '</div></div>' +
                         '</form></div>',
-                footer : '<span class="btn btn-primary" data-event="save">确定</span><span class="btn" data-event="cancel">返回</span>'
+                footer : '<span tabindex="0" class="btn btn-primary" data-event="save">保存</span><span tabindex="0" class="btn" data-event="cancel">关闭</span>'
             });
 
             self.editorEl         = self.modal.bodyEl;
@@ -46,6 +46,28 @@ KISSY.add('iee/util.album-editor', function(S, DOM, Event, Modal, Validation){
             self.itemEditorEl     = DOM.get('div.album-item-editor', self.editorEl);
             self.itemEditorFormEl = DOM.get('form', self.itemEditorEl);
             self.checkObj         = new Validation(self.itemEditorFormEl);
+
+            //初始化自动完成
+            self.suggestObj = new Suggest('#albumEditorTitle', {
+                cls: 'suggest-albumitem',
+                url: '/item/fuzzy',
+                render: function(vo, keyword, idx){
+                    var title = vo.title.replace(new RegExp('(' + keyword + ')', 'ig'), '<span class="highlight">$1</span>');
+
+                    return '<div class="title" data-link="' + (vo.outer_url || '') + '" data-img="' + vo.img + '">' + title + '</div>' +
+                        '<div class="content">' + vo.content + '</div>';
+                }
+            });
+
+            self.suggestObj.on('select', function(vo){
+                var element = vo.element;
+                var titleEl = DOM.get('div.title', element);
+
+                DOM.val('#albumEditorTitle', DOM.text(titleEl));
+                DOM.val('#albumEditorImg', DOM.attr(titleEl, 'data-img'));
+                DOM.val('#albumEditorLink', DOM.attr(titleEl, 'data-link'));
+                DOM.val('#albumEditorContent', DOM.html(DOM.get('div.content', element)));
+            });
 
             //绑定编辑器浮层中的事件
             Event.on(self.modal.el, 'click', function(ev){
@@ -57,6 +79,7 @@ KISSY.add('iee/util.album-editor', function(S, DOM, Event, Modal, Validation){
 
             Event.on(DOM.get('a.album-editor-trigger', this.el), 'click', function(ev){
                 ev.halt();
+                self.closeItemEditor(); //弹开编辑器的时候，不要展示商品信息编辑的表单
                 self.modal.show();
             });
 
@@ -126,6 +149,8 @@ KISSY.add('iee/util.album-editor', function(S, DOM, Event, Modal, Validation){
                 for(var key in data){
                     DOM.val(elements[key], data[key]);
                 }
+            }else{
+                this.itemEditorFormEl.reset();
             }
 
             DOM.addClass(this.editorEl, 'album-editor-mode-edit');
@@ -160,6 +185,9 @@ KISSY.add('iee/util.album-editor', function(S, DOM, Event, Modal, Validation){
 
                     //收起
                     self.closeItemEditor();
+
+                    //重置表单
+                    self.itemEditorFormEl.reset();
 
                     //创建一个新的trigger
                     if(!DOM.children(self.itemListEl, '.empty').length){
@@ -254,6 +282,7 @@ KISSY.add('iee/util.album-editor', function(S, DOM, Event, Modal, Validation){
         'dom', 'event',
         'iee/util.modal',
         'iee/util.validation',
+        'iee/util.suggest',
         'iee/util.album-editor.css',
         'iee/util.modal.css'
     ]

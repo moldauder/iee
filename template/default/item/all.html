@@ -6,31 +6,12 @@ require '../my/header.html';
 <h2>文章列表</h2>
 <script>var queryvars={range:'<?php print $args['range'] ?>',type:'<?php print $args['type']; ?>',author:'<?php print $args['author']; ?>'};</script>
 <div class="toolbar">
-    <div class="toolbar-action">
-        <input type="checkbox" data-act="my.postlist/selectAll" />
-        <select class="batchAction"><?php
-            $actionOpts = array(
-                array('html' => '批量操作')
-            );
-            if(IS_SUPER_USER){
-                $actionOpts = array_merge($actionOpts, array(
-                    array('html' => '首页展现', 'value' => 'fp'),
-                    array('html' => '取消首页展现', 'value' => 'unfp'),
-                    array('html' => '锁定', 'value' => 'lock'),
-                    array('html' => '取消锁定', 'value' => 'unlock'),
-                ));
-            }
-            $actionOpts[] = array('html' => '移至回收站', 'value' => 'trash');
-            renderOptions($actionOpts);
-        ?></select>
-        <span tabindex="0" class="btn" data-act="postlist/batch">应用</span>
-    </div>
     <div class="toolbar-filter">
         <form class="filter-form">
             <input class="text" type="text" name="q" />
             <select name="range"><?php
             renderOptions(array(
-                array('html' => '全部状态', 'value' => 'all'),
+                array('html' => '全部状态'),
                 array('html' => '已发布', 'value' => 'publish'),
                 array('html' => '草稿箱', 'value' => 'draft'),
                 array('html' => '回收站', 'value' => 'trash'),
@@ -38,7 +19,7 @@ require '../my/header.html';
             ?></select>
             <select name="type"><?php
             renderOptions(array(
-                array('html' => '全部类型', 'value' => 'all'),
+                array('html' => '全部类型'),
                 array('html' => '文章', 'value' => 'post'),
                 array('html' => '专辑', 'value' => 'album')
             ), $args['type']);
@@ -57,6 +38,16 @@ require '../my/header.html';
                 renderOptions($authorOpts, $args['author']);
             ?></select>
             <?php endif; ?>
+            <select name="host"><?php
+                renderOptions(array(
+                    array('html' => '全部来源'),
+                    array('html' => '淘宝', 'value' => 'taobao'),
+                    array('html' => '天猫', 'value' => 'tmall'),
+                    array('html' => '虾米', 'value' => 'xiami'),
+                    array('html' => '豆瓣', 'value' => 'douban'),
+                    array('html' => '优酷', 'value' => 'youku'),
+                ), $args['host']);
+                ?></select>
             <span tabindex="0" class="btn" data-act="my.postlist/search">筛选</span>
         </form>
     </div>
@@ -70,6 +61,7 @@ $classMap = array(
 );
 foreach($postList as $vo):
     $id = $vo->id;
+    $sid = $vo->sid ? $vo->sid : $id;
 
     $cls = array('grid-item');
 
@@ -83,8 +75,7 @@ foreach($postList as $vo):
 ?>
 <div class="<?php print implode(' ', $cls); ?>" data-id="<?php print $vo->id; ?>">
     <div class="item-title">
-        <input type="checkbox" data-act="my.postlist/select" />
-        <a title="<?php print $vo->title; ?>" href="/item/edit/<?php print $id; ?>"><?php if('album' === $vo->type){ print '<sup>专辑</sup>'; } ?><?php print $vo->title; ?></a>
+        <a title="<?php print $vo->title; ?>" href="/item/edit/<?php print $sid; ?>"><?php if('album' === $vo->type){ print '<sup>专辑</sup>'; } ?><?php print $vo->title; ?></a>
     </div>
     <?php
     if(IS_SUPER_USER){
@@ -136,7 +127,7 @@ foreach($postList as $vo):
     <div class="history">由<span class="author"><?php print $vo->author === USERID ? '你' : $vo->nick; ?></span>最后编辑于<span class="modified"><?php print $vo->modified;?></span></div>
     <?php if(IS_SUPER_USER || 'n' === $vo->lock): ?>
     <div class="item-action">
-        <a href="/item/edit/<?php print $id; ?>" class="edit">编辑</a>
+        <a href="/item/edit/<?php print $sid; ?>" class="edit">编辑</a>
         <span data-url="/item/trash/<?php print $id; ?>/y" class="url trash" data-act="my.postlist/trash">移入回收站</span>
         <span data-url="/item/trash/<?php print $id; ?>/n" class="url untrash" data-act="my.postlist/untrash">移出回收站</span>
         <span data-url="/item/remove/<?php print $id; ?>" class="url remove" data-act="my.postlist/remove">永久删除</span>

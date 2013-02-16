@@ -1,6 +1,6 @@
 <?php
-$isEditMode = isset($postObj);
-$title = $isEditMode ? '编辑文章 &rsaquo; ' . $postObj->title : '撰写新文章';
+$isEditMode = (bool)$postObj->id;
+$title = $isEditMode ? ('编辑文章 &rsaquo; ' . $postObj->title) : '撰写文章';
 $css = 'my.postcompose.css';
 require '../my/header.html';
 ?>
@@ -13,8 +13,8 @@ require '../my/header.html';
     </div>
 
     <div class="toolbar">
-        <span class="btn" data-act="my.postcompose/save">保存草稿</span>
-        <span class="btn btn-primary" data-act="my.postcompose/publish">保存并发布</span>
+        <span tabindex="0" class="btn" data-act="my.postcompose/save">保存草稿</span>
+        <span tabindex="0" class="btn btn-primary" data-act="my.postcompose/publish">保存并发布</span>
     </div>
     <div class="grid">
         <div class="lft">
@@ -63,8 +63,8 @@ require '../my/header.html';
         </div>
     </div>
     <div class="toolbar">
-        <span class="btn" data-act="my.postcompose/save">保存草稿</span>
-        <span class="btn btn-primary" data-act="my.postcompose/publish">保存并发布</span>
+        <span tabindex="0" class="btn" data-act="my.postcompose/save">保存草稿</span>
+        <span tabindex="0" class="btn btn-primary" data-act="my.postcompose/publish">保存并发布</span>
     </div>
 </form>
 

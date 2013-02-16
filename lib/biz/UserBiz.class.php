@@ -29,6 +29,13 @@ class UserBiz extends Biz{
             ->selectOne();
     }
 
+    public function getUserByName($username){
+        return $this->getDBConnection()
+            ->table($this->tableName)
+            ->where('username', $username)
+            ->selectOne();
+    }
+
     public function getCurrentUser(){
         return USERID ? $this->getUserById(USERID) : null;
     }

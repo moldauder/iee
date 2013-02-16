@@ -160,3 +160,20 @@
 .album-editor-preview img{
     vertical-align: top;
 }
+
+/* 自动完成框 */
+.suggest-albumitem .suggest-list-item{
+    border-bottom: 1px dotted #ccc;
+}
+.suggest-albumitem .suggest-list-item:last-child{
+    border-bottom: 0;
+}
+.suggest-albumitem .title{
+    font-weight: bold;
+}
+.suggest-albumitem .content{
+    color: #999;
+}
+.suggest-albumitem .suggest-list-item.active .content{
+    color: #eee;
+}

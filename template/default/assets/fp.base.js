@@ -58,7 +58,7 @@ KISSY.add('iee/fp.base', function(S, DOM, Event){
                 createShareEl(holder, {
                     pic: DOM.attr(DOM.get('img', box), 'src'),
                     url: location.href, //标准情况下，分享对应的地址
-                    title: packShareText(DOM.html(DOM.get('.title', box)), Base.filterHtmlTag(DOM.html(DOM.get('div.content', box))))
+                    title: packShareText(DOM.html(DOM.get('.title', box)), DOM.text(DOM.get('div.content', box)))
                 });
             }
         });

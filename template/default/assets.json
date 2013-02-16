@@ -85,5 +85,18 @@
     },
     "util.validation": {
         "version": "1.0.0"
+    },
+    "util.suggest": {
+        "version": "1.0.0"
+    },
+    "util.suggest.css": {
+        "version": "1.0.0"
+    },
+
+    "smart.base.css": {
+        "version": "1.0.0"
+    },
+    "smart.item": {
+        "version": "1.0.0"
     }
 }

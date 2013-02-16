@@ -18,7 +18,31 @@ class ItemAction extends AuthAction{
             }
         }
 
-        //@todo 淘宝客等信息更新，当修改时间超过1周的时候，就执行更新
+        //淘宝客等信息更新, per 3.5 days
+        //86400 = one day
+        if(('tmall' === $postObj->host || 'taobao' === $postObj->host) && time() - strtotime($postObj->updated) > 302400){
+            $updateData = array(
+                'updated' => date('Y-m-d H:i:s')
+            );
+
+            $outerUrlData = $this->_parseOuterUrl($postObj->outer_url);
+            if($outerUrlData){
+                $postObj->outer_url  = $updateData['outer_url']  = $outerUrlData['url'];
+                $postObj->host       = $updateData['host']       = $outerUrlData['host'];
+                $postObj->buylink    = $updateData['buylink']    = $outerUrlData['buylink'];
+                $postObj->price      = $updateData['price']      = $outerUrlData['price'];
+                $postObj->price_unit = $updateData['price_unit'] = $outerUrlData['price_unit'];
+                $postObj->onsale     = $updateData['onsale']     = $outerUrlData['onsale'];
+            }
+
+            $biz->updatePost($postObj->id, $updateData);
+        }
+
+        //for mobile access, easy print
+        if($this->isMobile() && !$this->isTablet()){
+            $this->assign('postObj', $postObj);
+            $this->display('smart');
+        }
 
         $isAlbum = (bool)$postObj->albumItems;
 
@@ -79,7 +103,8 @@ class ItemAction extends AuthAction{
             'id'     => $_GET['id'],
             'q'      => $_GET['q'],
             'author' => $author,
-            'page'   => $_GET['page']
+            'page'   => $_GET['page'],
+            'host'   => $_GET['host']
         );
 
         $args['status'] = array('publish', 'draft');
@@ -88,13 +113,13 @@ class ItemAction extends AuthAction{
         if($range){
             if('trash' === $range){
                 $args['trash'] = 'y';
-            }else if('all' !== $range){
+            }else{
                 $args['status'] = array($range);
             }
         }
 
         $type = $_GET['type'];
-        if($type && 'all' !== $type){
+        if($type){
             $args['type'] = array($type);
         }else{
             $args['type'] = array('album', 'post');
@@ -291,14 +316,23 @@ class ItemAction extends AuthAction{
 
         $biz = System::B('Post');
 
-        if(!$biz->hasRightToEdit($id)){
+        $postObj = $biz->getPurePostById($id);
+
+        if(!$postObj){
+            $this->ajax(array(
+                'success' => false,
+                'msg' => '文章不存在'
+            ), 'json');
+        }
+
+        if(!$biz->isEditable($postObj)){
             $this->ajax(array(
                 'success' => false,
                 'msg' => '您没权足够的权限删除这些文章，请联系管理员'
             ), 'json');
         }
 
-        if($biz->remove($id)){
+        if($biz->removePost($postObj)){
             $this->ajax(array(
                 'success' => true
             ), 'json');
@@ -392,21 +426,21 @@ class ItemAction extends AuthAction{
             }
 
             $isInsert = false;
-            $biz->markRevision($postObj);
+            $postBiz->markRevision($postObj);
 
             $postData['lock']   = $postObj->lock;
             $postData['fp']     = $postObj->fp;
             $postData['trash']  = $postObj->trash;
             $postData['author'] = $postObj->author;
+            $postData['sid']    = $postObj->sid ? $postObj->sid : $postObj->id;
         }else{
             $postData['lock']   = 'n';
             $postData['fp']     = IS_SUPER_USER ? 'y' : 'n';
             $postData['trash']  = 'n';
             $postData['author'] = USERID;
-            $source = '0';
+            $postData['sid']    = 0;
         }
 
-        $postData['sid']      = $source;
         $postData['pid']      = 0;
         $postData['status']   = $operate;
         $postData['modified'] = date('Y-m-d H:i:s');
@@ -417,8 +451,8 @@ class ItemAction extends AuthAction{
             $postData['author'] = '6';  //thankyou account
         }
 
-        $postData['content'] = System::filterVar(trim($_POST['content']));
-        $postData['fullcontent']  = $biz->toDisplayContent($postData['content'], array(
+        $postData['content'] = $this->filterContent($_POST['content']);
+        $postData['fullcontent']  = $postBiz->toDisplayContent($postData['content'], array(
             'author_3rd' => $postData['author_3rd']
         ));
 
@@ -431,8 +465,8 @@ class ItemAction extends AuthAction{
                 $albumItem['pid'] = $postId;
                 $albumItem['type'] ='albumitem';
 
-                $albumItem['content'] = System::filterVar(trim($albumItem['content']));
-                $postData['fullcontent']  = $biz->toDisplayContent($albumItem['content']);
+                $albumItem['content'] = $this->filterContent($albumItem['content']);
+                $postData['fullcontent']  = $postBiz->toDisplayContent($albumItem['content']);
 
                 $outerUrlData = $this->_parseOuterUrl($albumItem['outer_url']);
                 if(!$outerUrlData){
@@ -454,13 +488,13 @@ class ItemAction extends AuthAction{
         }
 
         //写入文章
-        $postId = $biz->addPost($postData, array(
+        $postId = $postBiz->addPost($postData, array(
             'album' => $albumData
         ));
 
         if(false === $postId){
             $this->ajax(array(
-                'msg' => '保存文章失败',
+                'msg' => $postBiz->getDBError(),
                 'success' => false
             ), 'json');
         }
@@ -473,8 +507,39 @@ class ItemAction extends AuthAction{
 
         $this->ajax(array(
             'success' => true,
-            'id' => $postId
+            'id'      => $postId,
+            'sid'     => $postData['sid']
         ), 'json');
+    }
+
+    /**
+     * 模糊搜索接口
+     *
+     * 用于专辑搜索等
+     */
+    public function fuzzy(){
+        $q = $_GET['q'];
+        if(!$q){ exit; }
+
+        $this->checkLogin();
+
+        $biz = System::B('Post');
+        $list = $biz->find(array(
+            'q'      => $q,
+            'status' => 'publish',
+            'type'   => array('post', 'album'),
+            'trash'  => 'n',
+            'limit'  => 10
+        ));
+
+        $list = $biz->filterResult($list, array(
+            'title',
+            'content',
+            'outer_url',
+            'img'
+        ));
+
+        $this->ajax($list, 'json');
     }
 
     /**
@@ -492,12 +557,23 @@ class ItemAction extends AuthAction{
             'url' => $url
         );
 
-        $host = strtolower($info['host']);
+        $hostname = strtolower($info['host']);
+        $host = '';
 
-        if(in_array($host, array('item.taobao.com' || 'item.beta.taobao.com'))){
+        if(false !== strpos($hostname, '.taobao.')){
             $host = 'taobao';
-        }else if(in_array($host, array('item.tmall.com', 'detail.tmall.com'))){
+        }else if(false !== strpos($hostname, '.tmall.')){
             $host = 'tmall';
+        }else if(false !== strpos($hostname, '.douban.')){
+            $host = 'douban';
+        }else if(false !== strpos($hostname, '.xiami.')){
+            $host = 'xiami';
+        }else if(false !== strpos($hostname, '.youku.')){
+            $host = 'youku';
+        }
+
+        if($host){
+            $ret['host'] = $host;
         }
 
         if($host === 'taobao' ||  $host === 'tmall'){
@@ -508,12 +584,13 @@ class ItemAction extends AuthAction{
                 $taoke = new Taoke(System::config('taoke'));
                 $iteminfo = $taoke->getItem($item_id);
                 if(false !== $iteminfo){
-                    $iteminfo['host'] = $host;
-                    return $iteminfo;
+                    $ret['url']        = $iteminfo['detail_url'];
+                    $ret['buylink']    = $iteminfo['buylink'];
+                    $ret['price']      = $iteminfo['price'];
+                    $ret['price_unit'] = $iteminfo['price_unit'];
+                    $ret['onsale']     = $iteminfo['onsale'];
                 }
             }
-
-            $ret['host'] = $host;
         }
 
         return $ret;
@@ -533,6 +610,13 @@ class ItemAction extends AuthAction{
         $headers = implode(';', $headers);
         //目前所知的图片，content-type应该都是image/xxxx的形式，根据这个来判断图片是否有效
         return preg_match('/\bimage\/\w+/', $headers);
+    }
+
+    //调整内容，去掉多余的换行
+    private function filterContent($content){
+        $content = System::filterVar($content);
+        $content = preg_replace('/[\n\r]+/', "\n\r", $content); //过多的换行变成一个
+        return $content;
     }
 
 }
