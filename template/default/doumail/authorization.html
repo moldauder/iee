@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>豆瓣站内信  &rsaquo; <?php print System::config('site_name'); ?></title>
+</head>
+<body>
+    <?php
+    $queryStr = http_build_query(array(
+        'client_id' => $config['apikey'],
+        'redirect_uri' => '',
+        'response_type' => 'code',
+        'scope' => 'douban_basic_common,community_advanced_doumail_w'
+    ));
+    ?>
+    <a href="https://www.douban.com/service/auth2/auth?<?php print $queryStr; ?>"><img style="border:0" src="http://img3.douban.com/pics/douban-icons/login_with_douban_24.png" /></a>
+</body>
+</html>
