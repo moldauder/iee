@@ -33,9 +33,8 @@ class ItemAction extends AuthAction{
                 $postObj->price      = $updateData['price']      = $outerUrlData['price'];
                 $postObj->price_unit = $updateData['price_unit'] = $outerUrlData['price_unit'];
                 $postObj->onsale     = $updateData['onsale']     = $outerUrlData['onsale'];
+                $biz->updatePost($postObj->id, $updateData);
             }
-
-            $biz->updatePost($postObj->id, $updateData);
         }
 
         //for mobile access, easy print
