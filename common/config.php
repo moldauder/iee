@@ -19,4 +19,6 @@ return array(
         'appSecret' => 'ede538d3fb343c90bd1427b79803f18f',
         'userNick' => 'fattyq'
     ),
+
+    'autoUpdateTaoke' => true
 );
