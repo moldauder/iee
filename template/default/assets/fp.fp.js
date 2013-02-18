@@ -44,7 +44,7 @@ KISSY.add('iee/fp.fp', function(S, DOM, Event, IO, Base, Waterfall, Submit){
                             S.each(data, function(vo, idx){
                                 last_post_id = vo.id;
 
-                                html += '<a href="/' + (vo.sid||vo.id) + '" class="pin">' +
+                                html += '<a href="/' + ('0' !== vo.sid ? vo.sid : vo.id) + '" class="pin">' +
                                     '<img ' + (idx < 3 ? 'src' : 'data-lazy') + '="' + vo.img + '" width="320" height="420" />' +
                                     '<div class="extra">' +
                                         '<div class="mask"></div>' +
