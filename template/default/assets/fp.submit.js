@@ -40,6 +40,7 @@ KISSY.add('iee/fp.submit', function(S, DOM, Event, IO, Anim){
                 self._hide();
             }else{
                 isExpand = true;
+                DOM.removeClass(DOM.query('div.field-focus', self._el), 'field-focus');
                 (new Anim(self._el, {
                     height: DOM.outerHeight(self._container)
                 }, 0.6, 'easeOutStrong', function(){
