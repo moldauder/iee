@@ -1,6 +1,6 @@
 <?php
 return array(
-    'debug_mode'  => true,
+    'debug_mode'  => false,
     'site_name'   => 'iee',
 
     'db_host'     => '127.0.0.1',
