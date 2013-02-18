@@ -443,7 +443,7 @@ class ItemAction extends AuthAction{
 
         $postData['pid']      = 0;
         $postData['status']   = $operate;
-        $postData['modified'] = date('Y-m-d H:i:s');
+        $postData['updated'] = $postData['modified'] = date('Y-m-d H:i:s');
 
         //第三方作者修订
         $postData['author_3rd'] = System::filterVar($_POST['author_3rd']);
