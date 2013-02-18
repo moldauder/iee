@@ -20,22 +20,22 @@ class ItemAction extends AuthAction{
 
         //淘宝客等信息更新, per 3.5 days
         //86400 = one day
-        //if(('tmall' === $postObj->host || 'taobao' === $postObj->host) && time() - strtotime($postObj->updated) > 302400){
-            //$updateData = array(
-                //'updated' => date('Y-m-d H:i:s')
-            //);
+        if(System::config('autoUpdateTaoke') && ('tmall' === $postObj->host || 'taobao' === $postObj->host) && time() - strtotime($postObj->updated) > 302400){
+            $updateData = array(
+                'updated' => date('Y-m-d H:i:s')
+            );
 
-            //$outerUrlData = $this->_parseOuterUrl($postObj->outer_url);
-            //if($outerUrlData){
-                //$postObj->outer_url  = $updateData['outer_url']  = $outerUrlData['url'];
-                //$postObj->host       = $updateData['host']       = $outerUrlData['host'];
-                //$postObj->buylink    = $updateData['buylink']    = $outerUrlData['buylink'];
-                //$postObj->price      = $updateData['price']      = $outerUrlData['price'];
-                //$postObj->price_unit = $updateData['price_unit'] = $outerUrlData['price_unit'];
-                //$postObj->onsale     = $updateData['onsale']     = $outerUrlData['onsale'];
-                //$biz->updatePost($postObj->id, $updateData);
-            //}
-        //}
+            $outerUrlData = $this->_parseOuterUrl($postObj->outer_url);
+            if($outerUrlData && $outerUrlData['url']){
+                $postObj->outer_url  = $updateData['outer_url']  = $outerUrlData['url'];
+                $postObj->host       = $updateData['host']       = $outerUrlData['host'];
+                $postObj->buylink    = $updateData['buylink']    = $outerUrlData['buylink'];
+                $postObj->price      = $updateData['price']      = $outerUrlData['price'];
+                $postObj->price_unit = $updateData['price_unit'] = $outerUrlData['price_unit'];
+                $postObj->onsale     = $updateData['onsale']     = $outerUrlData['onsale'];
+                $biz->updatePost($postObj->id, $updateData);
+            }
+        }
 
         //for mobile access, easy print
         if($this->isMobile() && !$this->isTablet()){
