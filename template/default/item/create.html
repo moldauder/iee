@@ -1,5 +1,5 @@
 <?php
-$isEditMode = (bool)$postObj->id;
+$isEditMode = isset($postObj);
 $title = $isEditMode ? ('编辑文章 &rsaquo; ' . $postObj->title) : '撰写文章';
 $css = 'my.postcompose.css';
 require '../my/header.html';

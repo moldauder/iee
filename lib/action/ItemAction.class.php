@@ -153,22 +153,24 @@ class ItemAction extends AuthAction{
     public function create(){
         $this->checkLogin();
 
-        $postObj = new StdClass();
 
         $submit = $_GET['submit'];
         if(preg_match('/^\d+$/', $submit)){     //来自Submit
             $biz = System::B('Submit');
             $submitObj = $biz->getSubmitById($submit);
             if($submitObj){
+                $postObj = new StdClass();
+
                 $postObj->submit     = $submit;
                 $postObj->author_3rd = $submitObj->nick;
                 $postObj->outer_url  = $submitObj->url;
                 $postObj->content    = $submitObj->remark;
                 $postObj->title      = $submitObj->title;
+
+                $this->assign('postObj', $postObj);
             }
         }
 
-        $this->assign('postObj', $postObj);
         $this->display();
     }
 
