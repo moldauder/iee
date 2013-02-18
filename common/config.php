@@ -20,5 +20,5 @@ return array(
         'userNick' => 'fattyq'
     ),
 
-    'autoUpdateTaoke' => true
+    'auto_update_taoke' => true
 );
