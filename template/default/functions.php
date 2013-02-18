@@ -83,7 +83,7 @@ function renderPost($postObj, $params = array()){
     }
     $html .= '<ins class="post-share"></ins></div>';
 
-    if('n' === $postObj->onsale){
+    if($link && 'n' === $postObj->onsale){
         $html .= '<ins class="off-sign"></ins>';
     }
 
