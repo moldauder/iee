@@ -582,7 +582,7 @@ class ItemAction extends AuthAction{
             parse_str(strtolower($info['query']), $query);
             $item_id = $query['id'];
             if(preg_match('/^\d+$/', $item_id)){
-                System::importVendor('taoke');
+                System::importVendor('Taoke');
                 $taoke = new Taoke(System::config('taoke'));
                 $iteminfo = $taoke->getItem($item_id);
                 if(false !== $iteminfo){
