@@ -69,7 +69,7 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
             if(isPublish){
                 btns.push({
                     title : '查看文章',
-                    href: '/' + (data.sid || data.id)
+                    href: '/' + ('0' !== data.sid ?  data.sid : data.id)
                 });
             }
 
