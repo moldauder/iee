@@ -10,4 +10,7 @@ $assetTool->import('fp,waterfall,submit');
     'lazyImg' => $idx > 5
 )); }; ?></div><div id="loading"></div></div>
 <?php if(isset($startId)):?><script>var startId='<?php print $startId; ?>';</script><?php endif; ?>
+<?php
+$assetTool->import('fp.fp,fp.waterfall,fp.submit');
+?>
 <?php $initJSMod = 'fp.fp'; require '../common/footer.html';

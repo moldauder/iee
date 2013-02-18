@@ -1,0 +1,1 @@
+.suggest-list{position:absolute;z-index:499;background:#fff;border:1px solid #817f82;overflow-y:auto}.suggest-list-item{cursor:pointer;padding:4px}.suggest-list-item.active{background:#39F;color:#fff}.suggest-list-item .highlight{background-color:#fffb00}.suggest-list-item.active .highlight{background-color:#39F}
