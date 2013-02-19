@@ -585,7 +585,6 @@ class ItemAction extends AuthAction{
                 $taoke = new Taoke(System::config('taoke'));
                 $iteminfo = $taoke->getItem($item_id);
                 if(false !== $iteminfo){
-                    Logger::record('taoke: get iteminfo with id=' . $item_id, Logger::ERR, '. return url='.$iteminfo['detail_url']);
                     $ret['url']        = $iteminfo['detail_url'];
                     $ret['buylink']    = $iteminfo['buylink'];
                     $ret['price']      = $iteminfo['price'];
