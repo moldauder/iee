@@ -64,6 +64,9 @@
     "my.postcompose": {
         "version": "1.0.1"
     },
+    "my.category": {
+        "version": "1.0.0"
+    },
     "my.account": {
         "version": "1.0.0"
     },

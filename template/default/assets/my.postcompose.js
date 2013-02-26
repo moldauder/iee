@@ -1,10 +1,12 @@
-KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
+KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, Category){
 
     var Biz = {};
 
     Biz.init = function(){
         this.formEl = DOM.get('#postComposeForm');
         this.checkObj = new Validation(this.formEl);
+
+        Category.init();
     };
 
     Biz.publish = function(){
@@ -121,6 +123,7 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
     requires: [
         'dom', 'event', 'ajax',
         'iee/util.modal',
-        'iee/util.validation'
+        'iee/util.validation',
+        'iee/my.category'
     ]
 });

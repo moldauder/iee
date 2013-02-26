@@ -170,7 +170,7 @@ class ItemAction extends AuthAction{
             }
         }
 
-        $this->display();
+        $this->_displayCreate();
     }
 
     public function _empty(){
@@ -217,6 +217,14 @@ class ItemAction extends AuthAction{
         }
 
         $this->assign('postObj', $postObj);
+        $this->_displayCreate();
+    }
+
+    private function _displayCreate(){
+        /* 查询分类信息 */
+        $catBiz = System::B('Category');
+        $this->assign('categoryList', $catBiz->find());
+
         $this->display('create');
     }
 
