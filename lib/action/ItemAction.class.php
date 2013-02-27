@@ -170,7 +170,7 @@ class ItemAction extends AuthAction{
             }
         }
 
-        $this->display();
+        $this->_displayCreate();
     }
 
     public function _empty(){
@@ -217,6 +217,18 @@ class ItemAction extends AuthAction{
         }
 
         $this->assign('postObj', $postObj);
+
+        //查询分类信息
+        $this->assign('category', $biz->getPostCatIds($postObj->id));
+
+        $this->_displayCreate();
+    }
+
+    private function _displayCreate(){
+        /* 查询分类信息 */
+        $catBiz = System::B('Category');
+        $this->assign('categoryList', $catBiz->find());
+
         $this->display('create');
     }
 
@@ -490,7 +502,8 @@ class ItemAction extends AuthAction{
 
         //写入文章
         $postId = $postBiz->addPost($postData, array(
-            'album' => $albumData
+            'album' => $albumData,
+            'category' => $_POST['category']
         ));
 
         if(false === $postId){
