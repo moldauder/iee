@@ -56,8 +56,12 @@
     min-width: 32px;
     position: relative;
     overflow: hidden;
-    line-height: 18px;
 }
+.category .item span:hover{
+    border-color: #aaa;
+    color: #666;
+}
+
 .category .item ins{
     position: absolute;
     bottom: -4px;
@@ -78,4 +82,14 @@
 }
 .category .item span.selected ins{
     visibility: visible;
+}
+
+.category .item s{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
 }

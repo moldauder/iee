@@ -12,21 +12,39 @@ KISSY.add('iee/my.category', function(S, DOM, Event){
         var el = self.el;
         var boxMap = {};
 
+        self.valueEl = DOM.get('input', el);
+
+        var selected = {};
+        S.each(self.valueEl.value.split(','), function(p){
+            selected[p] = true;
+        });
+
         S.each(data, function(vo){
             var ns = vo.name.split('/');
 
             var boxEl = boxMap[ns[0]];
             if(!boxEl){
                 boxEl = DOM.create('<div class="item"></div>');
-                boxEl.innerHTML = '<input type="hidden" name="category[]" />';
                 el.appendChild(boxEl);
                 boxMap[ns[0]] = boxEl;
             }
 
             var itemEl = DOM.create('<span></span>');
+            var type = vo.type;
+            var style = '';
+
+            if('color' === type){
+                style = 'background:' + vo.value;
+            }
+
+            if(style){
+                style = ' style="' + style + '"';
+            }
+
+            itemEl.className = 'trigger' + (vo.id in selected ? ' selected' : '');
             DOM.attr(itemEl, 'data-id', vo.id);
             DOM.attr(itemEl, 'title', ns.join(': '));
-            itemEl.innerHTML = ns.pop() + '<ins></ins>';
+            itemEl.innerHTML = ns.pop() + '<s' + style + '></s><ins></ins>';
 
             boxEl.appendChild(itemEl);
         });
@@ -36,10 +54,24 @@ KISSY.add('iee/my.category', function(S, DOM, Event){
         });
     };
 
+    //一组里只能选中一个
     Biz.select = function(trigger){
-        var isSelected = DOM.hasClass(trigger, 'selected');
+        var root = trigger.parentNode;
 
-        DOM[isSelected ? 'removeClass' : 'addClass'](trigger, 'selected');
+        if(DOM.hasClass(trigger, 'selected')){
+            //由选中变成未选中
+            DOM.removeClass(trigger, 'selected');
+        }else{
+            DOM.removeClass(DOM.query('span.trigger', root), 'selected');
+            DOM.addClass(trigger, 'selected');
+        }
+
+        //set value
+        var val = [];
+        S.each(DOM.query('span.selected', this.el), function(span){
+            val.push(DOM.attr(span, 'data-id'));
+        });
+        this.valueEl.value = val.join(',');
     };
 
     return Biz;
