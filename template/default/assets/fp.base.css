@@ -15,7 +15,7 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
 .stdpage a,
 .submiturl button,
 .submiturl .close,
-#go-top s{
+.gotop{
     /*background-image: url(http://pic.yupoo.com/iewei/Cy5jdxGp/3E2Ax.png);*/
     background-image: url(res/s.png);
     background-repeat: no-repeat;
@@ -91,8 +91,21 @@ html{ overflow-y:scroll; }
 
 #colophon{ background: #f0f0f0; height: 64px; line-height: 64px; text-align: center; color: #333; font-weight: bold; border-top: 1px solid #ddd; padding: 20px 0; }
 
-#go-top{ position: fixed; right: 6px; bottom: 9px; width: 67px; height: 60px; z-index: 100; outline: none; display: none; cursor: pointer; }
-#go-top s{ display: block; width: 67px; height: 60px; background-position: -16px -125px; }
+.gotop{
+    position: fixed;
+    right: 6px;
+    bottom: 9px;
+    width: 67px;
+    height: 60px;
+    z-index: 100;
+    outline: none;
+    display: none;
+    cursor: pointer;
+    background-position: -16px -125px;
+}
+.gotop-hover{
+    background: url(http://pic.yupoo.com/iewei/Cam6yIZo/XryK.gif) no-repeat;
+}
 
 #loading{ clear: both; padding: 40px 0; text-align: center; }
 #loading p.end{ width: 54px; height: 47px; margin: 0 auto; background-position: -50px -52px;  }

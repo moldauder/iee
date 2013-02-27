@@ -34,6 +34,13 @@ require '../my/header.html';
                 <div class="field-hd"><label for="outer_url">链接</label></div>
                 <div class="field-bd"><input type="text" id="outer_url" name="outer_url" class="text" value="<?php print $isEditMode ? $postObj->outer_url : ''; ?>" /></div>
             </div>
+            <div class="form-field">
+                <div class="field-hd"><label for="category">分类</label></div>
+                <div class="field-bd category" id="category">
+                    <script>var categoryList=<?php print System::JSON($categoryList); ?>;</script>
+                    <input type="hidden" name="category" value="<?php print $isEditMode ? $category : '';  ?>" />
+                </div>
+            </div>
             <?php if(IS_SUPER_USER): ?>
             <div class="form-field">
                 <div class="field-hd"><label for="author_3rd">第三方作者</label></div>
