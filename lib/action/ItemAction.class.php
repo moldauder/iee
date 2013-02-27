@@ -217,6 +217,10 @@ class ItemAction extends AuthAction{
         }
 
         $this->assign('postObj', $postObj);
+
+        //查询分类信息
+        $this->assign('category', $biz->getPostCatIds($postObj->id));
+
         $this->_displayCreate();
     }
 
@@ -498,7 +502,8 @@ class ItemAction extends AuthAction{
 
         //写入文章
         $postId = $postBiz->addPost($postData, array(
-            'album' => $albumData
+            'album' => $albumData,
+            'category' => $_POST['category']
         ));
 
         if(false === $postId){
