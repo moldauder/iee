@@ -3,15 +3,13 @@ KISSY.add('iee/fp.gotop', function(S, DOM, Event, Anim){
     var GoTop = {};
 
     GoTop.init = function(){
-        var el = DOM.create('<span id="go-top" hideFocus="true" href="#top"></span>');
+        var el = DOM.create('<span class="gotop" hideFocus="true"></span>');
         var gif = 'http://pic.yupoo.com/iewei/Cam6yIZo/XryK.gif';
-        var staticHtml = '<s></s>';
-        var dynamicHtml = '<img src="' + gif + '" width="67" height="60" />';
         var status = 'hide';
 
-        new Image().src = gif;
+        new Image().src = 'http://pic.yupoo.com/iewei/Cam6yIZo/XryK.gif';
 
-        Event.on(el, 'mousedown', S.UA.ie ? function(){
+        Event.on(el, 'click', S.UA.ie ? function(){
             window.scrollTo(0,0);
             this.style.display = 'none';
             status = 'hide';
@@ -23,17 +21,16 @@ KISSY.add('iee/fp.gotop', function(S, DOM, Event, Anim){
         });
 
         Event.on(el, 'mouseenter', function(){
-            el.innerHTML = dynamicHtml;
+            DOM.addClass(this, 'gotop-hover');
         });
 
         Event.on(el, 'mouseleave', function(){
-            el.innerHTML = staticHtml;
+            DOM.removeClass(this, 'gotop-hover');
         });
 
         Event.on(window, 'scroll', function(){
             var scrollTop = DOM.scrollTop();
             if(scrollTop > 200 && status !== 'show'){
-                el.innerHTML = staticHtml;
                 el.style.display = 'block';
                 status = 'show';
                 (new Anim(el, {opacity: 0.9}, 0.4, 'easeOut')).run();
@@ -50,7 +47,6 @@ KISSY.add('iee/fp.gotop', function(S, DOM, Event, Anim){
         S.ready(function(){
             document.body.appendChild(el);
         });
-
     };
 
     return GoTop;

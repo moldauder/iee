@@ -115,6 +115,20 @@ class PostBiz extends Biz{
         return $postObj;
     }
 
+    public function getPostCatIds($postId){
+        $list = $this->getDBConnection()->table('^post_category')
+            ->where('post=' . $postId)
+            ->select();
+
+        $val = array();
+
+        foreach($list as $vo){
+            $val[] = $vo->category;
+        }
+
+        return implode(',', $val);
+    }
+
     public function findAlbumItem($postId){
         return $this->getDBConnection()->table($this->tableName)
                 ->field('title,buylink,outer_url,img,content,fullcontent')
@@ -279,6 +293,19 @@ class PostBiz extends Biz{
                 foreach($data['album'] as $item){
                     $item['pid'] = $id;
                     $db->table($this->tableName)->data($item)->add();
+                }
+            }
+
+            if($data['category']){
+                foreach(explode(',', $data['category']) as $cat){
+                    if(!preg_match('/^\d[1-9]*$/', $cat)){
+                        continue;
+                    }
+
+                    $db->table('^post_category')->data(array(
+                        'post' => $id,
+                        'category' => $cat
+                    ))->add();
                 }
             }
 

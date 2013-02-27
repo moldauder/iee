@@ -12,7 +12,7 @@
         "version": "1.0.0"
     },
     "fp.gotop":{
-        "version": "1.0.0"
+        "version": "1.0.1"
     },
     "fp.waterfall": {
         "version": "1.0.0"
@@ -46,7 +46,7 @@
         "version": "1.0.0"
     },
     "my.postcompose.css": {
-        "version": "1.0.0"
+        "version": "1.0.1"
     },
     "my.submit": {
         "version": "1.0.0"
@@ -62,7 +62,10 @@
         "version": "1.0.0"
     },
     "my.postcompose": {
-        "version": "1.0.1"
+        "version": "1.0.2"
+    },
+    "my.category": {
+        "version": "1.0.0"
     },
     "my.account": {
         "version": "1.0.0"
