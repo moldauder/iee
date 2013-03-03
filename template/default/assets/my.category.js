@@ -58,15 +58,12 @@ KISSY.add('iee/my.category', function(S, DOM, Event){
         });
     };
 
-    //一组里只能选中一个
     Biz.select = function(trigger){
         var root = trigger.parentNode;
 
         if(DOM.hasClass(trigger, 'selected')){
-            //由选中变成未选中
             DOM.removeClass(trigger, 'selected');
         }else{
-            DOM.removeClass(DOM.query('span.trigger', root), 'selected');
             DOM.addClass(trigger, 'selected');
         }
 
