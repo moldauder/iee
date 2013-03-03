@@ -99,11 +99,12 @@ class ItemAction extends AuthAction{
         }
 
         $args = array(
-            'id'     => $_GET['id'],
-            'q'      => $_GET['q'],
-            'author' => $author,
-            'page'   => $_GET['page'],
-            'host'   => $_GET['host']
+            'id'      => $_GET['id'],
+            'q'       => $_GET['q'],
+            'author'  => $author,
+            'page'    => $_GET['page'],
+            'host'    => $_GET['host'],
+            'has_cat' => $_GET['has_cat']
         );
 
         $args['status'] = array('publish', 'draft');
@@ -151,7 +152,6 @@ class ItemAction extends AuthAction{
 
     public function create(){
         $this->checkLogin();
-
 
         $submit = $_GET['submit'];
         if(preg_match('/^\d+$/', $submit)){     //来自Submit

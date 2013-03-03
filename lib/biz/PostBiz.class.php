@@ -36,6 +36,11 @@ class PostBiz extends Biz{
             }
         }
 
+        //未分类特别处理
+        if('n' === $args['has_cat']){
+            $db->where('post.has_cat', 'n');
+        }
+
         //置顶
         $dotop = false;
         if(array_key_exists('dotop', $args)){
@@ -297,15 +302,24 @@ class PostBiz extends Biz{
             }
 
             if($data['category']){
+                $hasCat = false;
                 foreach(explode(',', $data['category']) as $cat){
                     if(!preg_match('/^\d[1-9]*$/', $cat)){
                         continue;
                     }
 
-                    $db->table('^post_category')->data(array(
+                    if($db->table('^post_category')->data(array(
                         'post' => $id,
                         'category' => $cat
-                    ))->add();
+                    ))->add()){
+                        $hasCat = true;
+                    }
+                }
+
+                if($hasCat){
+                    $db->table($this->tableName)->data(array(
+                        'has_cat' => 'y'
+                    ))->where('id=' . $id)->save();
                 }
             }
 

@@ -13,7 +13,9 @@
 .grid-item .item-title sup{
     font-weight: normal;
     color: #b20000;
-    padding-right: 2px;
+    padding-right: 3px;
+    position: relative;
+    top: -4px;
 }
 .grid-item .mark{
     margin-bottom: 5px;

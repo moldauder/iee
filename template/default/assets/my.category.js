@@ -34,7 +34,11 @@ KISSY.add('iee/my.category', function(S, DOM, Event){
             var style = '';
 
             if('color' === type){
-                style = 'background:' + vo.value;
+                if('#' === vo.value.substr(0, 1)){
+                    style = 'background:' + vo.value;
+                }else{
+                    style = 'background-image:' + vo.value;
+                }
             }
 
             if(style){
