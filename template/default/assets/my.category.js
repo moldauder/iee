@@ -1,4 +1,4 @@
-KISSY.add('iee/my.category', function(S, DOM, Event){
+KISSY.add('iee/my.category', function(S, DOM, Event, IO){
 
     var Biz = {};
 
@@ -75,9 +75,34 @@ KISSY.add('iee/my.category', function(S, DOM, Event){
         this.valueEl.value = val.join(',');
     };
 
+    Biz.update = function(trigger){
+        IO({
+            type: 'post',
+            url: '/item/put',
+            data: {
+                category: this.valueEl.value,
+                id: this.valueEl.form.elements['id'].value
+            },
+            success: function(data){
+                var tipEl = DOM.next(trigger, 'span.tip');
+                if(!tipEl){
+                    tipEl = DOM.create('<span class="tip"></span>');
+                    DOM.insertAfter(tipEl, trigger);
+                }
+
+                var html = '文章分类更新成功！';
+                if(!data.success){
+                    html = data.msg;
+                }
+
+                tipEl.innerHTML = html;
+            }
+        });
+    };
+
     return Biz;
 }, {
     requires: [
-        'dom', 'event'
+        'dom', 'event', 'ajax'
     ]
 });

@@ -358,6 +358,48 @@ class ItemAction extends AuthAction{
     }
 
     /**
+     * 更新文章，而不影响排序
+     */
+    public function put(){
+        $this->checkLogin();
+
+        $id = System::filterVar($_POST['id']);
+        $postBiz = System::B('Post');
+        $postObj = $postBiz->getPurePostById($id);
+
+        if(!IS_SUPER_USER){
+            if($postObj->author !== USERID){
+                $this->ajax(array(
+                    'msg' => '您没有权限编辑这篇文章',
+                    'success' => false
+                ), 'json');
+            }
+
+            if('y' === $postObj->lock){
+                $this->ajax(array(
+                    'msg' => '文章已经被锁定，请联系管理员',
+                    'success' => false
+                ), 'json');
+            }
+        }
+
+        //准备更新数据，目前只支持cateogry更新
+        $category = System::filterVar($_POST['category']);
+        if($category){
+            if(false !== $postBiz->updateCategory($id, $category)){
+                $this->ajax(array(
+                    'success' => true
+                ), 'json');
+            }else{
+                $this->ajax(array(
+                    'msg' => $postBiz->getDBError(),
+                    'success' => false
+                ), 'json');
+            }
+        }
+    }
+
+    /**
      * 保存文章
      */
     public function save(){

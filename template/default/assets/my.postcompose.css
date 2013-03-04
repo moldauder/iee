@@ -94,3 +94,12 @@
     border-radius: 3px;
     background-position: 50% 50%;
 }
+.category .tip{
+    display: inline-block;
+    *display: inlien;
+    *zoom: 1;
+    height: 23px;
+    line-height: 23px;
+    vertical-align: middle;
+    color: #aaa;
+}

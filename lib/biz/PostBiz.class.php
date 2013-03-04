@@ -302,31 +302,38 @@ class PostBiz extends Biz{
             }
 
             if($data['category']){
-                $hasCat = false;
-                foreach(explode(',', $data['category']) as $cat){
-                    if(!preg_match('/^\d[1-9]*$/', $cat)){
-                        continue;
-                    }
-
-                    if($db->table('^post_category')->data(array(
-                        'post' => $id,
-                        'category' => $cat
-                    ))->add()){
-                        $hasCat = true;
-                    }
-                }
-
-                if($hasCat){
-                    $db->table($this->tableName)->data(array(
-                        'has_cat' => 'y'
-                    ))->where('id=' . $id)->save();
-                }
+                $this->updateCategory($id, $data['category']);
             }
 
             return $id;
         }
 
         return false;
+    }
+
+    public function updateCategory($postId, $category){
+        $db = $this->getDBConnection();
+
+        //remove已有的数据
+        $db->table('^post_category')->where('post', $postId)->delete();
+
+        $hasCat = false;
+        foreach(explode(',', $category) as $cat){
+            if(!preg_match('/^\d[1-9]*$/', $cat)){
+                continue;
+            }
+
+            if($db->table('^post_category')->data(array(
+                'post' => $postId,
+                'category' => $cat
+            ))->add()){
+                $hasCat = true;
+            }
+        }
+
+        $db->table($this->tableName)->data(array(
+            'has_cat' => $hasCat ? 'y' : 'n'
+        ))->where('id=' . $postId)->save();
     }
 
     public function updatePost($id, $data){
