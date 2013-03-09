@@ -20,7 +20,6 @@ renderCategory($categoryList, array(
     'curCatObj' => isset($catObj) ? $catObj : null
 ));
 ?>
-<div class="col-width">
 <div id="pi"><div id="waterfall" class="waterfall"><?php foreach($list as $idx=>$obj){ print renderTinyPost($obj, array(
     'lazyImg' => $idx > 5
 )); }; ?></div><div id="loading"></div></div>
@@ -29,7 +28,6 @@ if(isset($startId)){
     print 'var startId=' . $startId . ';';
 }
 ?></script>
-</div>
 <?php
 $assetTool->import('fp.fp,fp.waterfall,fp.submit');
 ?>
