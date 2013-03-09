@@ -7,6 +7,7 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
         this.checkObj = new Validation(this.formEl);
 
         Category.init();
+        this.imgPreviewer(this.formEl.elements.img);
     };
 
     Biz.publish = function(){
@@ -138,6 +139,46 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
                 tipEl.innerHTML = data.success ? '清除成功' : '清除失败';
             }
         });
+    };
+
+    /**
+     * 图片预览
+     */
+    Biz.imgPreviewer = function(el){
+        var rootEl = DOM.create('<div class="sideinfo"><span></span><s class="arrow"></s></div>');
+        var previewEl = DOM.get('span', rootEl);
+
+        DOM.parent(el, 'div.form-field').appendChild(rootEl);
+
+        //在值变化时重新载入图片
+        var show = function(){
+            var now = S.trim(el.value);
+            if(now){
+                var img = new Image();
+
+                img.onerror = function(){
+                    previewEl.innerHTML = '不是有效的图片';
+                };
+
+                img.onload = function(){
+                    previewEl.innerHTML = '<a target="_blank" href="' + now + '"><img src="' + now + '" width="120" /></a>';
+                }
+
+                previewEl.innerHTML = '加载中...';
+                rootEl.style.visibility = 'visible';
+                img.src = now;
+            }else{
+                rootEl.style.visibility = 'hidden';
+            }
+        };
+
+        var timer;
+        Event.on(el, 'valuechange', function(){
+            timer && timer.cancel();
+            timer = S.later(show, 100);
+        });
+
+        show();
     };
 
     return Biz;

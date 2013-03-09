@@ -26,14 +26,15 @@ require '../my/header.html';
                 <div class="field-hd"><label for="postcontent">描述</label></div>
                 <div class="field-bd"><textarea class="text" id="postcontent" name="content" data-validate='["require"]'><?php print $isEditMode ? $postObj->content : ''; ?></textarea></div>
             </div>
-            <div class="form-field">
+            <div class="form-field field-img">
                 <div class="field-hd"><label for="img">图片</label></div>
                 <div class="field-bd"><input type="text" id="img" name="img" class="text" value="<?php print $isEditMode ? $postObj->img : ''; ?>" data-validate='["require"]' /></div>
             </div>
-            <div class="form-field">
+            <div class="form-field field-url">
                 <div class="field-hd"><label for="outer_url">链接</label></div>
                 <div class="field-bd field-url">
                     <input type="text" id="outer_url" name="outer_url" class="text" value="<?php print $isEditMode ? $postObj->outer_url : ''; ?>" />
+                </div>
                     <?php if($isEditMode): ?>
 <?php
 $urlAttr = array();
@@ -51,11 +52,10 @@ $urlAttr[] = '<dl><dt>淘客链接：</dt><dd><a target="_blank" href="' . $post
 }
 
 if(!empty($urlAttr)){
-print '<div class="attr-list">' . implode('', $urlAttr) . '<s class="arrow arrow-top"></s></div>';
+print '<div class="sideinfo attr-list">' . implode('', $urlAttr) . '<s class="arrow"></s></div>';
 }
 ?>
                     <?php endif; ?>
-                </div>
             </div>
             <div class="form-field">
                 <div class="field-hd"><label for="category">分类</label></div>

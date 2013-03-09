@@ -38,6 +38,29 @@
     color: #27A;
 }
 
+/* 附加信息展示 */
+.form-field{
+    position: relative;
+}
+.sideinfo{
+    position: absolute;
+    left: 652px;
+    top: 0;
+    background: #F0F6F3;
+    border-radius: 4px;
+    padding: 10px;
+}
+.sideinfo .arrow{
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 8px;
+    border-color: transparent #F0F6F3 transparent transparent;
+    border-style: dashed solid dashed dashed;
+    top: 10px;
+    left: -16px;
+}
+
 /* 分类 */
 .category .item{
     margin-bottom: 5px;
@@ -100,9 +123,23 @@
     color: #aaa;
 }
 
-.attr-list{
-    width: 420px;
+/* 链接相关信息 */
+.field-url .sideinfo{
+    top: -12px;
 }
-.attr-list .clear-taoke{
+.field-url .attr-list{
+    width: 280px;
+}
+.field-url .attr-list .clear-taoke{
     color: #c00;
+}
+
+/* 图片预览 */
+.field-img .sideinfo{
+    top: -150px;
+    width: 120px;
+    height: 158px;
+}
+.field-img .arrow{
+    top: 156px;
 }
