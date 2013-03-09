@@ -83,7 +83,7 @@ KISSY.add('iee/fp.author', function(S, DOM, Event, IO, Anim, Base, Waterfall){
                                                 '<div class="detail">' +
                                                     '<h2 class="title">' + vo.title + '</h2>' +
                                                     '<div class="content">' + vo.fullcontent + '</div>' +
-                                                    (vo.price ? ('<div class="price">' + vo.price + '</div>') : '') +
+                                                    ((vo.price && '0' !== vo.price) ? ('<div class="price">' + vo.price + '</div>') : '') +
                                                     '<div class="action">' +
                                                         (viewlink ? ('<a class="go-view" href="' + viewlink + '">点此拥有</a>') : '') +
                                                         '<ins class="post-share"></ins>' +
