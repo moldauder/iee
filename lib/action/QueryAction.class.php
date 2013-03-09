@@ -9,6 +9,7 @@ class QueryAction extends Action{
             'trash'  => 'n',
             'limit'  => 12,
             'id'     => $_GET['id'],
+            'cat'    => $_GET['cat'],
             'page'   => 'next'
         );
 
