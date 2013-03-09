@@ -12,6 +12,19 @@ class AuthorAction extends Action{
                 System::redirect();
             }
 
+            $cat = $_GET['cat'];
+            if($cat){
+                $catBiz = System::B('Category');
+                $catObj = $catBiz->getCatByAlias($cat);
+                if($catObj){
+                    $this->assign('catObj', $catObj);
+                    $args['cat'] = $catObj->id;
+                }
+            }
+
+            $catBiz = System::B('Category');
+            $this->assign('categoryList', $catBiz->find());
+
             $this->assign('authorObj', $authorObj);
             $this->display('author');
         }

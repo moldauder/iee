@@ -118,6 +118,28 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
         }
     };
 
+    //清除掉淘定链接
+    //前台链接错误时，通过这个清除掉错误的链接，使商品能正常访问
+    Biz.cleartaoke = function(target){
+        var formEl = this.formEl;
+        IO({
+            type: 'post',
+            url : '/item/cleartaoke',
+            data: {
+                id: formEl.elements.id.value
+            },
+            success: function(data){
+                var tipEl = DOM.next(target, 'span.tip');
+                if(!tipEl){
+                    tipEl = DOM.create('<span class="tip"></span>');
+                    DOM.insertAfter(tipEl, target);
+                }
+
+                tipEl.innerHTML = data.success ? '清除成功' : '清除失败';
+            }
+        });
+    };
+
     return Biz;
 }, {
     requires: [

@@ -111,7 +111,7 @@ foreach($postList as $vo):
         if($vo->price){
         ?>
         <span class="buyinfo sale-<?php print $classMap[$vo->onsale]; ?>">
-            <span class="price"><span><?php print $vo->price_unit; ?></span><?php print $vo->price; ?></span>
+            <span class="price"><?php print $vo->price; ?>元</span>
         </span>
         <?php
         }

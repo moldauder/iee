@@ -400,6 +400,31 @@ class ItemAction extends AuthAction{
     }
 
     /**
+     * 清除淘客信息
+     */
+    public function cleartaoke(){
+        $this->checkLogin();
+
+        $id = System::filterVar($_POST['id']);
+        $postBiz = System::B('Post');
+        $postObj = $postBiz->getPurePostById($id);
+
+        if($postObj){
+            if(false !== $postBiz->updatePost($id, array(
+                'buylink' => ''
+            ))){
+                $this->ajax(array(
+                    'success' => true
+                ), 'json');
+            }
+        }
+
+        $this->ajax(array(
+            'success' => false
+        ), 'json');
+    }
+
+    /**
      * 保存文章
      */
     public function save(){

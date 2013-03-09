@@ -5,6 +5,7 @@ KISSY.add('iee/my.category', function(S, DOM, Event, IO){
     Biz.init = function(){
         this.el = DOM.get('#category');
         this.render(window.categoryList);
+        this.checkMax();
     };
 
     Biz.render = function(data){
@@ -30,25 +31,10 @@ KISSY.add('iee/my.category', function(S, DOM, Event, IO){
             }
 
             var itemEl = DOM.create('<span></span>');
-            var type = vo.type;
-            var style = '';
-
-            if('color' === type){
-                if('#' === vo.value.substr(0, 1)){
-                    style = 'background:' + vo.value;
-                }else{
-                    style = 'background-image:' + vo.value;
-                }
-            }
-
-            if(style){
-                style = ' style="' + style + '"';
-            }
-
             itemEl.className = 'trigger' + (vo.id in selected ? ' selected' : '');
             DOM.attr(itemEl, 'data-id', vo.id);
             DOM.attr(itemEl, 'title', ns.join(': '));
-            itemEl.innerHTML = ns.pop() + '<s' + style + '></s><ins></ins>';
+            itemEl.innerHTML = ns.pop() + '<ins></ins>';
 
             boxEl.appendChild(itemEl);
         });
@@ -64,6 +50,10 @@ KISSY.add('iee/my.category', function(S, DOM, Event, IO){
         if(DOM.hasClass(trigger, 'selected')){
             DOM.removeClass(trigger, 'selected');
         }else{
+            //校验是否达到上限，每篇文章最多三个分类
+            if(DOM.hasClass(this.el, 'max')){
+                return;
+            }
             DOM.addClass(trigger, 'selected');
         }
 
@@ -73,6 +63,16 @@ KISSY.add('iee/my.category', function(S, DOM, Event, IO){
             val.push(DOM.attr(span, 'data-id'));
         });
         this.valueEl.value = val.join(',');
+
+        this.checkMax();
+    };
+
+    Biz.checkMax = function(){
+        if(this.valueEl.value.split(',').length >= 3){
+            DOM.addClass(this.el, 'max');
+        }else{
+            DOM.removeClass(this.el, 'max');
+        }
     };
 
     Biz.update = function(trigger){

@@ -41,6 +41,12 @@ class PostBiz extends Biz{
             $db->where('post.has_cat', 'n');
         }
 
+        //处理分类
+        if($args['cat']){
+            unset($args['dotop']);    //在有分类的情况下强制移除置顶
+            $db->where('post.id in (select post from ' . System::config('db_prefix') . 'post_category where category=' . $args['cat'] . ')');
+        }
+
         //置顶
         $dotop = false;
         if(array_key_exists('dotop', $args)){
@@ -252,10 +258,10 @@ class PostBiz extends Biz{
             'img',
             'outer_url',
             'buylink',
-            'nick'
+            'nick',
+            'price',
+            'onsale'
         );
-
-        $arr = array();
 
         foreach($list as $postObj){
             foreach($postObj as $property => $val){
@@ -263,10 +269,9 @@ class PostBiz extends Biz{
                     unset($postObj->$property);
                 }
             }
-            $arr[] = $postObj;
         }
 
-        return $arr;
+        return $list;
     }
 
     //将文章的类型标记为revision
@@ -337,7 +342,7 @@ class PostBiz extends Biz{
     }
 
     public function updatePost($id, $data){
-        $this->getDBConnection()
+        return $this->getDBConnection()
             ->table($this->tableName)
             ->data($data)
             ->where('id', $id)

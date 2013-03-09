@@ -384,3 +384,37 @@ select{
 .feedback-modal{
     width: 480px;
 }
+
+/* 属性列表 */
+.attr-list{
+    position: relative;
+    background: #F0F6F3;
+    padding: 5px 10px;
+    border-radius: 8px;
+
+    margin-top: 10px;
+}
+.attr-list dt{
+    float: left;
+    color: #999;
+}
+.attr-list dd{
+    overflow: hidden;
+    *zoom: 1;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.attr-list .arrow{
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 7px;
+}
+.attr-list .arrow-top{
+    border-color: transparent transparent #F0F6F3 transparent;
+    border-style: dashed dashed solid dashed;
+    top: -14px;
+    left: 20px;
+}
