@@ -15,7 +15,10 @@ $nick = $authorObj->nick;
 ?>
 <?php
 renderCategory($categoryList, array(
-    'fp' => false,
+    'first' => array(
+        'html' => '全部',
+        'link' => '/author/' . $authorObj->nick
+    ),
     'curCatObj' => isset($catObj) ? $catObj : null
 ));
 ?>

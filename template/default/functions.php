@@ -176,8 +176,9 @@ function renderCategory($categoryList, $params = array()){
         $curCatAlias = $curCatObj->alias;
     }
 
-    if($params['fp']){
-        print '<li' . ($curCat ? '' : ' class="active"') . '><a target="_self" href="/">首页</a></li>';
+    $firstLink = $params['first'];
+    if($firstLink){
+        print '<li' . ($curCat ? '' : ' class="active"') . '><a target="_self" href="' . $firstLink['link'] . '">' . $firstLink['html'] . '</a></li>';
     }
 
     $subCatId = 1;

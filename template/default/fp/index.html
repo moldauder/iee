@@ -13,7 +13,10 @@ $assetTool->import('fp,waterfall,submit');
 ?>
 <?php
 renderCategory($categoryList, array(
-    'fp' => true,
+    'first' => array(
+        'link' => '/',
+        'html' => '首页'
+    ),
     'curCatObj' => isset($catObj) ? $catObj : null
 ));
 ?>
