@@ -4,7 +4,6 @@ KISSY.add('iee/fp.fp', function(S, DOM, Event, IO, Base, Waterfall, Submit){
 
     FP.init = function(){
         this.initWaterfall();
-
         Submit.init();
     };
 
@@ -35,6 +34,7 @@ KISSY.add('iee/fp.fp', function(S, DOM, Event, IO, Base, Waterfall, Submit){
                     url: '/query/all',
                     data: {
                         id: last_post_id,
+                        cat: window.curCatId,
                         from: 'fp'
                     },
                     dataType: 'json',

@@ -32,7 +32,30 @@ require '../my/header.html';
             </div>
             <div class="form-field">
                 <div class="field-hd"><label for="outer_url">链接</label></div>
-                <div class="field-bd"><input type="text" id="outer_url" name="outer_url" class="text" value="<?php print $isEditMode ? $postObj->outer_url : ''; ?>" /></div>
+                <div class="field-bd field-url">
+                    <input type="text" id="outer_url" name="outer_url" class="text" value="<?php print $isEditMode ? $postObj->outer_url : ''; ?>" />
+                    <?php if($isEditMode): ?>
+<?php
+$urlAttr = array();
+if($postObj->price){
+    $urlAttr[] = '<dl><dt>价格：</dt><dd>' . $postObj->price . '</dd></dl>';
+}
+if($postObj->onsale){
+    $urlAttr[] = '<dl><dt>状态：</dt><dd>' . ('y' === $postObj->onsale ? '在售' : '下架') . '</dd></dl>';
+}
+if($postObj->outer_url){
+    $urlAttr[] = '<dl><dt>原始链接：</dt><dd><a target="_blank" href="' . $postObj->outer_url . '">' . $postObj->outer_url . '</a></dd></dl>';
+}
+if($postObj->buylink){
+$urlAttr[] = '<dl><dt>淘客链接：</dt><dd><a target="_blank" href="' . $postObj->buylink . '">' . $postObj->buylink . '</a><div><span tabinde="0" class="btn clear-taoke" data-act="my.postcompose/cleartaoke">清除淘客链接</span></div></dd></dl>';
+}
+
+if(!empty($urlAttr)){
+print '<div class="attr-list">' . implode('', $urlAttr) . '<s class="arrow arrow-top"></s></div>';
+}
+?>
+                    <?php endif; ?>
+                </div>
             </div>
             <div class="form-field">
                 <div class="field-hd"><label for="category">分类</label></div>

@@ -9,11 +9,23 @@ class FpAction extends Action{
             'type'   => array('post', 'album'),
             'trash'  => 'n',
             'fp'     => 'y',
+            'cat'    => $_GET['cat'],
             'dotop'  => true
         );
 
+        $cat = $_GET['cat'];
+        if($cat){
+            $catBiz = System::B('Category');
+            $catObj = $catBiz->getCatByAlias($cat);
+            if($catObj){
+                $this->assign('catObj', $catObj);
+                $args['cat'] = $catObj->id;
+            }
+        }
+
         //先查询出全部的置顶项目
         $list = $biz->find($args);
+        $this->assign('startId', $list[count($list) - 1]->id);
 
         //还差多少需要读取
         $left = 15 - count($list);
@@ -29,6 +41,10 @@ class FpAction extends Action{
         }
 
         $this->assign('list', $list);
+
+        //读取分类信息
+        $catBiz = System::B('Category');
+        $this->assign('categoryList', $catBiz->find());
 
         $this->display();
     }
