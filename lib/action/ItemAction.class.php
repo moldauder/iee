@@ -20,7 +20,11 @@ class ItemAction extends AuthAction{
 
         //淘宝客等信息更新, per 3.5 days
         //86400 = one day
-        if(System::config('auto_update_taoke') && ('tmall' === $postObj->host || 'taobao' === $postObj->host) && time() - strtotime($postObj->updated) > 302400){
+        $needUpdateTaoke = System::config('auto_update_taoke') &&
+            ('tmall' === $postObj->host || 'taobao' === $postObj->host) &&
+            time() - strtotime($postObj->updated) > 302400;
+
+        if($needUpdateTaoke || $_GET['uptaoke']){
             $updateData = array(
                 'updated' => date('Y-m-d H:i:s')
             );
