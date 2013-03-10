@@ -67,12 +67,13 @@ KISSY.add('iee/my.category', function(S, DOM, Event, IO){
         this.checkMax();
     };
 
+    //停止上限的检查
     Biz.checkMax = function(){
-        if(this.valueEl.value.split(',').length >= 3){
-            DOM.addClass(this.el, 'max');
-        }else{
-            DOM.removeClass(this.el, 'max');
-        }
+        //if(this.valueEl.value.split(',').length >= 3){
+            //DOM.addClass(this.el, 'max');
+        //}else{
+            //DOM.removeClass(this.el, 'max');
+        //}
     };
 
     Biz.update = function(trigger){

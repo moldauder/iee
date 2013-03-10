@@ -49,6 +49,7 @@
     background: #F0F6F3;
     border-radius: 4px;
     padding: 10px;
+    z-index: 120;
 }
 .sideinfo .arrow{
     position: absolute;
