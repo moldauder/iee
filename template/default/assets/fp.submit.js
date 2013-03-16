@@ -14,7 +14,7 @@ KISSY.add('iee/fp.submit', function(S, DOM, Event, IO, Anim){
                 '</form></div>' +
             '<div class="field-btn"><button></button><span class="err"></span></div>' +
         '</div></div>';
-        DOM.insertBefore(this._el, '#pi');
+        DOM.prepend(this._el, '#content');
 
         this._container = DOM.get('div.box', this._el);
         this._fieldCont = DOM.get('div.fieldCont', this._el);
@@ -40,6 +40,7 @@ KISSY.add('iee/fp.submit', function(S, DOM, Event, IO, Anim){
                 self._hide();
             }else{
                 isExpand = true;
+                DOM.removeClass(DOM.query('div.field-focus', self._el), 'field-focus');
                 (new Anim(self._el, {
                     height: DOM.outerHeight(self._container)
                 }, 0.6, 'easeOutStrong', function(){
@@ -85,6 +86,7 @@ KISSY.add('iee/fp.submit', function(S, DOM, Event, IO, Anim){
             ev.halt();
             self._submit();
         });
+
     };
 
     Submit._hide = function(){

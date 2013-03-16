@@ -83,7 +83,7 @@ function renderPost($postObj, $params = array()){
     }
     $html .= '<ins class="post-share"></ins></div>';
 
-    if('n' === $postObj->onsale){
+    if($link && 'n' === $postObj->onsale){
         $html .= '<ins class="off-sign"></ins>';
     }
 
@@ -157,4 +157,79 @@ function renderTinyPost($postObj, $params = array()){
     $html .= '</a>';
 
     return $html;
+}
+
+/**
+ * 渲染颜色分类
+ */
+function renderCategory($categoryList, $params = array()){
+    print '<div id="category" class="category"><div class="root"><ul>';
+
+    $curCat = '';
+    $curCatName = '';
+    $curCatAlias = '';
+
+    if($params['curCatObj']){
+        $curCatObj   = $params['curCatObj'];
+        $curCat      = $curCatObj->id;
+        $curCatName  = $curCatObj->name;
+        $curCatAlias = $curCatObj->alias;
+    }
+
+    $firstLink = $params['first'];
+    if($firstLink){
+        print '<li' . ($curCat ? '' : ' class="active"') . '><a target="_self" href="' . $firstLink['link'] . '">' . $firstLink['html'] . '</a></li>';
+    }
+
+    $subCatId = 1;
+    $rootCat = array();
+    $subCat = array();
+
+    foreach($categoryList as $catObj){
+        $name = explode('/', $catObj->name);
+        $isSubCat = count($name) > 1;
+
+        $topName = $name[0];
+
+        //渲染二级类目
+        if($isSubCat){
+            if(array_key_exists($topName, $rootCat)){
+                $subCat[$rootCat[$topName]][] = get_object_vars($catObj);
+                continue;
+            }else{
+                $rootCat[$topName] = $subCatId;
+                $subCat[$subCatId] = array(get_object_vars($catObj));
+                $catObj->sub = $subCatId;
+                $subCatId++;
+            }
+        }
+
+        //渲染
+        $cls = array();
+        $sub = $catObj->sub;
+
+        if($sub){
+            $cls[] = 'collapse';
+        }
+
+        if($isSubCat){
+            //比对二级类目名字前半段是否能对上
+            if(false !== strpos($curCatName, $topName . '/')){
+                $topName = substr($curCatName, strpos($curCatName, '/') + 1);
+                $catObj->alias = $curCatAlias;
+                $cls[] = 'active';
+            }
+        }else{
+            if($catObj->name === $curCatName){
+                $cls[] = 'active';
+            }
+        }
+
+        $cls = empty($cls) ? '' : (' class="' . implode(' ', $cls) . '"');
+
+        print '<li' . $cls . '><a ' . ($sub ? ('data-cat="' . $sub . '"') : '') . ' target="_self" href="?cat=' . $catObj->alias . '">' . $topName . '</a></li>';
+    }
+
+    print '</ul></div><div class="sub"></div></div>';
+    print '<script>var subCat=' . json_encode($subCat) . ';var curCatId=\'' . $curCat . '\';</script>';
 }

@@ -33,7 +33,7 @@ class AuthAction extends Action{
     }
 
     public function login(){
-        $this->display('My:login');
+        $this->display('my:login');
     }
 
     public function check(){

@@ -2,15 +2,11 @@
 class FixAction extends Action{
 
     private function execute(){
-        $this->fullcontent();
-    }
-
-    //升级fullcontent字段
-    private function fullcontent(){
         $db = Db::getInstance();
 
-        // ALTER TABLE tp_posts ADD COLUMN `updated` DATETIME NULL  AFTER `host`;
-        // ALTER TABLE tp_posts ADD COLUMN `fullcontent` LONGTEXT NULL  AFTER `content`;
+        //update table add 2 columns
+        $db->query('ALTER TABLE tp_posts ADD COLUMN `updated` DATETIME NULL  AFTER `host`');
+        $db->query('ALTER TABLE tp_posts ADD COLUMN `fullcontent` LONGTEXT NULL  AFTER `content`');
 
         //更新专辑数据
         $db->query("update tp_posts set type='albumitem' where type='relateitem'");
@@ -27,9 +23,7 @@ class FixAction extends Action{
         $db->query("update tp_posts set sid=0 where isnull(sid)");
         $db->query("update tp_posts set pid=0 where isnull(pid)");
 
-        // pre execute
-        // alter table tp_posts add column fullcontent longtext after content
-
+        //update fullcontent, content
         $list = $db->query('select id,content,author_3rd from tp_posts');
         foreach($list as $post){
             $content = trim(str_replace(array('<p>', '</p>'), array('', "\n\r"), trim($post->content)));
@@ -46,6 +40,9 @@ class FixAction extends Action{
 
     public function _empty(){
         $this->execute();
+
+        //kill self
+        unlink(APP_LIB_ACTION . 'FixAction.class.php');
     }
 
 }

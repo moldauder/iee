@@ -18,24 +18,27 @@ class ItemAction extends AuthAction{
             }
         }
 
-        //淘宝客等信息更新, per 3.5 days
+        //淘宝客等信息更新, 每一小时都会触发更新
         //86400 = one day
-        if(('tmall' === $postObj->host || 'taobao' === $postObj->host) && time() - strtotime($postObj->updated) > 302400){
+        $needUpdateTaoke = System::config('auto_update_taoke') &&
+            ('tmall' === $postObj->host || 'taobao' === $postObj->host) &&
+            time() - strtotime($postObj->updated) > 3600;
+
+        if($needUpdateTaoke || $_GET['uptaoke']){
             $updateData = array(
                 'updated' => date('Y-m-d H:i:s')
             );
 
             $outerUrlData = $this->_parseOuterUrl($postObj->outer_url);
-            if($outerUrlData){
+            if($outerUrlData && $outerUrlData['url']){
                 $postObj->outer_url  = $updateData['outer_url']  = $outerUrlData['url'];
                 $postObj->host       = $updateData['host']       = $outerUrlData['host'];
                 $postObj->buylink    = $updateData['buylink']    = $outerUrlData['buylink'];
                 $postObj->price      = $updateData['price']      = $outerUrlData['price'];
                 $postObj->price_unit = $updateData['price_unit'] = $outerUrlData['price_unit'];
                 $postObj->onsale     = $updateData['onsale']     = $outerUrlData['onsale'];
+                $biz->updatePost($postObj->id, $updateData);
             }
-
-            $biz->updatePost($postObj->id, $updateData);
         }
 
         //for mobile access, easy print
@@ -100,11 +103,12 @@ class ItemAction extends AuthAction{
         }
 
         $args = array(
-            'id'     => $_GET['id'],
-            'q'      => $_GET['q'],
-            'author' => $author,
-            'page'   => $_GET['page'],
-            'host'   => $_GET['host']
+            'id'      => $_GET['id'],
+            'q'       => $_GET['q'],
+            'author'  => $author,
+            'page'    => $_GET['page'],
+            'host'    => $_GET['host'],
+            'has_cat' => $_GET['has_cat']
         );
 
         $args['status'] = array('publish', 'draft');
@@ -153,23 +157,24 @@ class ItemAction extends AuthAction{
     public function create(){
         $this->checkLogin();
 
-        $postObj = new StdClass();
-
         $submit = $_GET['submit'];
         if(preg_match('/^\d+$/', $submit)){     //来自Submit
             $biz = System::B('Submit');
             $submitObj = $biz->getSubmitById($submit);
             if($submitObj){
+                $postObj = new StdClass();
+
                 $postObj->submit     = $submit;
                 $postObj->author_3rd = $submitObj->nick;
                 $postObj->outer_url  = $submitObj->url;
                 $postObj->content    = $submitObj->remark;
                 $postObj->title      = $submitObj->title;
+
+                $this->assign('postObj', $postObj);
             }
         }
 
-        $this->assign('postObj', $postObj);
-        $this->display();
+        $this->_displayCreate();
     }
 
     public function _empty(){
@@ -216,6 +221,18 @@ class ItemAction extends AuthAction{
         }
 
         $this->assign('postObj', $postObj);
+
+        //查询分类信息
+        $this->assign('category', $biz->getPostCatIds($postObj->id));
+
+        $this->_displayCreate();
+    }
+
+    private function _displayCreate(){
+        /* 查询分类信息 */
+        $catBiz = System::B('Category');
+        $this->assign('categoryList', $catBiz->find());
+
         $this->display('create');
     }
 
@@ -345,6 +362,73 @@ class ItemAction extends AuthAction{
     }
 
     /**
+     * 更新文章，而不影响排序
+     */
+    public function put(){
+        $this->checkLogin();
+
+        $id = System::filterVar($_POST['id']);
+        $postBiz = System::B('Post');
+        $postObj = $postBiz->getPurePostById($id);
+
+        if(!IS_SUPER_USER){
+            if($postObj->author !== USERID){
+                $this->ajax(array(
+                    'msg' => '您没有权限编辑这篇文章',
+                    'success' => false
+                ), 'json');
+            }
+
+            if('y' === $postObj->lock){
+                $this->ajax(array(
+                    'msg' => '文章已经被锁定，请联系管理员',
+                    'success' => false
+                ), 'json');
+            }
+        }
+
+        //准备更新数据，目前只支持cateogry更新
+        $category = System::filterVar($_POST['category']);
+        if($category){
+            if(false !== $postBiz->updateCategory($id, $category)){
+                $this->ajax(array(
+                    'success' => true
+                ), 'json');
+            }else{
+                $this->ajax(array(
+                    'msg' => $postBiz->getDBError(),
+                    'success' => false
+                ), 'json');
+            }
+        }
+    }
+
+    /**
+     * 清除淘客信息
+     */
+    public function cleartaoke(){
+        $this->checkLogin();
+
+        $id = System::filterVar($_POST['id']);
+        $postBiz = System::B('Post');
+        $postObj = $postBiz->getPurePostById($id);
+
+        if($postObj){
+            if(false !== $postBiz->updatePost($id, array(
+                'buylink' => ''
+            ))){
+                $this->ajax(array(
+                    'success' => true
+                ), 'json');
+            }
+        }
+
+        $this->ajax(array(
+            'success' => false
+        ), 'json');
+    }
+
+    /**
      * 保存文章
      */
     public function save(){
@@ -443,7 +527,7 @@ class ItemAction extends AuthAction{
 
         $postData['pid']      = 0;
         $postData['status']   = $operate;
-        $postData['modified'] = date('Y-m-d H:i:s');
+        $postData['updated'] = $postData['modified'] = date('Y-m-d H:i:s');
 
         //第三方作者修订
         $postData['author_3rd'] = System::filterVar($_POST['author_3rd']);
@@ -489,7 +573,8 @@ class ItemAction extends AuthAction{
 
         //写入文章
         $postId = $postBiz->addPost($postData, array(
-            'album' => $albumData
+            'album' => $albumData,
+            'category' => $_POST['category']
         ));
 
         if(false === $postId){
@@ -580,7 +665,7 @@ class ItemAction extends AuthAction{
             parse_str(strtolower($info['query']), $query);
             $item_id = $query['id'];
             if(preg_match('/^\d+$/', $item_id)){
-                System::importVendor('taoke');
+                System::importVendor('Taoke');
                 $taoke = new Taoke(System::config('taoke'));
                 $iteminfo = $taoke->getItem($item_id);
                 if(false !== $iteminfo){

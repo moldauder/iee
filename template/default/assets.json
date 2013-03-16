@@ -6,35 +6,35 @@
         "version": "1.0.0"
     },
     "fp.base.css": {
-        "version": "1.0.0"
+        "version": "1.0.3"
     },
     "fp.base": {
-        "version": "1.0.0"
+        "version": "1.0.2"
     },
     "fp.gotop":{
-        "version": "1.0.0"
+        "version": "1.0.1"
     },
     "fp.waterfall": {
         "version": "1.0.0"
     },
     "fp.fp": {
-        "version": "1.0.0"
+        "version": "1.0.2"
     },
     "fp.submit": {
-        "version": "1.0.0"
+        "version": "1.0.2"
     },
     "fp.author": {
-        "version": "1.0.0"
+        "version": "1.0.3"
     },
     "fp.item": {
         "version": "1.0.0"
     },
     "fp.album": {
-        "version": "1.0.0"
+        "version": "1.0.1"
     },
 
     "my.base.css": {
-        "version": "1.0.0"
+        "version": "1.0.2"
     },
     "my.app.css": {
         "version": "1.0.0"
@@ -43,10 +43,10 @@
         "version": "1.0.0"
     },
     "my.postlist.css": {
-        "version": "1.0.0"
+        "version": "1.0.1"
     },
     "my.postcompose.css": {
-        "version": "1.0.0"
+        "version": "1.0.7"
     },
     "my.submit": {
         "version": "1.0.0"
@@ -62,7 +62,10 @@
         "version": "1.0.0"
     },
     "my.postcompose": {
-        "version": "1.0.0"
+        "version": "1.0.5"
+    },
+    "my.category": {
+        "version": "1.0.6"
     },
     "my.account": {
         "version": "1.0.0"

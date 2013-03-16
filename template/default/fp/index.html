@@ -3,11 +3,32 @@
  * 一味首页
  */
 $pageCls = 'index';
+
+if(isset($catObj)){
+    $title = preg_replace('/(.+)(\/(.+)?)/', '$3 &rsaquo; $1', $catObj->name) . ' | ' . System::config('site_name');
+}
+
 require '../common/header.html';
 $assetTool->import('fp,waterfall,submit');
+?>
+<?php
+renderCategory($categoryList, array(
+    'first' => array(
+        'link' => '/',
+        'html' => '首页'
+    ),
+    'curCatObj' => isset($catObj) ? $catObj : null
+));
 ?>
 <div id="pi"><div id="waterfall" class="waterfall"><?php foreach($list as $idx=>$obj){ print renderTinyPost($obj, array(
     'lazyImg' => $idx > 5
 )); }; ?></div><div id="loading"></div></div>
-<?php if(isset($startId)):?><script>var startId='<?php print $startId; ?>';</script><?php endif; ?>
+<script><?php
+if(isset($startId)){
+    print 'var startId=' . $startId . ';';
+}
+?></script>
+<?php
+$assetTool->import('fp.fp,fp.waterfall,fp.submit');
+?>
 <?php $initJSMod = 'fp.fp'; require '../common/footer.html';

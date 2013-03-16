@@ -42,6 +42,7 @@ KISSY.add('iee/fp.album', function(S, DOM, Event, Anim, Base, Modal){
 
         S.each(data, function(vo){
             var href = vo.buylink || vo.outer_url;
+            href = href ? (' href="' + href + '" ') : '';
             html += '<div class="album-item stdpost"><div class="core">' +
                         '<div class="photo"><a ' + href + '><img src="' + vo.img + '"/></a></div>' +
                         '<div class="detail">' +

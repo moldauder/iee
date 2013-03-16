@@ -14,7 +14,7 @@ class SubmitAction extends AuthAction{
 
     public function commit(){
         $url = trim(System::filterVar($_POST['url']));
-        if($url){
+        if(!$url){
             return;
         }
 

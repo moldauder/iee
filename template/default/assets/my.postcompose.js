@@ -1,10 +1,13 @@
-KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
+KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, Category){
 
     var Biz = {};
 
     Biz.init = function(){
         this.formEl = DOM.get('#postComposeForm');
         this.checkObj = new Validation(this.formEl);
+
+        Category.init();
+        this.imgPreviewer(this.formEl.elements.img);
     };
 
     Biz.publish = function(){
@@ -69,7 +72,7 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
             if(isPublish){
                 btns.push({
                     title : '查看文章',
-                    href: '/' + (data.sid || data.id)
+                    href: '/' + ('0' !== data.sid ?  data.sid : data.id)
                 });
             }
 
@@ -116,11 +119,74 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation){
         }
     };
 
+    //清除掉淘定链接
+    //前台链接错误时，通过这个清除掉错误的链接，使商品能正常访问
+    Biz.cleartaoke = function(target){
+        var formEl = this.formEl;
+        IO({
+            type: 'post',
+            url : '/item/cleartaoke',
+            data: {
+                id: formEl.elements.id.value
+            },
+            success: function(data){
+                var tipEl = DOM.next(target, 'span.tip');
+                if(!tipEl){
+                    tipEl = DOM.create('<span class="tip"></span>');
+                    DOM.insertAfter(tipEl, target);
+                }
+
+                tipEl.innerHTML = data.success ? '清除成功' : '清除失败';
+            }
+        });
+    };
+
+    /**
+     * 图片预览
+     */
+    Biz.imgPreviewer = function(el){
+        var rootEl = DOM.create('<div class="sideinfo"><span></span><s class="arrow"></s></div>');
+        var previewEl = DOM.get('span', rootEl);
+
+        DOM.parent(el, 'div.form-field').appendChild(rootEl);
+
+        //在值变化时重新载入图片
+        var show = function(){
+            var now = S.trim(el.value);
+            if(now){
+                var img = new Image();
+
+                img.onerror = function(){
+                    previewEl.innerHTML = '不是有效的图片';
+                };
+
+                img.onload = function(){
+                    previewEl.innerHTML = '<a target="_blank" href="' + now + '"><img src="' + now + '" width="120" /></a>';
+                }
+
+                previewEl.innerHTML = '加载中...';
+                rootEl.style.visibility = 'visible';
+                img.src = now;
+            }else{
+                rootEl.style.visibility = 'hidden';
+            }
+        };
+
+        var timer;
+        Event.on(el, 'valuechange', function(){
+            timer && timer.cancel();
+            timer = S.later(show, 100);
+        });
+
+        show();
+    };
+
     return Biz;
 }, {
     requires: [
         'dom', 'event', 'ajax',
         'iee/util.modal',
-        'iee/util.validation'
+        'iee/util.validation',
+        'iee/my.category'
     ]
 });

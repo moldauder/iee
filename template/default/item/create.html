@@ -1,5 +1,5 @@
 <?php
-$isEditMode = (bool)$postObj->id;
+$isEditMode = isset($postObj);
 $title = $isEditMode ? ('编辑文章 &rsaquo; ' . $postObj->title) : '撰写文章';
 $css = 'my.postcompose.css';
 require '../my/header.html';
@@ -26,13 +26,46 @@ require '../my/header.html';
                 <div class="field-hd"><label for="postcontent">描述</label></div>
                 <div class="field-bd"><textarea class="text" id="postcontent" name="content" data-validate='["require"]'><?php print $isEditMode ? $postObj->content : ''; ?></textarea></div>
             </div>
-            <div class="form-field">
+            <div class="form-field field-img">
                 <div class="field-hd"><label for="img">图片</label></div>
                 <div class="field-bd"><input type="text" id="img" name="img" class="text" value="<?php print $isEditMode ? $postObj->img : ''; ?>" data-validate='["require"]' /></div>
             </div>
-            <div class="form-field">
+            <div class="form-field field-url">
                 <div class="field-hd"><label for="outer_url">链接</label></div>
-                <div class="field-bd"><input type="text" id="outer_url" name="outer_url" class="text" value="<?php print $isEditMode ? $postObj->outer_url : ''; ?>" /></div>
+                <div class="field-bd field-url">
+                    <input type="text" id="outer_url" name="outer_url" class="text" value="<?php print $isEditMode ? $postObj->outer_url : ''; ?>" />
+                </div>
+                    <?php if($isEditMode): ?>
+<?php
+$urlAttr = array();
+if($postObj->price){
+    $urlAttr[] = '<dl><dt>价格：</dt><dd>' . $postObj->price . '</dd></dl>';
+}
+if($postObj->onsale){
+    $urlAttr[] = '<dl><dt>状态：</dt><dd>' . ('y' === $postObj->onsale ? '在售' : '下架') . '</dd></dl>';
+}
+if($postObj->outer_url){
+    $urlAttr[] = '<dl><dt>原始链接：</dt><dd><a target="_blank" href="' . $postObj->outer_url . '">' . $postObj->outer_url . '</a></dd></dl>';
+}
+if($postObj->buylink){
+$urlAttr[] = '<dl><dt>淘客链接：</dt><dd><a target="_blank" href="' . $postObj->buylink . '">' . $postObj->buylink . '</a><div><span tabinde="0" class="btn clear-taoke" data-act="my.postcompose/cleartaoke">清除淘客链接</span></div></dd></dl>';
+}
+
+if(!empty($urlAttr)){
+print '<div class="sideinfo attr-list">' . implode('', $urlAttr) . '<s class="arrow"></s></div>';
+}
+?>
+                    <?php endif; ?>
+            </div>
+            <div class="form-field">
+                <div class="field-hd"><label for="category">分类</label></div>
+                <div class="field-bd category">
+                    <script>var categoryList=<?php print System::JSON($categoryList); ?>;</script>
+                    <div id="category"><input type="hidden" name="category" value="<?php print $isEditMode ? $category : '';  ?>" /></div>
+                    <?php if($isEditMode): ?>
+                    <span tabindex="0" class="btn" data-act="my.category/update">更新，不影响文章排序</span>
+                    <?php endif; ?>
+                </div>
             </div>
             <?php if(IS_SUPER_USER): ?>
             <div class="form-field">

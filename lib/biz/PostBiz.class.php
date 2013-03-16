@@ -36,6 +36,17 @@ class PostBiz extends Biz{
             }
         }
 
+        //未分类特别处理
+        if('n' === $args['has_cat']){
+            $db->where('post.has_cat', 'n');
+        }
+
+        //处理分类
+        if($args['cat']){
+            unset($args['dotop']);    //在有分类的情况下强制移除置顶
+            $db->where('post.id in (select post from ' . System::config('db_prefix') . 'post_category where category=' . $args['cat'] . ')');
+        }
+
         //置顶
         $dotop = false;
         if(array_key_exists('dotop', $args)){
@@ -113,6 +124,20 @@ class PostBiz extends Biz{
         }
 
         return $postObj;
+    }
+
+    public function getPostCatIds($postId){
+        $list = $this->getDBConnection()->table('^post_category')
+            ->where('post=' . $postId)
+            ->select();
+
+        $val = array();
+
+        foreach($list as $vo){
+            $val[] = $vo->category;
+        }
+
+        return implode(',', $val);
     }
 
     public function findAlbumItem($postId){
@@ -233,10 +258,10 @@ class PostBiz extends Biz{
             'img',
             'outer_url',
             'buylink',
-            'nick'
+            'nick',
+            'price',
+            'onsale'
         );
-
-        $arr = array();
 
         foreach($list as $postObj){
             foreach($postObj as $property => $val){
@@ -244,10 +269,9 @@ class PostBiz extends Biz{
                     unset($postObj->$property);
                 }
             }
-            $arr[] = $postObj;
         }
 
-        return $arr;
+        return $list;
     }
 
     //将文章的类型标记为revision
@@ -282,14 +306,43 @@ class PostBiz extends Biz{
                 }
             }
 
+            if($data['category']){
+                $this->updateCategory($id, $data['category']);
+            }
+
             return $id;
         }
 
         return false;
     }
 
+    public function updateCategory($postId, $category){
+        $db = $this->getDBConnection();
+
+        //remove已有的数据
+        $db->table('^post_category')->where('post', $postId)->delete();
+
+        $hasCat = false;
+        foreach(explode(',', $category) as $cat){
+            if(!preg_match('/^\d[1-9]*$/', $cat)){
+                continue;
+            }
+
+            if($db->table('^post_category')->data(array(
+                'post' => $postId,
+                'category' => $cat
+            ))->add()){
+                $hasCat = true;
+            }
+        }
+
+        $db->table($this->tableName)->data(array(
+            'has_cat' => $hasCat ? 'y' : 'n'
+        ))->where('id=' . $postId)->save();
+    }
+
     public function updatePost($id, $data){
-        $this->getDBConnection()
+        return $this->getDBConnection()
             ->table($this->tableName)
             ->data($data)
             ->where('id', $id)
