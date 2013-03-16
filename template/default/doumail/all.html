@@ -1,0 +1,36 @@
+<?php
+$title = '豆邮';
+$css = 'my.doumail.css';
+require '../my/header.html';
+?>
+<h2><?php print $title; ?></h2>
+
+<div class="grid grid-act">
+    <div class="grid-header"><h3>活动列表</h3></div>
+    <?php
+    if(count($actList)){
+        print '<div class="list"><ul>';
+        foreach($actList as $vo):
+    ?>
+    <li>
+        <div class="lft"><input type="radio" name="mainact" value="<?php print $vo->id; ?>" <?php if('y' === $vo->selected){ print 'checked'; } ?> /></div>
+        <div class="rgt">
+            <p><a href="/doumail/edit?id=<?php print $vo->id; ?>"><?php print $vo->name; ?></a></p>
+            <p class="tip">创建于<?php print $vo->created; ?></p>
+        </div>
+    </li>
+    <?php
+        endforeach;
+        print '</ul></div>';
+    }
+    ?>
+    <a href="/doumail/create">添加活动</a>
+</div>
+
+<div class="grid grid-user">
+    <div class="grid-header"><h3>豆邮发送账号</h3></div>
+    <a href="/doumail/create">绑定账号</a>
+</div>
+
+<?php
+require '../my/footer.html';

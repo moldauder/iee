@@ -1,0 +1,21 @@
+.grid-act .list{
+    padding-right: 10px;
+}
+.grid-act ul{
+    padding: 20px;
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+.grid-act .lft{
+    float: left;
+    margin-right: 10px;
+}
+.grid-act .rgt{
+    overflow: hidden;
+    zoom: 1;
+}
+.grid-act .tip{
+    color: #999;
+}

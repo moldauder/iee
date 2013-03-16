@@ -92,6 +92,12 @@
     "util.suggest.css": {
         "version": "1.0.0"
     },
+    "my.douactcreate": {
+        "version": "1.0.0"
+    },
+    "my.doumail.css": {
+        "version": "1.0.0"
+    },
 
     "smart.base.css": {
         "version": "1.0.0"
