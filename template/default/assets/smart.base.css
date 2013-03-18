@@ -15,8 +15,7 @@ img{
     margin: 0 auto;
 }
 .stdpost img{
-    border: 1px solid #eee;
-    border-width: 1px 0;
+    border-top: 1px solid #e1e1e1;
 }
 /**
  * dest width: 320 - 30 * 2 = 260
@@ -31,7 +30,6 @@ img{
 .stdpost .content{
     color: #7f7f7f;
     line-height: 24px;
-    margin: 20px 0;
     padding: 0 15px;
     background: #f4f4f4;
     border: 1px solid #e1e1e1;
@@ -44,7 +42,7 @@ img{
 .stdpost .action{
     line-height: 30px;
     padding: 0 15px;
-    margin: 0 5px;
+    margin: 20px 5px 0;
 }
 .stdpost .price{
     font-family: arial;
