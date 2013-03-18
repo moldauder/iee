@@ -1,38 +1,4 @@
 (function(){
-    var $el = $('.stdpost');
-
-    var $detail = $('.detail', $el);
-    var detailLeft = $detail.css('left');
-    var detailOpacity = $detail.css('opacity');
-
-    //全部模式:
-    //img 当前在看图片
-    //detail 在看详细的内容
-    var mode = 'img';
-
-    $($el)
-    .on('swipeLeft', function(ev){
-        ev.preventDefault();
-        if('img' === mode){
-            $detail.animate({
-                left: 0,
-                opacity: 0.9
-            }, 500, 'ease-out', function(){
-                mode = 'detail';
-            });
-        }
-    })
-    .on('swipeRight', function(){
-        if('detail' === mode){
-            $detail.animate({
-                left: detailLeft,
-                opacity: detailOpacity
-            }, 500, 'ease-out', function(){
-                mode = 'img';
-            });
-        }
-    });
-
     //转换分享链接
     function ps(){
         $('ins.post-share').each(function(){

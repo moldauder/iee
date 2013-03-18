@@ -11,58 +11,57 @@ img{
 }
 /* 单品详情页  */
 .stdpost{
-    position: relative;
     width: 320px;
-    height: 420px;
-    overflow: hidden;
     margin: 0 auto;
+}
+.stdpost img{
+    border: 1px solid #efefef;
 }
 /**
  * dest width: 320 - 30 * 2 = 260
  * dest height: 420 - 20 * 2 = 380
  */
-.stdpost .detail{
-    position: absolute;
-    top: 0;
-    left: 305px;
-
-    width: 260px;
-    height: 360px;
-    padding: 40px 30px 20px;
-
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    opacity: 0.96;
-}
 .stdpost .title{
-    border-bottom: 1px dotted #000;
-    border-top: 2px solid #000;
     font-size: 16px;
     line-height: 30px;
+    text-align: center;
+    padding: 10px 0;
 }
 .stdpost .content{
     color: #7f7f7f;
-    line-height: 20px;
-    margin: 10px 0 20px;
+    line-height: 24px;
+    margin: 20px 0;
+    padding: 0 1em;
+    background: #f4f4f4;
+    border: 1px solid #e1e1e1;
 }
 .stdpost .content p{
-    margin-bottom: 10px;
+    padding: 1em 0;
+}
+.stdpost .action{
+    line-height: 30px;
 }
 .stdpost .price{
     font-family: arial;
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-right: 10px;
 }
 .stdpost .action a{
     display: inline-block;
     vertical-align: top;
     background: #000;
     color: #fff;
-    width: 90px;
-    height: 26px;
+    width: 100px;
+    height: 30px;
     text-align: center;
-    line-height: 26px;
-    margin-right: 10px;
+    margin: 0 10px;
+    font-size: 14px;
 }
 .stdpost .action a:hover{
     text-decoration: none;
+}
+.footer{
+    padding-top: 15px;
+    color: #aaa;
+    text-align: center;
 }
