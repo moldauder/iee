@@ -9,7 +9,7 @@ $link = $link ? ('href="' . $link . '"') : '';
 ?>
 <article class="stdpost">
     <header><h1 class="title"><?php print $postObj->title;?></h1></header>
-    <div class="photo"><a <?php print $link; ?> target="_blank"><img src="<?php print $postObj->img;?>" width="320" height="420" alt="<?php print $postObj->title; ?>" /></a></div>
+    <div class="photo"><a <?php print $link; ?> target="_blank"><img src="<?php print $postObj->img;?>" width="320" height="420" /></a></div>
     <div class="content"><?php print $postObj->fullcontent;?></div>
     <div class="action">
         <?php if($postObj->price): ?><span class="price">&yen;<?php print $postObj->price; ?></span><?php endif; ?>
