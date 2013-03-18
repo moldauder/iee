@@ -11,12 +11,12 @@ img{
 }
 /* 单品详情页  */
 .stdpost{
-    width: 310px;
+    width: 320px;
     margin: 0 auto;
-    padding: 5px;
 }
 .stdpost img{
-    border: 1px solid #efefef;
+    border: 1px solid #eee;
+    border-width: 1px 0;
 }
 /**
  * dest width: 320 - 30 * 2 = 260
@@ -32,9 +32,10 @@ img{
     color: #7f7f7f;
     line-height: 24px;
     margin: 20px 0;
-    padding: 0 1em;
+    padding: 0 15px;
     background: #f4f4f4;
     border: 1px solid #e1e1e1;
+    border-width: 1px 0;
     font-size: 14px;
 }
 .stdpost .content p{
@@ -42,18 +43,20 @@ img{
 }
 .stdpost .action{
     line-height: 30px;
+    padding: 0 15px;
+    margin: 0 5px;
 }
 .stdpost .price{
     font-family: arial;
     font-size: 18px;
-    margin-right: 10px;
+    margin-right: 15px;
 }
 .stdpost .action a{
     display: inline-block;
     vertical-align: top;
     background: #000;
     color: #fff;
-    width: 100px;
+    width: 84px;
     height: 30px;
     text-align: center;
     margin: 0 10px;
@@ -63,7 +66,7 @@ img{
     text-decoration: none;
 }
 .footer{
-    padding-top: 10px 0;
+    padding: 10px 0;
     color: #aaa;
     text-align: center;
 }
