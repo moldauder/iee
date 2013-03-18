@@ -11,8 +11,9 @@ img{
 }
 /* 单品详情页  */
 .stdpost{
-    width: 320px;
+    width: 310px;
     margin: 0 auto;
+    padding: 5px;
 }
 .stdpost img{
     border: 1px solid #efefef;
