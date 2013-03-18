@@ -11,6 +11,19 @@ if($isAlbum){
     $assetTool->import('fp.album');
 }
 ?>
+
+<?php
+$springId = '2027';
+if($springId === $postObj->id || $springId === $postObj->sid){
+?>
+<style>
+.tpl-item{background:url(/asset/default/res/spring_bg.jpg) repeat;}
+.stdpost{border-color:transparent;background:transparent;}
+</style>
+<?php
+}
+?>
+
 <div id="container">
     <div id="slider">
         <div id="post<?php print($postObj->id); ?>" class="panel"><?php require 'block.html'; ?></div>

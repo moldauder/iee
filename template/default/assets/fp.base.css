@@ -21,7 +21,7 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
     background-repeat: no-repeat;
 }
 
-#content{ overflow: hidden; }
+#content{ overflow: hidden; padding-bottom: 50px; }
 .tpl-index #content{ padding: 0 0 10px; overflow: visible; }
 
 .tpl-item #content,
@@ -254,7 +254,7 @@ s.connector{ display: inline-block; width: 16px; height: 1px; background: #7f7f7
 
 /* submiturl */
 #sh{display: none;}
-#pi{background: #fff; position: relative; padding-top: 10px; }
+#pi{ position: relative; padding-top: 10px; }
 .submiturl{
     background: url(http://pic.yupoo.com/iewei/CsyJBLYS/WXGES.jpg);
     overflow: hidden;
