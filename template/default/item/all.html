@@ -76,7 +76,7 @@ foreach($postList as $vo):
 ?>
 <div class="<?php print implode(' ', $cls); ?>" data-id="<?php print $vo->id; ?>">
     <div class="item-title">
-        <a title="<?php print $vo->title; ?>" href="/item/edit/<?php print $sid; ?>"><?php if('album' === $vo->type){ print '<sup>专辑</sup>'; } ?><?php if('y' === $vo->has_cat){ print '<sup>已分类</sup>'; } ?><?php print $vo->title; ?></a>
+        <a title="<?php print $vo->title; ?>" href="/item/edit/<?php print $sid; ?>"><?php if('album' === $vo->type){ print '<sup>专辑</sup>'; } ?><?php if('y' === $vo->has_cat){ print '<sup>已分类</sup>'; } if($vo->status){ print '<sup>草稿</sup>'; } ?><?php print $vo->title; ?></a>
     </div>
     <?php
     if(IS_SUPER_USER){
