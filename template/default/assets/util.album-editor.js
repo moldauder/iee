@@ -192,7 +192,7 @@ KISSY.add('iee/util.album-editor', function(S, DOM, Event, Modal, Validation, Su
                     //创建一个新的trigger
                     if(!DOM.children(self.itemListEl, '.empty').length){
                         DOM.removeAttr(self.activeItemEl, 'data-event');
-                        DOM.append(DOM.create('<div class="album-editor-item empty" data-event="addItem">add</div>'), self.itemListEl);
+                        DOM.prepend(DOM.create('<div class="album-editor-item empty" data-event="addItem">add</div>'), self.itemListEl);
                     }
                 }
             });
@@ -226,7 +226,7 @@ KISSY.add('iee/util.album-editor', function(S, DOM, Event, Modal, Validation, Su
                 html += '<div class="album-editor-item">' + self.renderItemData(vo) + '</div>';
             });
 
-            self.itemListEl.innerHTML = html + '<div class="album-editor-item empty" data-event="addItem">add</div>';
+            self.itemListEl.innerHTML = '<div class="album-editor-item empty" data-event="addItem">add</div>' + html;
             self.save();
         },
         /**
