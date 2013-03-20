@@ -8,7 +8,7 @@ class DownloadAction extends Action{
         }
 
         $db = DB::getInstance();
-        $fileObj = $db->table('^download')->where('key', $file)->selectOne();
+        $fileObj = $db->table('^download')->where('id', $file)->selectOne();
 
         if(!$fileObj){
             System::redirect();
