@@ -7,12 +7,19 @@ class DownloadAction extends Action{
             System::redirect();
         }
 
-        $file = APP_PATH  . 'content/download/' . $file;
+        $db = DB::getInstance();
+        $fileObj = $db->table('^download')->where('key', $file)->selectOne();
+
+        if(!$fileObj){
+            System::redirect();
+        }
+
+        $file = APP_PATH  . 'content/download/' . $fileObj->filepath;
         if(!is_file($file)){
             System::redirect();
         }
 
-        header('Content-Disposition: attachment; filename=' . basename($file));
+        header('Content-Disposition: attachment; filename=' . $fileObj->name);
         header('Content-Length: ' . filesize($file));
         header('Content-type: ' . mime_content_type($file));
         header('Content-Encoding: none');
