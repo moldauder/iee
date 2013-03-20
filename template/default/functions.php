@@ -119,7 +119,7 @@ function renderTinyPost($postObj, $params = array()){
     $id = getPostRootId($postObj);
 
     if($id){
-        $html = '<a id="post<?php print $id; ?>" class="pin" href="/' . getPostRootId($postObj) . '">';
+        $html = '<a id="' . $id . '" class="pin" href="/' . getPostRootId($postObj) . '">';
     }else{
         //是专辑商品这类的
         $buylink = $postObj->buylink ? $postObj->buylink : $postObj->outer_url;
