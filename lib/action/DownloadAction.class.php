@@ -14,6 +14,11 @@ class DownloadAction extends Action{
             System::redirect();
         }
 
+        //计数器加1
+        $db->table('^download')->data(array(
+            'num' => $fileObj->num + 1
+        ))->where('id', $file)->save();
+
         $file = APP_PATH  . 'content/download/' . $fileObj->filepath;
         if(!is_file($file)){
             System::redirect();
