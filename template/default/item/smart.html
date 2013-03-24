@@ -8,13 +8,12 @@ $link = empty($postObj->buylink) ? $postObj->outer_url : $postObj->buylink;
 $link = $link ? ('href="' . $link . '"') : '';
 ?>
 <article class="stdpost">
-    <div class="photo"><img src="<?php print $postObj->img;?>" width="320" height="420" alt="<?php print $postObj->title; ?>" /></div>
-    <div class="detail">
-        <header><h1 class="title"><?php print $postObj->title;?></h1></header>
-        <div class="content"><?php print $postObj->fullcontent;?></div>
-        <?php if($postObj->price): ?><div class="price">&yen;<?php print $postObj->price; ?></div><?php endif; ?>
-        <div class="action"><?php if($link): ?><a class="go-view" <?php print $link;?>>点此拥有</a><?php endif; ?><ins class="post-share"></ins></div>
-        <?php if('n' === $postObj->onsale):?><ins class="off-sign"></ins><?php endif; ?>
+    <header><h1 class="title"><?php print $postObj->title;?></h1></header>
+    <div class="photo"><a <?php print $link; ?> target="_blank"><img src="<?php print $postObj->img;?>" width="320" height="420" /></a></div>
+    <div class="content"><?php print $postObj->fullcontent;?></div>
+    <div class="action">
+        <?php if($postObj->price): ?><span class="price">&yen;<?php print $postObj->price; ?></span><?php endif; ?>
+        <?php if($link): ?><a class="go-view" <?php print $link;?>>点此拥有</a><?php endif; ?><ins class="post-share"></ins>
     </div>
 </article>
 <?php

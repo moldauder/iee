@@ -6,10 +6,10 @@
         "version": "1.0.0"
     },
     "fp.base.css": {
-        "version": "1.0.3"
+        "version": "1.0.5"
     },
     "fp.base": {
-        "version": "1.0.2"
+        "version": "1.0.3"
     },
     "fp.gotop":{
         "version": "1.0.1"
@@ -72,7 +72,7 @@
     },
 
     "util.album-editor": {
-        "version": "1.0.0"
+        "version": "1.0.1"
     },
     "util.album-editor.css": {
         "version": "1.0.0"
@@ -100,9 +100,9 @@
     },
 
     "smart.base.css": {
-        "version": "1.0.0"
+        "version": "1.0.6"
     },
     "smart.item": {
-        "version": "1.0.0"
+        "version": "1.0.3"
     }
 }

@@ -45,7 +45,7 @@ KISSY.add('iee/fp.base', function(S, DOM, Event, Anim){
     }
 
     function packShareText(title, desc){
-        var str = title + '，' + desc, len = 108;
+        var str = title + '。' + desc, len = 108;
         str = str.length > len ? (str.substr(0, len - 3) + '...') : str;
         return encodeURIComponent('#中意一味# ' + str);
     }

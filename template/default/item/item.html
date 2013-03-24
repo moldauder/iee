@@ -11,6 +11,20 @@ if($isAlbum){
     $assetTool->import('fp.album');
 }
 ?>
+<style>.tpl-item{background:url(/asset/default/res/spring_bg.jpg) repeat}.stdpost{border-color:transparent;background:transparent}</style>
+<?php
+$springId = '2846';
+$isSpring = $springId === $postObj->id || $springId === $postObj->sid;
+if($isSpring){
+?>
+<style>
+.spring-gift{width:300px;height:85px;padding-top:50px;background: url(/asset/default/res/spring_download.png) no-repeat;margin-top:45px}
+.spring-gift a{float:left;height:85px;width:80px;margin-right:20px;background:url(about:blank)}
+</style>
+<?php
+}
+?>
+
 <div id="container">
     <div id="slider">
         <div id="post<?php print($postObj->id); ?>" class="panel"><?php require 'block.html'; ?></div>
@@ -24,6 +38,17 @@ if($isAlbum){
         <?php endif; ?>
     </div>
 </div>
+<?php
+if($isSpring){
+?>
+<script>
+(function(D){
+    D.append(D.create('<div class="spring-gift"><a href="/download/spring1024"></a><a href="/download/spring1280"></a><a href="/download/spring1600"></a></div>'),D.get('div.detail','#post<?php print $postObj->id; ?>'));
+})(KISSY.DOM);
+</script>
+<?php
+}
+?>
 <?php
 $initJSMod = 'fp.item';
 require '../common/footer.html';
