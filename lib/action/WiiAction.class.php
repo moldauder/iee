@@ -12,7 +12,7 @@ class WiiAction extends Action{
         header('Cache-Control: max-age=0');
 
         $hour = intval(date('G'));
-        if(2 < $hour && $hour < 7){ //2点到6点之间不发豆邮
+        if(1 < $hour && $hour < 7){ //1点到7点之间不发豆邮
             exit;
         }
 
