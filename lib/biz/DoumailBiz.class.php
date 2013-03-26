@@ -34,4 +34,13 @@ class DoumailBiz extends Biz{
         return $this->getDBConnection()->table('^doumail_act')->where('^doumail_act')->data($data)->where('id', $id)->save();
     }
 
+    /**
+     * 找到全部用户
+     */
+    public function findUsers(){
+        $db = $this->getDBConnection();
+        $db->table('^doumail_auth');
+        return $db->select();
+    }
+
 }

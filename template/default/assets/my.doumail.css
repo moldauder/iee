@@ -1,21 +1,52 @@
-.grid-act .list{
-    padding-right: 10px;
+.doumail-status{
+    padding: 5px 10px;
+    background: #fff6ee;
+    border-radius: 3px;
+    font-size: 12px;
+    margin-left: 20px;
+    color: #999;
 }
-.grid-act ul{
+.doumail-on{
+    color: #072;
+}
+
+.grid{
+    width: 970px;
+    padding-bottom: 22px;
+    margin-bottom: 20px;
+    border-bottom: 1px dotted #aaa;
+}
+.grid:last-of-type{
+    border-bottom: 0;
+}
+
+.grid ul{
     padding: 20px;
     background: #fafafa;
     border: 1px solid #eee;
     border-radius: 4px;
     margin: 10px 0;
 }
-.grid-act .lft{
+.grid .lft{
     float: left;
+    width: 10px;
     margin-right: 10px;
 }
-.grid-act .rgt{
+.grid .rgt{
     overflow: hidden;
     zoom: 1;
 }
-.grid-act .tip{
+.grid .disc{
+    display: block;
+    margin-top: 5px;
+    width: 8px;
+    height: 8px;
+    background: #ccc;
+}
+.grid .item-on .disc{
+    background: #007722;
+}
+
+.grid .tip{
     color: #999;
 }

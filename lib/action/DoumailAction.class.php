@@ -4,8 +4,7 @@
  */
 class DoumailAction extends AuthAction{
 
-    private $authURL = 'https://www.douban.com/service/auth2/';
-    private $apiURL = 'https://api.douban.com/v2/';
+    private $doubanInst;
 
     public function __construct(){
         $this->checkLogin();
@@ -19,18 +18,42 @@ class DoumailAction extends AuthAction{
      */
     public function all(){
         $biz = System::B('Doumail');
-        $list = $biz->findActs();
 
-        $this->assign('actList', $list);
-        $this->display();
+        $this->assign('actList', $biz->findActs());
+        $this->assign('userList', $biz->findUsers());
+
+
+        $this->display('all');
     }
 
     /**
      * 创建活动
      */
     public function create(){
-        $this->checkLogin();
         $this->display();
+    }
+
+    /**
+     * 编辑活动
+     */
+    public function edit(){
+        list($actionName, $methodName, $id) = System::$queryvars;
+        if(!preg_match('/^\d+$/', $id)){
+            exit;
+        }
+
+        $biz = System::B('Doumail');
+        $actObj = $biz->getActById($id);
+
+        if(!$actObj){
+            //@todo
+            exit;
+        }
+
+        $this->assign('actObj', $actObj);
+
+
+        $this->display('create');
     }
 
     /**
@@ -64,9 +87,8 @@ class DoumailAction extends AuthAction{
         }
 
         $data = array(
-            'name' => $title,
-            'content' => $content,
-            'closed' => 'n'
+            'title' => $title,
+            'content' => $content
         );
 
         if(!$id){
@@ -90,26 +112,62 @@ class DoumailAction extends AuthAction{
     }
 
     /**
-     * 显示豆瓣授权页面
+     * 绑定豆瓣账号
      */
-    public function authorization(){
-        $this->display('authorization');
+    public function auth(){
+        $douban = $this->getDoubanInst();
+        $douban->auth(array(
+            'scope' => 'douban_basic_common,community_basic_online,event_basic_r,community_advanced_doumail_w'
+        ));
     }
 
     /**
-     * 处理豆瓣回传的授权响应，接受code参数
+     * 接收豆瓣的授权响应
      */
-    private function handleAuth(){
+    public function _empty(){
         $error = $_GET['error'];
         if($error){
         }
 
         $code = $_GET['code'];
         if($code){
-            //try to get access_token
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $this->authURL . 'token');
-            curl_setopt($ch, CURLOPT_POST, true);
+            $douban = $this->getDoubanInst();
+            $result = $douban->handlerAuth();
+            $access_token = $result->access_token;
+
+            if(!$access_token){
+                return;
+            }
+
+            //获取当前授权用户的信息
+            $me = $douban->get('/v2/user/~me');
+
+            //保存到数据库
+            $db = Db::getInstance();
+            $db->table('^doumail_auth')->where('douban_user_id', $result->douban_user_id)->delete();
+            $db->table('^doumail_auth')->data(array(
+                'douban_user_id'   => $result->douban_user_id,
+                'douban_user_uid'  => $me->uid,
+                'douban_user_name' => $me->name,
+                'access_token'     => $access_token,
+                'refresh_token'    => $result->refresh_token,
+                'expire'           => date('Y-m-d H:i:s', time() + $result->expires_in)
+            ))->add();
         }
+
+        System::redirect('doumail/all');
     }
+
+    /**
+     * 获取豆瓣实例
+     */
+    private function getDoubanInst(){
+        if(!$this->doubanInst){
+            System::importVendor('Douban');
+            $this->doubanInst = new Douban(System::config('doumail'));
+        }
+
+        return $this->doubanInst;
+    }
+
 }
