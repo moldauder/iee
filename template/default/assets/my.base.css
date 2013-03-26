@@ -65,6 +65,14 @@ a:hover{
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 
+.btn button{
+    background: none;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    line-height: 1;
+}
+
 select{
     line-height: 15px;
     border: 1px solid #a2a2a2;
@@ -229,6 +237,12 @@ select{
     border-top-color: #8cd4de;
 }
 
+.grid-header h3{
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
 
 .on,.off{
     border-radius: 4px;
@@ -287,12 +301,14 @@ select{
 .form-field{
     padding: 0 0 12px;
 }
+
+.form-field .tip{
+    color: #666;
+}
+
 .form-field input[type="text"],
 .form-field textarea{
     width: 536px;
-}
-.form-field textarea{
-    height: 90px;
 }
 .field-hd{
     float: left;
