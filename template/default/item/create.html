@@ -24,7 +24,7 @@ require '../my/header.html';
             </div>
             <div class="form-field">
                 <div class="field-hd"><label for="postcontent">描述</label></div>
-                <div class="field-bd"><textarea class="text" id="postcontent" name="content" data-validate='["require"]'><?php print $isEditMode ? $postObj->content : ''; ?></textarea></div>
+                <div class="field-bd"><textarea class="text" rows="10" id="postcontent" name="content" data-validate='["require"]'><?php print $isEditMode ? $postObj->content : ''; ?></textarea></div>
             </div>
             <div class="form-field field-img">
                 <div class="field-hd"><label for="img">图片</label></div>

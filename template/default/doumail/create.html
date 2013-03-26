@@ -1,0 +1,40 @@
+<?php
+$isEditMode = isset($actObj);
+$title = $isEditMode ? ('编辑豆邮活动 &rsaquo; ' . $actObj->title) : '添加豆邮活动';
+require '../my/header.html';
+?>
+<h2><?php print $title; ?></h2>
+<form id="doumailActForm" action="/doumail/saveact" method="post">
+    <div class="hide">
+        <input type="text" name="id" value="<?php print $isEditMode ? $actObj->id : ''; ?>"/>
+    </div>
+    <div class="toolbar">
+        <span class="btn btn-primary"><button type="submit">保存</button></span>
+        <a class="btn" href="/doumail/all">返回</a>
+    </div>
+    <div class="grid">
+        <div class="form-field" style="position:relative">
+            <div class="field-hd"><label for="title">标题</label></div>
+            <div class="field-bd"><input type="text" id="title" autocomplete="off" value="<?php print $isEditMode ? $actObj->title : '' ?>" name="title" class="text" data-validate='["require"]' /></div>
+
+            <div class="tip" style="position:absolute;top:0;right: 27px;width:300px">
+                <p><b>在标题和内容中可以使用以下标记：</b></p>
+                <p>{nick} 收件人昵称 </p>
+                <p>{date} 当前时间，如：<?php print date('Y年n月j日'); ?> </p>
+            </div>
+        </div>
+        <div class="form-field">
+            <div class="field-hd"><label for="actcontent">内容</label></div>
+            <div class="field-bd">
+                <textarea class="text" rows="12" id="actcontent" name="content" data-validate='["require"]'><?php print $isEditMode ? $actObj->content : ''; ?></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar">
+        <span class="btn btn-primary"><button type="submit">保存</button></span>
+        <a class="btn" href="/doumail/all">返回</a>
+    </div>
+</form>
+<?php
+$initJSMod = 'my.douactcreate';
+require '../my/footer.html';

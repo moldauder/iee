@@ -1,0 +1,57 @@
+<?php
+$title = '豆邮';
+$css = 'my.doumail.css';
+require '../my/header.html';
+?>
+<h2><?php print $title; ?>
+<?php $isOn = System::config('auto_doumail'); ?>
+<span class="doumail-status <?php if($isOn){ print 'doumail-on'; } ?>">当前<?php print $isOn ? '已' : '未'; ?>开启豆邮发送</span>
+</h2>
+
+<div class="grid grid-act">
+    <div class="grid-header"><h3>活动列表</h3></div>
+    <?php
+    if(count($actList)){
+        print '<div class="list"><ul>';
+        foreach($actList as $vo):
+            $isSelected = 'y' === $vo->selected;
+    ?>
+    <li<?php if($isSelected){print ' class="item-on"';} ?>>
+        <div class="lft"><span class="disc"></span></div>
+        <div class="rgt">
+            <p><a href="/doumail/edit/<?php print $vo->id; ?>"><?php print $vo->title; ?></a></p>
+            <p class="tip">创建于<?php print $vo->created; ?>，已经发送<?php print $vo->amount; ?>封豆邮</p>
+        </div>
+    </li>
+    <?php
+        endforeach;
+        print '</ul></div>';
+    }
+    ?>
+    <a href="/doumail/create">添加活动</a>
+</div>
+
+<div class="grid grid-user">
+    <div class="grid-header"><h3>豆邮发送账号</h3></div>
+    <?php
+    if(count($userList)){
+        print '<div class="list"><ul>';
+        foreach($userList as $vo):
+    ?>
+    <li>
+        <div class="lft"></div>
+        <div class="rgt">
+            <p><a href="/doumail/edit/<?php print $vo->id; ?>"><?php print $vo->douban_user_name; ?></a></p>
+        </div>
+    </li>
+    <?php
+        endforeach;
+        print '</ul></div>';
+    }
+    ?>
+
+    <a href="/doumail/auth">绑定账号</a>
+</div>
+
+<?php
+require '../my/footer.html';
