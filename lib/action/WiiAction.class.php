@@ -9,29 +9,25 @@ class WiiAction extends Action{
     private $access_token;
 
     public function _empty(){
-        header('Cache-Control: max-age=0');
-
-        $hour = intval(date('G'));
-        if(1 < $hour && $hour < 7){ //1点到7点之间不发豆邮
-            exit;
-        }
-
-        $this->doumail();
     }
 
     /**
      * 发送doumail
      */
-    private function doumail(){
+    public function doumail(){
+        $cache = $this->readDoubanCache();
+
+        //还不在有效时间里，这个时间去拉些用户吧
+        if($cache['availtime'] && $cache['availtime'] > time()){
+            $this->fetchDoubanUser();
+            return;
+        }
+
+        $cache['availtime'] = false;
+        $this->writeDoubanCache($cache);
+
         //获取待接收豆邮的用户列表
         $db = $this->getDBConntention();
-
-        //获取最后一次发布的时间点，如果是在五分钟内就不再发送了
-        //假设5分钟发一次，每次发5封，一小时发60封，一天能发1000封左右
-        $lastPost = $db->table('^doumail_posts')->order('id desc')->selectOne();
-        if($lastPost && strtotime($lastPost->pubtime) - time() <  300){
-            exit;
-        }
 
         //获取当前要发送的活动
         $act = $db->table('^doumail_act')->where('selected', 'y')->selectOne();
@@ -51,28 +47,38 @@ class WiiAction extends Action{
      * 获取用户
      *
      * 从线上活动中拉取参加用户
+     * 为了能有效抓取用户，采取以下策略：
+     * 1、每次抓取到的活动保存到数据库中
+     * 2、设定当前在遍历的活动
      */
-    private function fetchDoubanUser(){
-        $douban = $this->getDoubanInst();
-        $douban->args('access_token', $this->access_token);
+    public function fetchDoubanUser(){
+        $curOnline = $this->getCurDoubanOnline();
 
-        $result = $douban->get('/v2/onlines');
-        $onlines = $result->onlines;
-
-        if(is_array($onlines)){
-            //随机取出一个活动
-            $event = $onlines[rand(0, count($onlines) - 1)];
-
-            //写入活动组织者
-            $owner = $event->owner;
-            $this->addDoubanUser($owner->uid, $owner->name);
-
-            //接取活动的参加者
-            $participant = $douban->get('/v2/online/' . $event->id . '/participants');
-            foreach($participant->users as $user){
-                $this->addDoubanUser($user->uid, $user->name);
-            }
+        if(!$curOnline){
+            $this->fetchDoubanOnline();
+            return;
         }
+
+        //接取活动的参加者
+        $participant = $this->getDoubanInst()->get('/v2/online/' . $curOnline->id . '/participants', array(
+            'start' => $curOnline->start,
+            'count' => 20
+        ));
+
+        foreach($participant->users as $user){
+            $this->addDoubanUser($user->uid, $user->name);
+        }
+
+        $data = array(
+            'start' => $participant->count + $participant->start
+        );
+
+        //返回的数量不足20个，则说明当前活动的参与者信息已经全部抓取完成
+        if($participant->count < 20){
+            $data['finished'] = 'y';
+        }
+
+        $this->updateCurOnline($curOnline->id, $data);
     }
 
     /**
@@ -127,21 +133,107 @@ class WiiAction extends Action{
                 ))->add();
 
                 $db->query('update tp_doumail_act set amount=amount+1 where id=' . $actId);
+            }else{
+                //发送失败，意味着需要输入验证码等，延长下次豆邮发送时间在15分钟后
+                Logger::record('send doumail failed', Logger::ERR);
+                $this->writeDoubanCache(array(
+                    'availtime' => time() + 900
+                ));
             }
         }
     }
 
-    //不需要判断用户是否存在，数据库机保证了唯一性
+    /**
+     * 保存豆瓣用户到数据库中
+     */
     private function addDoubanUser($uid, $name){
-        $this->getDBConntention()
-            ->table('^doumail_users')
-            ->data(array(
-                'user_uid' => $uid,
-                'user_name' => $name
-            ))
-            ->add();
+        $db = $this->getDBConntention();
+
+        if($db->table('^doumail_users')->where('user_uid', $uid)->selectOne()){
+            return;
+        }
+
+        $db->table('^doumail_users')
+           ->data(array(
+               'user_uid' => $uid,
+               'user_name' => $name
+           ))
+           ->add();
     }
 
+    /**
+     * 获取当前正在进行抓取的活动
+     */
+    private function getCurDoubanOnline(){
+        return $this->getDBConntention()->table('^doumail_onlines')->where('finished', 'n')->selectOne();
+    }
+
+    /**
+     * 更新当前活动信息
+     */
+    private function updateCurOnline($id, $data){
+        $this->getDBConntention()->table('^doumail_onlines')
+            ->data($data)
+            ->where('id', $id)
+            ->save();
+    }
+
+    /**
+     * 抓取豆瓣线上活动
+     */
+    private function fetchDoubanOnline(){
+        $douban = $this->getDoubanInst();
+        $result = $douban->get('/v2/onlines');
+        $onlines = $result->onlines;
+
+        if(is_array($onlines)){
+            $db = $this->getDBConntention();
+
+            foreach($onlines as $online){
+                if($db->table('^doumail_onlines')->where('id', $online->id)->selectOne()){
+                    continue;
+                }
+
+                $db->table('^doumail_onlines')
+                   ->data(array(
+                       'id' => $online->id,
+                       'finished' => 'n',
+                       'start' => 0
+                   ))
+                   ->add();
+            }
+        }
+    }
+
+    /**
+     * 获取豆瓣的缓存
+     */
+    private function readDoubanCache(){
+        $file = APP_PATH . 'content/douban';
+        if(is_file($file)){
+            return unserialize(file_get_contents($file));
+        }
+        return array();
+    }
+
+    /**
+     * 写入豆瓣缓存
+     */
+    private function writeDoubanCache($data){
+        $cur = $this->readDoubanCache();
+
+        $fp = fopen(APP_PATH . 'content/douban', 'w');
+        if($fp){
+            fwrite($fp, serialize(array_merge($cur, $data)));
+            fclose($fp);
+        }else{
+            Logger::record('can not open content/douban cache file', Logger::ERR);
+        }
+    }
+
+    /**
+     * 获取豆瓣实例
+     */
     private function getDoubanInst(){
         if(!$this->douban){
             $db = $this->getDBConntention();
