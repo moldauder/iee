@@ -37,10 +37,22 @@ class DoumailBiz extends Biz{
     /**
      * 找到全部用户
      */
-    public function findUsers(){
+    public function findAuths(){
         $db = $this->getDBConnection();
-        $db->table('^doumail_auth');
+        $db->table('^doumail_auth auth')
+           ->field('auth.*, user.nick')
+           ->join('^users user on user.id=auth.uid');
         return $db->select();
+    }
+
+    /**
+     * 获取当前认证用户信息
+     */
+    public function getCurAuth(){
+        return $this->getDBConnection()
+            ->table('^doumail_auth')
+            ->where('uid', USERID)
+            ->selectOne();
     }
 
 }

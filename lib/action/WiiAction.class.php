@@ -35,7 +35,7 @@ class WiiAction extends Action{
             exit;
         }
 
-        $list = $db->query('select user_uid, user_name from tp_doumail_users where user_uid not in (select user_uid from tp_doumail_posts where act=' . $act->id . ') limit 5');
+        $list = $db->query('select user_uid, user_name from tp_doumail_users where user_uid not in (select user_uid from tp_doumail_posts where act=' . $act->id . ') limit 2');
         if(count($list)){
             $this->sendDoumail($act, $list);
         }else{
@@ -84,7 +84,7 @@ class WiiAction extends Action{
     /**
      * 发送豆邮
      */
-    private function sendDoumail($act, $list){
+    public function sendDoumail($act, $list){
         $db = $this->getDBConntention();
         $douban = $this->getDoubanInst();
 
@@ -95,16 +95,13 @@ class WiiAction extends Action{
         $content = $act->content;
         $title   = $act->title;
 
+        $err = 0;
+
         foreach($list as $vo){
             $replace = array(
                 $vo->user_name,
                 $date
             );
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://api.douban.com/doumails');
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
             $xml = '<?xml version="1.0" encoding="UTF-8"?>' .
                     '   <entry xmlns="http://www.w3.org/2005/Atom" xmlns:db="http://www.douban.com/xmlns/" xmlns:gd="http://schemas.google.com/g/2005" xmlns:opensearch="http://a9.com/-/spec/opensearchrss/1.0/">' .
@@ -113,6 +110,11 @@ class WiiAction extends Action{
                     '   <title>' . str_replace($search, $replace, $title) . '</title>' .
                     $captcha .
                 '</entry>';
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://api.douban.com/doumails');
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -139,8 +141,12 @@ class WiiAction extends Action{
                 $this->writeDoubanCache(array(
                     'availtime' => time() + 900
                 ));
+
+                $err++;
             }
         }
+
+        return 0 === $err;
     }
 
     /**

@@ -20,7 +20,7 @@ class DoumailAction extends AuthAction{
         $biz = System::B('Doumail');
 
         $this->assign('actList', $biz->findActs());
-        $this->assign('userList', $biz->findUsers());
+        $this->assign('userList', $biz->findAuths());
 
 
         $this->display('all');
@@ -31,6 +31,44 @@ class DoumailAction extends AuthAction{
      */
     public function create(){
         $this->display();
+    }
+
+    /**
+     * 发送测试豆邮
+     */
+    public function test(){
+        header('content-type: text/html; charset=utf-8');
+
+        list($actionName, $methodName, $id) = System::$queryvars;
+        if(!preg_match('/^\d+$/', $id)){
+            exit;
+        }
+
+        $biz = System::B('Doumail');
+        $actObj = $biz->getActById($id);
+
+        if(!$actObj){
+            print '活动不存在';
+            exit;
+        }
+
+        //取得当前用户绑定信息
+        $curAuth = $biz->getCurAuth();
+        if(!$curAuth){
+            print '<a href="/doumail/auth">请先绑定豆邮账号</a>';
+            exit;
+        }
+
+        $curAuth->user_uid = $curAuth->douban_user_id;
+        $curAuth->user_name = $curAuth->douban_user_name;
+
+        require APP_LIB_ACTION . 'WiiAction.class.php';
+        $wii = new WiiAction();
+        if($wii->sendDoumail($actObj, array($curAuth))){
+            print '豆邮发送完成，请前往<a href="http://www.douban.com/doumail/">豆瓣</a>检查';
+        }else{
+            print '豆邮发送失败，可能是被限速，请稍后再试';
+        }
     }
 
     /**
@@ -151,7 +189,8 @@ class DoumailAction extends AuthAction{
                 'douban_user_name' => $me->name,
                 'access_token'     => $access_token,
                 'refresh_token'    => $result->refresh_token,
-                'expire'           => date('Y-m-d H:i:s', time() + $result->expires_in)
+                'expire'           => date('Y-m-d H:i:s', time() + $result->expires_in),
+                'uid'              => USERID
             ))->add();
         }
 

@@ -20,7 +20,7 @@ require '../my/header.html';
         <div class="lft"><span class="disc"></span></div>
         <div class="rgt">
             <p><a href="/doumail/edit/<?php print $vo->id; ?>"><?php print $vo->title; ?></a></p>
-            <p class="tip">创建于<?php print $vo->created; ?>，已经发送<?php print $vo->amount; ?>封豆邮</p>
+            <p class="tip">创建于<?php print $vo->created; ?>，已经发送<?php print $vo->amount; ?>封豆邮 [<a href="/doumail/test/<?php print $vo->id; ?>" target="_blank">测试</a>]</p>
         </div>
     </li>
     <?php
@@ -41,7 +41,7 @@ require '../my/header.html';
     <li>
         <div class="lft"></div>
         <div class="rgt">
-            <p><a href="/doumail/edit/<?php print $vo->id; ?>"><?php print $vo->douban_user_name; ?></a></p>
+            <p><a href="/doumail/edit/<?php print $vo->id; ?>"><?php print $vo->douban_user_name; ?></a> - <?php print $vo->nick; ?></p>
         </div>
     </li>
     <?php
