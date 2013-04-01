@@ -31,7 +31,7 @@ class DoumailBiz extends Biz{
     }
 
     public function updateAct($id, $data){
-        return $this->getDBConnection()->table('^doumail_act')->where('^doumail_act')->data($data)->where('id', $id)->save();
+        return $this->getDBConnection()->table('^doumail_act')->data($data)->where('id', $id)->save();
     }
 
     /**
