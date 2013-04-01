@@ -63,7 +63,7 @@ class DoumailAction extends AuthAction{
         $biz = System::B('Doumail');
 
         $id =  System::filterVar($_POST['id']);
-        if($id && !$biz->findActById($id)){
+        if($id && !$biz->getActById($id)){
             $this->ajax(array(
                 'msg'     => '您要编辑的豆邮活动不存在',
                 'success' => false
