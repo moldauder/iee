@@ -37,7 +37,11 @@ class WiiAction extends Action{
 
         $list = $db->query('select user_uid, user_name from tp_doumail_users where user_uid not in (select user_uid from tp_doumail_posts where act=' . $act->id . ') limit 2');
         if(count($list)){
-            $this->sendDoumail($act, $list);
+            if($this->sendDoumail($act, $list)){
+                print 'success';
+            }else{
+                print 'failure';
+            }
         }else{
             $this->fetchDoubanUser();
         }
