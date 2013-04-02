@@ -3,10 +3,7 @@ $title = '豆邮';
 $css = 'my.doumail.css';
 require '../my/header.html';
 ?>
-<h2><?php print $title; ?>
-<?php $isOn = System::config('auto_doumail'); ?>
-<span class="doumail-status <?php if($isOn){ print 'doumail-on'; } ?>">当前<?php print $isOn ? '已' : '未'; ?>开启豆邮发送</span>
-</h2>
+<h2><?php print $title; ?></h2>
 
 <div class="grid grid-act">
     <div class="grid-header"><h3>活动列表</h3></div>
