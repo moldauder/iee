@@ -95,8 +95,6 @@ class WiiAction extends Action{
         $content = $act->content;
         $title   = $act->title;
 
-        $err = 0;
-
         foreach($list as $vo){
             $replace = array(
                 $vo->user_name,
@@ -142,11 +140,12 @@ class WiiAction extends Action{
                     'availtime' => time() + 900
                 ));
 
-                $err++;
+                //一旦失败，自然是停止后续发送了
+                return false;
             }
         }
 
-        return 0 === $err;
+        return true;
     }
 
     /**
