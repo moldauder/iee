@@ -20,6 +20,7 @@ class WiiAction extends Action{
         //还不在有效时间里，这个时间去拉些用户吧
         if($cache['availtime'] && $cache['availtime'] > time()){
             $this->fetchDoubanUser();
+            print 'still in block, fetch user instead';
             return;
         }
 
@@ -32,6 +33,7 @@ class WiiAction extends Action{
         //获取当前要发送的活动
         $act = $db->table('^doumail_act')->where('selected', 'y')->selectOne();
         if(!$act){
+            print 'no act';
             exit;
         }
 
@@ -43,6 +45,7 @@ class WiiAction extends Action{
                 print 'failure';
             }
         }else{
+            print 'receiver empty, prepare user';
             $this->fetchDoubanUser();
         }
     }
