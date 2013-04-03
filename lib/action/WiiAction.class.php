@@ -20,7 +20,7 @@ class WiiAction extends Action{
         //还不在有效时间里，这个时间去拉些用户吧
         if($cache['availtime'] && $cache['availtime'] > time()){
             $this->fetchDoubanUser();
-            print 'still in block, fetch user instead';
+            print 'still in block, fetch user instead. will be avail at ' . date('Y-m-d H:i:s', $cache['availtime']);
             return;
         }
 
@@ -141,10 +141,10 @@ class WiiAction extends Action{
 
                 $db->query('update tp_doumail_act set amount=amount+1 where id=' . $actId);
             }else{
-                //发送失败，意味着需要输入验证码等，延长下次豆邮发送时间在15分钟后
+                //发送失败，意味着需要输入验证码等，延长下次豆邮发送时间在10分钟后
                 Logger::record('send doumail failed', Logger::ERR);
                 $this->writeDoubanCache(array(
-                    'availtime' => time() + 900
+                    'availtime' => time() + 600
                 ));
 
                 //一旦失败，自然是停止后续发送了
