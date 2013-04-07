@@ -6,7 +6,7 @@
         "version": "1.0.0"
     },
     "fp.base.css": {
-        "version": "1.0.5"
+        "version": "1.0.6"
     },
     "fp.base": {
         "version": "1.0.3"
@@ -15,10 +15,10 @@
         "version": "1.0.1"
     },
     "fp.waterfall": {
-        "version": "1.0.0"
+        "version": "1.0.1"
     },
     "fp.fp": {
-        "version": "1.0.2"
+        "version": "1.0.3"
     },
     "fp.submit": {
         "version": "1.0.2"
@@ -95,8 +95,11 @@
     "my.douactcreate": {
         "version": "1.0.0"
     },
-    "my.doumail.css": {
+    "my.doumail": {
         "version": "1.0.0"
+    },
+    "my.doumail.css": {
+        "version": "1.0.1"
     },
 
     "smart.base.css": {

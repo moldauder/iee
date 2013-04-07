@@ -38,3 +38,19 @@
 .grid .tip{
     color: #999;
 }
+
+/* 服务器输出 */
+#outbox{
+    margin: 10px 0;
+}
+#output{
+    width: 800px;
+    color: #666;
+    padding: 10px;
+    height: 30px;
+    background: #f9f9f9;
+    border: 1px solid #efefef;
+    border-radius: 2px;
+    display: table-cell;
+    vertical-align: middle;
+}

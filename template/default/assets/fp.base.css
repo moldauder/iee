@@ -742,3 +742,9 @@ html .modal-album-mask{
 .sub-cat-color .cat-color.active span{
     visibility: hidden;
 }
+
+/* 屏幕宽度控制 */
+.pw4 #header .wrapper,
+.pw4 .category .root ul{
+    width: 1200px;
+}

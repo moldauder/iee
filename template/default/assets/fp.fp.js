@@ -70,6 +70,13 @@ KISSY.add('iee/fp.fp', function(S, DOM, Event, IO, Base, Waterfall, Submit){
                 });
             }
         });
+
+        wf.on('resize', function(ev){
+            var el = document.documentElement;
+            el.className = el.className.replace(/\s+pw\d+\b/, '') + ' pw' + ev.colCount;
+        });
+
+        wf.start();
     };
 
     return FP;

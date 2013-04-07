@@ -21,7 +21,7 @@ renderCategory($categoryList, array(
 ));
 ?>
 <div id="pi"><div id="waterfall" class="waterfall"><?php foreach($list as $idx=>$obj){ print renderTinyPost($obj, array(
-    'lazyImg' => $idx > 5
+    'lazyImg' => $idx > 8
 )); }; ?></div><div id="loading"></div></div>
 <script><?php
 if(isset($startId)){

@@ -28,6 +28,12 @@ require '../my/header.html';
     <a href="/doumail/create">添加活动</a>
 </div>
 
+<div class="grid grid-board">
+    <div class="grid-header"><h3>小心，熊出没</h3></div>
+    <div id="outbox"><div id="output">他们所呆的地方，就是世界的中心</div></div>
+    <div class="control"><span id="sendbtn" class="btn btn-primary" tabindex="0" data-act="my.doumail/start">开始豆邮溅射</span></div>
+</div>
+
 <div class="grid grid-user">
     <div class="grid-header"><h3>豆邮发送账号</h3></div>
     <?php
@@ -51,4 +57,5 @@ require '../my/header.html';
 </div>
 
 <?php
+$initJSMod = 'my.doumail';
 require '../my/footer.html';

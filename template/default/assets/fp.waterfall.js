@@ -14,12 +14,10 @@ KISSY.add('iee/fp.waterfall', function(S, DOM, Event){
              * container: '#'
              */
         }, config);
-
-        this._init();
     }
 
-    S.augment(Waterfall, {
-        _init: function(){
+    S.augment(Waterfall, S.EventTarget, {
+        start: function(){
             var self = this;
 
             self.container = DOM.get(self.config.container);
@@ -147,6 +145,10 @@ KISSY.add('iee/fp.waterfall', function(S, DOM, Event){
             count = count > config.maxColCount ? config.maxColCount : count;
 
             DOM.width(self.container, count * config.colWidth);
+
+            self.fire('resize', {
+                colCount: count
+            });
         }
     });
 
