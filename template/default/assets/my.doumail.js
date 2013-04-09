@@ -22,19 +22,36 @@ KISSY.add('iee/my.doumail', function(S, DOM, Event, IO){
     var doubanData = {};
 
     /**
+     * 设定output的内容
+     */
+    function setOutputContent(html){
+        var ouput = DOM.get('#output');
+        Event.remove(DOM.get('input', output), 'keyup');
+
+        output.innerHTML = html;
+        var inputEl = DOM.get('input', output);
+        if(inputEl){
+            inputEl.focus();
+            Event.on(inputEl, 'keyup', function(ev){
+                if(13 === ev.keyCode){
+                    send();
+                }
+            });
+        }
+    };
+
+    /**
      * 豆邮发送
      */
     function send(){
         if(forceStop){ return; }
 
-        var ouput = DOM.get('#output');
         var sendbtn = DOM.get('#sendbtn');
-
-        var inputEl = DOM.get('input', output);
+        var inputEl = DOM.get('input', '#output');
         if(inputEl){
             var captcha_string = S.trim(DOM.val(inputEl));
             if(!captcha_string){
-                output.innerHTML = '说好的暗号呢？再来：<img src="' + doubanData.captcha_url + '" /> 输入暗号：<input type="text" class="text" />';
+                setOutputContent('说好的暗号呢？再来：<img src="' + doubanData.captcha_url + '" /> 输入暗号：<input type="text" class="text" />');
                 return;
             }
 
@@ -49,19 +66,19 @@ KISSY.add('iee/my.doumail', function(S, DOM, Event, IO){
                 doubanData = {};
 
                 if(data.stop){
-                    output.innerHTML = '发不动了，上天有好生之德，先歇一歇....';
+                    setOutputContent('发不动了，上天有好生之德，先歇一歇....');
                     DOM.remove(sendbtn);
                     return;
                 }
 
                 if(data.captcha_token){
                     doubanData  = data;
-                    output.innerHTML = '这是暗号：<img src="' + data.captcha_url + '" />，请输入此暗号后点击继续：<input type="text" class="text" />';
+                    setOutputContent('这是暗号：<img src="' + data.captcha_url + '" /> 请输入此暗号后点击继续：<input type="text" class="text" />');
                     sendbtn.innerHTML = '继续吧，骚年';
                     return;
                 }
 
-                output.innerHTML = '成功溅射 ' + data.user_name + '，准备下一个';
+                setOutputContent('成功溅射 ' + data.user_name + '，准备下一个');
 
                 setTimeout(function(){
                     send();
