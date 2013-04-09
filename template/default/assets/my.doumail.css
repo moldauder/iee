@@ -39,6 +39,20 @@
     color: #999;
 }
 
+.list .user{
+    display: inline-block;
+    width: 180px;
+}
+.list .expire{
+    color: #666;
+}
+.list .expire-pass{
+    color: #c30;
+}
+.list .expire-near{
+    color: #897;
+}
+
 /* 服务器输出 */
 #outbox{
     margin: 10px 0;

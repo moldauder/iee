@@ -66,7 +66,7 @@ KISSY.add('iee/my.doumail', function(S, DOM, Event, IO){
                 doubanData = {};
 
                 if(data.stop){
-                    setOutputContent('发不动了，上天有好生之德，先歇一歇....');
+                    setOutputContent(data.msg || '发不动了，上天有好生之德，先歇一歇....');
                     DOM.remove(sendbtn);
                     return;
                 }
@@ -79,6 +79,7 @@ KISSY.add('iee/my.doumail', function(S, DOM, Event, IO){
                 }
 
                 setOutputContent('成功溅射 ' + data.user_name + '，准备下一个');
+                sendbtn.innerHTML = '停止豆邮溅射';
 
                 setTimeout(function(){
                     send();

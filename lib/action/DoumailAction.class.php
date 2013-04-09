@@ -22,7 +22,6 @@ class DoumailAction extends AuthAction{
         $this->assign('actList', $biz->findActs());
         $this->assign('userList', $biz->findAuths());
 
-
         $this->display('all');
     }
 

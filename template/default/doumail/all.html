@@ -39,12 +39,28 @@ require '../my/header.html';
     <?php
     if(count($userList)){
         print '<div class="list"><ul>';
+
+        function expireMsg($vo){
+            $diff = strtotime($vo->expire) - time();
+
+            if($diff < 0){
+                return '<span class="expire expire-pass">授权已过期，请重新<a href="/doumail/auth">授权</a></span>';
+            }else if($diff < 86400){
+                return '<span class="expire expire-near">授权即将过期，请重新<a href="/doumail/auth">授权</a></span>';
+            }else{
+                return '<span class="expire">授权有效期剩余：' . ceil($diff/86400) . '天</span>';
+            }
+        }
+
         foreach($userList as $vo):
     ?>
     <li>
         <div class="lft"></div>
         <div class="rgt">
-            <p><a href="/doumail/edit/<?php print $vo->id; ?>"><?php print $vo->douban_user_name; ?></a> - <?php print $vo->nick; ?></p>
+            <p>
+            <span class="user"><a href="/doumail/edit/<?php print $vo->id; ?>"><?php print $vo->douban_user_name; ?></a> - <?php print $vo->nick; ?></span>
+                <?php print expireMsg($vo); ?>
+            </p>
         </div>
     </li>
     <?php

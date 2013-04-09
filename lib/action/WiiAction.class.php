@@ -85,7 +85,12 @@ class WiiAction extends AuthAction{
         }
 
         //接取活动的参加者
-        $participant = $this->getDoubanInst()->get('/v2/online/' . $curOnline->id . '/participants', array(
+        $douban = $this->getDoubanInst();
+        if(!$douban){
+            exit;
+        }
+
+        $participant = $douban->get('/v2/online/' . $curOnline->id . '/participants', array(
             'start' => $curOnline->start,
             'count' => 20
         ));
@@ -112,6 +117,13 @@ class WiiAction extends AuthAction{
     public function sendDoumail($act, $doumail){
         $db = $this->getDBConntention();
         $douban = $this->getDoubanInst();
+
+        if(!$douban){
+            return array(
+                'stop' => true,
+                'msg' => '没有可用的豆瓣账号，请先添加账号'
+            );
+        }
 
         $actId   = $act->id;
         $search  = array('{nick}','{date}');
@@ -246,6 +258,10 @@ class WiiAction extends AuthAction{
      */
     private function fetchDoubanOnline(){
         $douban = $this->getDoubanInst();
+        if(!$douban){
+            exit;
+        }
+
         $result = $douban->get('/v2/onlines');
         $onlines = $result->onlines;
 
@@ -306,7 +322,7 @@ class WiiAction extends AuthAction{
             $count = count($auths);
 
             if(0 === $count){
-                exit;
+                return null;
             }
 
             $auth = $auths[rand(0, $count - 1)];
