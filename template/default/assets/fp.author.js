@@ -123,6 +123,8 @@ KISSY.add('iee/fp.author', function(S, DOM, Event, IO, Anim, Base, Waterfall){
                 });
             }
         });
+
+        wf.start();
     };
 
     Author.loadAbum = function(root){
