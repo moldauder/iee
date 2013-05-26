@@ -28,6 +28,11 @@ KISSY.add('iee/fp.fp', function(S, DOM, Event, IO, Base, Waterfall, Submit){
             maxColCount: 4,
             minColCount: 3,
             load: function(success, end){
+                if(!last_post_id){
+                    afterEnd();
+                    return end();
+                }
+
                 showLoad();
 
                 IO({

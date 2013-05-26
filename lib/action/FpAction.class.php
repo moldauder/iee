@@ -9,7 +9,6 @@ class FpAction extends Action{
             'type'   => array('post', 'album'),
             'trash'  => 'n',
             'fp'     => 'y',
-            'cat'    => $_GET['cat'],
             'dotop'  => true
         );
 
@@ -24,8 +23,13 @@ class FpAction extends Action{
         }
 
         //先查询出全部的置顶项目
-        $list = $biz->find($args);
-        $this->assign('startId', $list[count($list) - 1]->id);
+        //分类不支持置顶
+        if(!$catObj){
+            $list = $biz->find($args);
+            $this->assign('startId', $list[count($list) - 1]->id);
+        }else{
+            $list = array();
+        }
 
         //还差多少需要读取
         $left = 15 - count($list);
@@ -38,6 +42,11 @@ class FpAction extends Action{
                 $this->assign('startId', $list2[count($list2) - 1]->id);
                 $list = array_merge($list, $list2);
             }
+        }
+
+        //如果list数目还不足一页的量，那就不需要输入startId
+        if(count($list) < 12){
+            $this->assign('startId', '');
         }
 
         $this->assign('list', $list);
