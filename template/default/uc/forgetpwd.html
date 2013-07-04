@@ -1,0 +1,27 @@
+<?php
+$title = pageTitle('找回密码');
+$assetTool->import('uc.css');
+require '../common/header.html';
+?>
+<form class="uc uc-forgetpwd" method="post" target="_self">
+    <div class="inner">
+        <h2>Hi, 我要找回密码</h2>
+        <?php if($errMsg): ?>
+        <div class="err"><span><?php print $errMsg; ?></span></div>
+        <?php endif; ?>
+        <dl>
+            <dt><label for="email">邮箱：</label></dt>
+            <dd><input class="text" type="text" name="email" value="<?php print $email;?>" /></dd>
+        </dl>
+
+        <div class="action">
+            <button type="submit">找回密码</button>
+        </div>
+    </div>
+    <div class="bot">
+        <a target="_self" href="/register">免费注册</a>
+        <a target="_self" href="/login">登录</a>
+    </div>
+</form>
+<?php
+require '../common/footer.html';

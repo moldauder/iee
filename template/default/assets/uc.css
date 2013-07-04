@@ -1,0 +1,105 @@
+/**
+ * 登录注册
+ */
+.uc{
+    width: 480px;
+    margin: 100px auto;
+    background: #fafafa;
+    box-shadow: 0 0 10px #ccc;
+    border-radius: 2px;
+}
+.uc .inner{
+    padding: 50px 100px 0;;
+}
+.uc h2{
+    text-align: center;
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+.uc dl{
+    overflow: hidden;
+    padding: 10px 0;
+}
+.uc dt{
+    float: left;
+    font-size: 16px;
+}
+.uc dd{
+    overflow: hidden;
+    zoom: 1;
+}
+
+.uc .action{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.uc-forgetpwd-mailsend .action a,
+.uc button{
+    background: #1c1c1c;
+    border: 0;
+    border-radius: 2px;
+    padding: 2px 8px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.uc-forgetpwd-mailsend .action a:hover{
+    text-decoration: none;
+}
+
+.uc .text{
+    border: 1px dotted #1c1c1c;
+    border-width: 0 0 1px;
+    font-size: 16px;
+    padding: 1px 1px 1px 3px;
+    background: transparent;
+    width: 100%;
+}
+
+.uc .err{
+    text-align: center;
+    margin: 0 0 10px;
+}
+.uc .err span{
+    background: #ffebeb;
+    border: 1px solid #fcc;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 3px 8px;
+    color: #666;
+}
+
+.uc .bot{
+    margin-top: 30px;
+    background: #eee;
+    padding: 10px 0;
+    border-top: 1px solid #e5e5e5;
+    text-align: center;
+}
+.uc .bot a{
+    color: #999;
+    margin: 0 5px;
+}
+.uc .bot a:hover{
+    text-decoration: none;
+}
+
+/* 特殊定制 */
+.uc-forgetpwd-mailsend .inner{
+    padding-bottom: 50px;
+}
+.uc-forgetpwd-mailsend h2{
+    margin-bottom: 12px;
+}
+.uc-forgetpwd-mailsend p{
+    text-align: center;
+    padding: 5px 0;
+    font-size: 16px;
+}
+.uc-forgetpwd-mailsend .action a{
+    padding: 4px 8px;
+}

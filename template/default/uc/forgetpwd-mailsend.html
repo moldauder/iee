@@ -1,0 +1,28 @@
+<?php
+$title = pageTitle('找回密码');
+$assetTool->import('uc.css');
+require '../common/header.html';
+?>
+<form class="uc uc-forgetpwd-mailsend" method="post" target="_self">
+    <div class="inner">
+        <h2>Hi, <?php print $userData->nick; ?></h2>
+        <p>找回密码验证邮件已发送至您的邮箱：</p>
+        <p><?php print $userData->email; ?></p>
+        <?php
+        $mailHost = strtolower(substr($userData->email, strpos($userData->email, '@') + 1));
+        $mailUrl = 'http://' . $mailHost;
+
+        //if('gmail.com' == $maiHost){
+        //    $mailUrl = 'mail.google.com';
+        //}
+
+        if($mailUrl):
+        ?>
+        <div class="action">
+            <a href="<?php print $mailUrl; ?>" target="_self">查看邮箱</a>
+        </div>
+        <?php endif; ?>
+    </div>
+</form>
+<?php
+require '../common/footer.html';

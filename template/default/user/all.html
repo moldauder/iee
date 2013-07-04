@@ -1,0 +1,38 @@
+<?php
+$title = '用户列表';
+$css = 'my.userlist.css';
+require '../my/header.html';
+?>
+<h2>用户列表</h2>
+<div class="toolbar">
+    <div class="toolbar-filter">
+        <form class="filter-form">
+            <input class="text" type="text" name="q" />
+            <span tabindex="0" class="btn" data-act="my.userlist/search">筛选</span>
+        </form>
+    </div>
+    <div class="toolbar-pager"><?php renderPager($userList, $hasPrev, $hasNext, 'my.postlist/pager'); ?></div>
+</div>
+<div class="grid">
+    <?php if(count($userList)): ?>
+    <table class="list-table">
+        <thead>
+            <th>电子邮件</th>
+            <th>昵称</th>
+        </thead>
+        <tbody>
+            <?php foreach($userList as $vo): ?>
+            <tr>
+                <td><?php print $vo->email; ?></td>
+                <td><?php print $vo->nick; ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?php else: ?>
+    没有找到用户
+    <?php endif; ?>
+</div>
+<?php
+$initJSMod = 'my.userlist';
+require '../my/footer.html';

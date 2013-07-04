@@ -1,0 +1,28 @@
+<?php
+$title = System::config('site_name') . '&rsaquo; 注册';
+$assetTool->import('uc.css');
+require '../common/header.html';
+?>
+<form class="uc uc-reg" method="post" target="_self">
+    <div class="inner">
+        <?php if($errMsg): ?>
+        <div class="err"><span><?php print $errMsg; ?></span></div>
+        <?php endif; ?>
+        <dl>
+            <dt><label for="email">邮箱：</label></dt>
+            <dd><input class="text" type="text" name="email"  /></dd>
+        </dl>
+        <dl>
+            <dt><label for="pwd">密码：</label></dt>
+            <dd><input class="text" type="password" name="pwd" /></dd>
+        </dl>
+        <div class="action">
+            <button type="submit">注册</button>
+        </div>
+    </div>
+    <div class="bot">
+        <a target="_self" href="/login">直接登录</a>
+    </div>
+</form>
+<?php
+require '../common/footer.html';
