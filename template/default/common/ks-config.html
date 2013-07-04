@@ -1,1 +1,28 @@
-<script>(function(S){var m={};S.each(<?php print $assetTool->getConfigDesc(); ?>,function(ver,name){m['iee/'+name]={tag:ver}});S.config({debug:true,map:[[/\/iee(\/[\w-\.\/]+\.)(js|css)\?t=([\d\.]+)$/,'$1$3.$2']],packages:[{name:'iee',path:'/asset/default/',tag:''}],modules:m})})(KISSY);</script>
+<script>
+    (function(S){
+        var DOM = S.DOM;
+        var Event = S.Event;
+
+        S.config({
+            packages:[{
+                name: 'iee',
+                path: '/asset/default/<?php  print System::config('asset_version') ?>/',
+                debug: true,
+                ignorePackageNameInUri: true,
+                tag: ''
+            }]
+        });
+
+        Event.on(document, 'click', function(ev){
+            var target = ev.target;
+            var evt = (DOM.attr(target, 'data-evt') || '').split('/');
+
+            if(2 != evt.length){ return; }
+            if('A' === target.nodeName){ ev.preventDefault(); }
+
+            S.use(evt[0], function(S, Mod){
+                Mod[evt[1]](target, ev.type);
+            });
+        });
+    })(KISSY);
+</script>

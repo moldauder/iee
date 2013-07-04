@@ -31,7 +31,7 @@ class AccountAction extends AuthAction{
             exit;
         }
 
-        if($user->pwd !== $this->encryptPwd($old_password)){
+        if($user->pwd !== $biz->encryptPwd($old_password)){
             $this->ajax(array(
                 'success' => false,
                 'msg' => '当前密码不正确'
@@ -39,7 +39,7 @@ class AccountAction extends AuthAction{
         }
 
         if($biz->updateUser($user->id, array(
-            'pwd' => $this->encryptPwd($new_password)
+            'pwd' => $biz->encryptPwd($new_password)
         ))){
             $this->ajax(array(
                 'success' => true

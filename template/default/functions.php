@@ -1,5 +1,12 @@
 <?php
 /**
+ * 生成页面标题
+ */
+function pageTitle($title){
+    return System::config('site_name') . ' &rsaquo; ' . $title;
+}
+
+/**
  * 渲染下拉菜单
  */
 function renderOptions($options = array(), $value = ''){

@@ -36,6 +36,13 @@ class UserBiz extends Biz{
             ->selectOne();
     }
 
+    public function getUserByEmail($email){
+        return $this->getDBConnection()
+            ->table($this->tableName)
+            ->where('email', $email)
+            ->selectOne();
+    }
+
     public function getCurrentUser(){
         return USERID ? $this->getUserById(USERID) : null;
     }
@@ -47,6 +54,25 @@ class UserBiz extends Biz{
             ->where('id', $id)
             ->data($data)
             ->save();
+    }
+
+    /**
+     * 添加用户
+     */
+    public function addUser($userData){
+        $userData['pwd'] = $this->encryptPwd($userData['pwd']);
+
+        return $this->getDBConnection()
+            ->table($this->tableName)
+            ->data($userData)
+            ->add();
+    }
+
+    /**
+     * 对密码进行加密
+     */
+    public function encryptPwd($str){
+        return substr(md5(md5($str)), 0, 24);
     }
 
 }

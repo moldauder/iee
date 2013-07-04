@@ -12,7 +12,7 @@ class AuthAction extends Action{
             return false;
         }else{
             define('USERID'   , $userId);
-            define('USERNAME' , $_SESSION['userName']);
+            define('USEREMAUL' , $_SESSION['email']);
             define('USERNICK' , $_SESSION['userNick']);
 
             defined('IS_SUPER_USER') or define('IS_SUPER_USER', in_array($_SESSION['role'], array('admin', 'editor')));
@@ -27,19 +27,31 @@ class AuthAction extends Action{
         //设定跳转地址
         $redirect = System::filterVar($_GET['redirect']);
         $redirect = $redirect ? $redirect : $_SERVER['REQUEST_URI'];
-        $this->assign('redirect', substr($redirect, 1));
+        $redirect = substr($redirect, 1);
+
+        //不要出现死循环了
+        if('logout' === strtolower($redirect)){
+            $redirect = '';
+        }
+
+        $this->assign('redirect', $redirect);
 
         $this->login();
     }
 
     public function login(){
-        $this->display('my:login');
+        $this->display('uc:login');
+    }
+
+    //迷你登录浮层
+    public function minilogin(){
+        $this->display('minilogin');
     }
 
     public function check(){
-        $userName = System::filterVar($_POST['userName']);
-        if(!$userName){
-            $this->assign('errMsg', '用户名不能为空');
+        $email = System::filterVar($_POST['email']);
+        if(!$email){
+            $this->assign('errMsg', '邮箱不能为空');
             $this->login();
         }
 
@@ -50,28 +62,24 @@ class AuthAction extends Action{
         }
 
         $userBiz = System::B('User');
-        $userData = $userBiz->getUserByName($userName);
+        $userData = $userBiz->getUserByEmail($email);
 
-        if(!$userData || $this->encryptPwd($pwd) !== $userData->pwd){
-            $this->assign('errMsg', '用户名或密码错误');
-            $this->assign('userName', $userName);
+        if(!$userData || $userBiz->encryptPwd($pwd) !== $userData->pwd){
+            $this->assign('errMsg', '邮箱或密码错误');
+            $this->assign('email', $email);
             $this->login();
         }
 
         $this->startSession();
 
         $_SESSION['userId'] = $userData->id;
-        $_SESSION['userName'] = $userData->username;
-        $_SESSION['role'] = $userData->role;
+        $_SESSION['email']  = $userData->username;
+        $_SESSION['role']   = $userData->role;
         $_SESSION['userNick'] = $userData->nick;
         $_SESSION['token'] = substr(md5(time() . rand(1, 99999)), 12, 24);
 
         $redirect = System::filterVar($_POST['redirect']);
         System::redirect($redirect ? $redirect : 'item/all');
-    }
-
-    protected function encryptPwd($str){
-        return substr(md5(md5($str)), 0, 24);
     }
 
     private function startSession(){

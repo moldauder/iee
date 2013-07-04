@@ -6,8 +6,7 @@ class SubmitAction extends AuthAction{
             $this->checkLogin();
 
             if(!IS_SUPER_USER){
-                $this->assign('errMsg', '您没有权限访问此页面');
-                $this->display('my:err');
+                System::redirect();
             }
         }
     }
