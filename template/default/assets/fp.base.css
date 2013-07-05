@@ -67,11 +67,12 @@ img{ vertical-align: top; }
 .stdpage .prev:hover{ background-position: -150px -100px; }
 
 
-.stdauthor{ display: block; background-image: url(http://pic.yupoo.com/iewei/CesEaTTu/kAtCg.png); width: 200px; height: 50px; }
+.stdauthor{ display: block; background-image: url(res/author.png); width: 200px; height: 50px; }
 .stdauthor-viggy{ background-position: 50% 0; }
 .stdauthor-luu{ background-position: 50% -50px; }
 .stdauthor-roncha{ background-position: 50% -100px; }
 .stdauthor-thankyou{ background-position: 50% -150px; }
+.stdauthor-4our{ background-position: 50% -200px; }
 
 html{ overflow-y:scroll; }
 .col-width{ margin: 0 auto; width: 990px; }
