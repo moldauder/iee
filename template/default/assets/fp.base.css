@@ -193,6 +193,9 @@ html{ overflow-y:scroll; }
 .tpl-item .side .stdauthor-thankyou{ margin-left: -33px; }
 .tpl-item .side .stdauthor-thankyou .num{ padding-left: 144px; padding-top: 30px; }
 
+.tpl-item .side .stdauthor-4our{ margin-left: -44px; }
+.tpl-item .side .stdauthor-4our .num{ padding-left: 156px; padding-top: 30px; }
+
 .tpl-item .side{ overflow: hidden; }
 .tpl-item .side .bd{ width: 255px; }
 .tpl-item .side .bd a{ display: inline-block; margin: 0 5px 5px 0; }
