@@ -1,9 +1,4 @@
-body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;}body,button,input,select,textarea{font:12px/1.5 tahoma,arial,\5b8b\4f53,sans-serif;}h1,h2,h3,h4,h5,h6{font-size:100%;}ul,ol{list-style:none;}a{text-decoration:none;}a:hover{text-decoration:underline;}
-
-html,
-.stdpost .detail{
-    background: url(http://pic.yupoo.com/iewei/C9TCNuSu/fQAH5.png) repeat;
-}
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;}body,button,input,select,textarea{font:12px/1.5 tahoma,arial,sans-serif;}h1,h2,h3,h4,h5,h6{font-size:100%;}ul,ol{list-style:none;}a{text-decoration:none;}a:hover{text-decoration:underline;}
 
 img{
     vertical-align: top;
@@ -25,24 +20,23 @@ img{
     font-size: 16px;
     line-height: 30px;
     text-align: center;
-    padding: 10px 0;
+    padding: 1em 0;
+    letter-spacing: 1px;
 }
 .stdpost .content{
     color: #7f7f7f;
     line-height: 24px;
-    padding: 0 15px;
-    background: #f4f4f4;
-    border: 1px solid #e1e1e1;
-    border-width: 1px 0;
+    padding: 0 0.5em;
     font-size: 14px;
 }
 .stdpost .content p{
-    padding: 1em 0;
+    padding: 1em 0 0;
 }
 .stdpost .action{
+    text-align: center;
     line-height: 30px;
     padding: 0 15px;
-    margin: 20px 5px 0;
+    margin: 2em 5px;
 }
 .stdpost .price{
     font-family: arial;
@@ -62,6 +56,9 @@ img{
 }
 .stdpost .action a:hover{
     text-decoration: none;
+}
+.stdpost .albums{
+    padding: 2em 0;
 }
 .footer{
     padding: 10px 0;

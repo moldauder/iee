@@ -9,12 +9,25 @@ $link = $link ? ('href="' . $link . '"') : '';
 ?>
 <article class="stdpost">
     <header><h1 class="title"><?php print $postObj->title;?></h1></header>
-    <div class="photo"><a <?php print $link; ?> target="_blank"><img src="<?php print $postObj->img;?>" width="320" height="420" /></a></div>
-    <div class="content"><?php print $postObj->fullcontent;?></div>
-    <div class="action">
+    <section class="photo"><a <?php print $link; ?> target="_blank"><img src="<?php print $postObj->img;?>" width="320" height="420" /></a></section>
+    <section class="content"><?php print $postObj->fullcontent;?></section>
+
+    <?php if($postObj->albumItems): ?>
+    <section class="albums">
+    <?php foreach($postObj->albumItems as $item): ?>
+    <article>
+        <header><h2 class="title"><?php print $item->title; ?></h2></header>
+        <section class="photo"><img src="<?php print $item->img;?>" width="320" height="420" /></a></section>
+        <section class="content"><?php print $item->fullcontent;?></section>
+    </article>
+    <?php endforeach; ?>
+    </section>
+    <?php endif; ?>
+
+    <section class="action">
         <?php if($postObj->price): ?><span class="price">&yen;<?php print $postObj->price; ?></span><?php endif; ?>
         <?php if($link): ?><a class="go-view" <?php print $link;?>>点此拥有</a><?php endif; ?><ins class="post-share"></ins>
-    </div>
+    </section>
 </article>
 <?php
 $assetTool->import('smart.item');
