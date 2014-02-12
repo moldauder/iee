@@ -3,6 +3,11 @@ $assetTool->import('fp.base.css');
 
 $title = isset($title) ? $title : System::config('site_name');
 
+$isMobileAccess = false;
+if(isset($isMobile) && $isMobile){
+    $isMobileAccess = true;
+}
+
 $headerTag = isset($headerTag) ? $headerTag : 'h1';
 $headerTag = ('h1' === strtolower($headerTag)) ? 'h1' : 'div';
 
@@ -15,6 +20,9 @@ $desc = isset($desc) ? $desc : '一味，拥有生活的灵感。我们呈现那
         <meta charset="utf-8" />
         <meta name="description" content="<?php print($desc); ?>"/>
         <meta property="wb:webmaster" content="f7d4153e5eb8642c" />
+        <?php if($isMobileAccess): ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+        <?php endif; ?>
         <title><?php print($title); ?></title>
         <?php $assetTool->css();?>
         <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy-min.js"></script>
@@ -22,6 +30,11 @@ $desc = isset($desc) ? $desc : '一味，拥有生活的灵感。我们呈现那
         <base target="_blank" />
     </head>
     <body>
+        <?php if($isMobileAccess): ?>
+        <div id="header" class="mobile-header">
+            <<?php print($headerTag); ?> id="site-title"><a href="/" title="一味 拥有生活的灵感" rel="home" target="_self"><img src="http://pic.yupoo.com/iewei/CsyJBJHp/Sc6vB.png" height="53" width="53" /><s></s><span>一味</span></a></<?php print($headerTag);?>>
+        </div>
+        <?php else: ?>
         <div id="header">
             <div class="wrapper">
                 <div id="logo-box"><<?php print($headerTag); ?> id="site-title"><a href="/" title="一味 拥有生活的灵感" rel="home" target="_self"><img src="http://pic.yupoo.com/iewei/CsyJBJHp/Sc6vB.png" height="53" width="53" /><s></s><span>一味</span></a></<?php print($headerTag);?>></div>
@@ -33,5 +46,7 @@ $desc = isset($desc) ? $desc : '一味，拥有生活的灵感。我们呈现那
                 </div>
             </div>
         </div>
+        <?php endif; ?>
+
         <div id="content">
             <?php $assetTool->import('fp.base,fp.gotop'); ?>

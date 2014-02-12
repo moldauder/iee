@@ -3,6 +3,9 @@ KISSY.add('iee/fp.submit', function(S, DOM, Event, IO, Anim){
     var Submit = {};
 
     Submit.init = function(){
+        var socialmEl = DOM.get('#socialm');
+        if(!socialmEl){ return; }
+
         this._el = DOM.create('<div class="submiturl"></div>');
         this._el.innerHTML = '<div class="box"><div class="formCont">' +
                 '<span class="close"></span><span class="arrow"></span>' +
@@ -24,7 +27,7 @@ KISSY.add('iee/fp.submit', function(S, DOM, Event, IO, Anim){
 
         this._trigger = DOM.create('<div class="submit"></div>');
         this._trigger.innerHTML = '<s></s><s class="arrow"></s>';
-        DOM.get('#socialm').appendChild(this._trigger);
+        socialmEl.appendChild(this._trigger);
 
         this._initEvents();
     };

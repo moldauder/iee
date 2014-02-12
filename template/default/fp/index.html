@@ -12,20 +12,26 @@ require '../common/header.html';
 $assetTool->import('fp,waterfall,submit');
 ?>
 <?php
-renderCategory($categoryList, array(
-    'first' => array(
-        'link' => '/',
-        'html' => '首页'
-    ),
-    'curCatObj' => isset($catObj) ? $catObj : null
-));
+if(!$isMobile){
+    renderCategory($categoryList, array(
+        'first' => array(
+            'link' => '/',
+            'html' => '首页'
+        ),
+        'curCatObj' => isset($catObj) ? $catObj : null
+    ));
+}
 ?>
 <div id="pi"><div id="waterfall" class="waterfall"><?php foreach($list as $idx=>$obj){ print renderTinyPost($obj, array(
-    'lazyImg' => $idx > 8
+    'lazyImg' => $idx > 8,
+    'isMobile' => $isMobile
 )); }; ?></div><div id="loading"></div></div>
 <script><?php
 if(isset($startId)){
     print 'var startId="' . $startId . '";';
+}
+if($isMobile){
+    print 'var isMobile=true;';
 }
 ?></script>
 <?php

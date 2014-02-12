@@ -57,11 +57,22 @@ img{
 .stdpost .action a:hover{
     text-decoration: none;
 }
+
 .stdpost .albums{
     padding: 2em 0;
 }
+.albums .action a{
+    width: 72px;
+    height: 26px;
+    line-height: 26px;
+    font-size: 13px;
+}
+
 .footer{
     padding: 10px 0;
-    color: #aaa;
     text-align: center;
+    font-size: 13px;
+}
+.footer a{
+    color: #aaa;
 }

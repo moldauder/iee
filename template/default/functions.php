@@ -113,7 +113,8 @@ function renderTinyPost($postObj, $params = array()){
     $params = array_merge(array(
         'lazyImg' => false,
         'imgWidth' => 320,
-        'imgHeight' => 420
+        'imgHeight' => 420,
+        'isMobile' => false
     ), $params);
 
     $id = getPostRootId($postObj);
@@ -128,27 +129,29 @@ function renderTinyPost($postObj, $params = array()){
 
     $html .= '<img width="' . $params['imgWidth'] . '" height="' . $params['imgHeight'] . '" ' . ($params['lazyImg'] ? 'data-lazy' : 'src') . '="' . $postObj->img . '"/>';
 
-    $html .= '<div class="extra">';
-    $html .= '<div class="mask"></div>';
+    if(!$params['isMobile']){
+        $html .= '<div class="extra">';
+        $html .= '<div class="mask"></div>';
 
-    if($postObj->modified){
-        $timestamp = strtotime($postObj->modified);
+        if($postObj->modified){
+            $timestamp = strtotime($postObj->modified);
 
-        $html .= '<div class="stddate">';
-        $html .= '<span class="day">' . date('d', $timestamp) . '</span>';
-        $html .= '<span class="month">' . date('M', $timestamp) . '</span>';
-        $html .= '<span class="year">' . date('Y', $timestamp) . '</span>';
+            $html .= '<div class="stddate">';
+            $html .= '<span class="day">' . date('d', $timestamp) . '</span>';
+            $html .= '<span class="month">' . date('M', $timestamp) . '</span>';
+            $html .= '<span class="year">' . date('Y', $timestamp) . '</span>';
+            $html .= '</div>';
+        }
+
+        $html .= '<div class="title">' . $postObj->title . '</div>';
+        $html .= '<div class="desc">' . $postObj->fullcontent . '</div>';
+
+        if($postObj->nick){
+            $html .= '<div class="author"><s></s>' . $postObj->nick . '</div>';
+        }
+
         $html .= '</div>';
     }
-
-    $html .= '<div class="title">' . $postObj->title . '</div>';
-    $html .= '<div class="desc">' . $postObj->fullcontent . '</div>';
-
-    if($postObj->nick){
-        $html .= '<div class="author"><s></s>' . $postObj->nick . '</div>';
-    }
-
-    $html .= '</div>';
 
     if('album' === $postObj->type){
         $html .= '<s class="type-album"></s>';

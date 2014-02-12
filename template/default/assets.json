@@ -6,7 +6,7 @@
         "version": "1.0.0"
     },
     "fp.base.css": {
-        "version": "1.0.6"
+        "version": "1.0.7"
     },
     "fp.base": {
         "version": "1.0.3"
@@ -21,7 +21,7 @@
         "version": "1.0.4"
     },
     "fp.submit": {
-        "version": "1.0.2"
+        "version": "1.0.3"
     },
     "fp.author": {
         "version": "1.0.4"
@@ -103,7 +103,7 @@
     },
 
     "smart.base.css": {
-        "version": "1.0.6"
+        "version": "1.0.7"
     },
     "smart.item": {
         "version": "1.0.3"
