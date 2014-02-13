@@ -164,8 +164,8 @@ html{ overflow-y:scroll; }
     opacity: 0.9;
 
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -1px;
+    right: -1px;
     width: 0;
     height: 0;
 }
