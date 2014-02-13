@@ -9,7 +9,7 @@ $link = $link ? ('href="' . $link . '"') : '';
 ?>
 <article class="stdpost">
     <header><h1 class="title"><?php print $postObj->title;?></h1></header>
-    <section class="photo"><a <?php print $link; ?> target="_blank"><img src="<?php print $postObj->img;?>" width="320" height="420" /></a></section>
+    <section class="photo"><a <?php print $link; ?> target="_blank"><img alt="图片:<?php print $postObj->title; ?>" src="<?php print $postObj->img;?>" width="320" height="420" /></a></section>
     <section class="content"><?php print $postObj->fullcontent;?></section>
     <section class="action">
         <?php if($postObj->price): ?><span class="price">&yen;<?php print $postObj->price; ?></span><?php endif; ?>
@@ -21,8 +21,9 @@ $link = $link ? ('href="' . $link . '"') : '';
     <?php foreach($postObj->albumItems as $item): ?>
     <article>
         <header><h2 class="title"><?php print $item->title; ?></h2></header>
-        <section class="photo"><img src="<?php print $item->img;?>" width="320" height="420" /></a></section>
+        <section class="photo"><img alt="图片:<?php print $item->title; ?>" src="<?php print $item->img;?>" width="320" height="420" /></a></section>
         <section class="content"><?php print $item->fullcontent;?></section>
+        <?php if(!$isWeChat): ?>
         <section class="action">
             <?php
             $link = empty($item->buylink) ? $item->outer_url : $item->buylink;
@@ -30,6 +31,7 @@ $link = $link ? ('href="' . $link . '"') : '';
             ?>
             <?php if($link): ?><a class="go-view" <?php print $link;?>>点此拥有</a><?php endif; ?>
         </section>
+        <?php endif; ?>
     </article>
     <?php endforeach; ?>
     </section>

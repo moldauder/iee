@@ -55,7 +55,7 @@ class FpAction extends Action{
         $catBiz = System::B('Category');
         $this->assign('categoryList', $catBiz->find());
 
-        $this->assign('isMobile', $this->isMobile());
+        $this->assign('isMobile', $this->getMobileDetecter()->isMobile());
 
         $this->display();
     }

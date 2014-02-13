@@ -2,6 +2,7 @@
 class Action{
 
     private $vars = array();
+    private $mobileDetecter;
 
     public function __construct(){
         $this->_initialize();
@@ -98,16 +99,20 @@ class Action{
         header('Content-Type: ' . $header);
     }
 
-    public function isMobile(){
-        System::importVendor('Mobile_Detect');
-        $mobileDetecter = new Mobile_Detect();
-        return $mobileDetecter->isMobile();
+    public function getMobileDetecter(){
+        if(!$this->mobileDetecter){
+            System::importVendor('Mobile_Detect');
+            $this->mobileDetecter = new Mobile_Detect();
+        }
+
+        return $this->mobileDetecter;
     }
 
-    public function isTablet(){
-        System::importVendor('Mobile_Detect');
-        $mobileDetecter = new Mobile_Detect();
-        return $mobileDetecter->isTablet();
+    /**
+     * 是否来自于微信的访问
+     */
+    public function isWeChat(){
+        return preg_match('/\bMicroMessenger\b/i', $this->getMobileDetecter()->getUserAgent());
     }
 
     /**
