@@ -42,11 +42,9 @@ class ItemAction extends AuthAction{
         }
 
         //for mobile access, easy print
-        $mobileDetecter = $this->getMobileDetecter();
-
-        if($mobileDetecter->isMobile()){
+        if($this->getMobileDetecter()->isMobile()){
             $this->assign('postObj', $postObj);
-            $this->assign('isWeChat', $mobileDetecter->isWeChat());
+            $this->assign('isWeChat', $this->isWeChat());
             $this->display('smart');
         }
 
