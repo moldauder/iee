@@ -116,6 +116,32 @@ class Action{
     }
 
     /**
+     * 适配域名
+     *
+     * @param {String} $uri url后缀
+     */
+    public function adapterHost(){
+        $host = $_SERVER['HTTP_HOST'];
+        $newHost = '';
+        $isMHost = 0 === strpos($host, 'm.');
+
+        if($this->getMobileDetecter()->isMobile()){
+            if(!$isMHost){
+                $newHost = 'm.' . $host;
+            }
+        }else{
+            if($isMHost){
+                $newHost = substr($host, 2);
+            }
+        }
+
+        if($newHost){
+            header('Location: http://' . $newHost . $_SERVER['REQUEST_URI']);
+            exit;
+        }
+    }
+
+    /**
      * display();
      * display('method')
      * display('action:method);

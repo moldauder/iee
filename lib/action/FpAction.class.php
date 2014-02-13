@@ -2,6 +2,8 @@
 class FpAction extends Action{
 
     public function index(){
+        $this->adapterHost();
+
         $biz = System::B('Post');
 
         $args = array(
@@ -59,5 +61,4 @@ class FpAction extends Action{
 
         $this->display();
     }
-
 }

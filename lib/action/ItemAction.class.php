@@ -4,6 +4,7 @@ class ItemAction extends AuthAction{
     //前台详情页
     public function item(){
         list($id) = System::$queryvars;
+        $this->adapterHost();
 
         $biz = System::B('Post');
         $postObj = $biz->getPostById($id);
