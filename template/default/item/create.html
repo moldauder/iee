@@ -79,6 +79,13 @@ print '<div class="sideinfo attr-list">' . implode('', $urlAttr) . '<s class="ar
             <?php if($isEditMode && $postObj->albumItems): ?>
             <script>var albumItems=<?php print System::JSON($postObj->albumItems);  ?>;</script>
             <?php endif; ?>
+
+            <div class="form-field">
+                <div class="field-hd"><label for="postcontent">详情</label></div>
+                <script src="/asset/default/tinymce/tinymce.min.js"></script>
+                <div class="field-bd"><textarea class="text" rows="16" id="wecontent" name="wecontent"><?php print $isEditMode ? $postObj->wecontent : ''; ?></textarea></div>
+            </div>
+
             <?php endif; ?>
         </div>
         <div class="rgt">

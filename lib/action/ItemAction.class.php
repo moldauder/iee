@@ -541,6 +541,9 @@ class ItemAction extends AuthAction{
             'author_3rd' => $postData['author_3rd']
         ));
 
+        //来自于微信等渠道的内容
+        $postData['wecontent'] = $_POST['wecontent'];
+
         //设置文章类型
         $postData['type'] = $isAlbum ? 'album' : 'post';
 

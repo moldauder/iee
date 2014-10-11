@@ -8,6 +8,14 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
 
         Category.init();
         this.imgPreviewer(this.formEl.elements.img);
+
+        if(DOM.get('#wecontent')){
+            this.we = new tinymce.Editor('wecontent', {
+                menubar: false,
+                statusbar: false
+            }, tinymce.EditorManager);
+            this.we.render();
+        }
     };
 
     Biz.publish = function(){
@@ -22,6 +30,10 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
         var self = this;
 
         this.formEl.elements.operate.value = type;
+
+        if(this.we){
+            this.formEl.elements.wecontent.value = this.we.getContent();
+        }
 
         var progress = new Modal.ProgressBar();
         progress.show();

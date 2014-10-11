@@ -102,6 +102,12 @@ function renderPost($postObj, $params = array()){
         $html .= '</div>';
     }
 
+    //微信内容
+    $we = $postObj->wecontent;
+    if($we){
+        $html .= '<div class="we">' . $we . '</div>';
+    }
+
     $html .= '</div>';
 
     return $html;
