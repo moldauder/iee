@@ -4,33 +4,20 @@ class assetAction extends Action{
     private $js = array();
     private $css = array();
 
-    private $map = array();
+    private $version;
     private $theme;
 
-    public function loadConfig($theme = ''){
+    public function loadConfig($theme = '', $version = ''){
         $this->theme = $theme ? $theme : System::config('theme');
-        $configFile = APP_TEMPLATE . $this->theme . '/assets.json';
-
-        if(is_file($configFile)){
-            $this->map = json_decode(file_get_contents($configFile), TRUE);
-        }
+        $this->version = $version ? $version : System::config('asset_version');
     }
 
     public function import($exp){
         foreach(explode(',', $exp) as $key){
-            if(!array_key_exists($key, $this->map)){
-                continue;
-            }
-
-            $config = $this->map[$key];
-
-            $version = '.' . $config['version'] . '.';
-            $pos = strpos($key, '.');
-
             if('.css' === substr($key, -4)){
-                $this->css[] = substr($key, 0, strrpos($key, '.')) . $version . 'css';
+                $this->css[] = substr($key, 0, strrpos($key, '.')) . '.css';
             }else{
-                $this->js[] = $key . $version . 'js';
+                $this->js[] = $key . '.js';
             }
         }
         return $this;
@@ -50,12 +37,8 @@ class assetAction extends Action{
         return $html;
     }
 
-    public function getConfigDesc(){
-        $data = array();
-        foreach($this->map as $name => $obj){
-            $data[$name] = $obj['version'];
-        }
-        return json_encode($data);
+    public function getVersion(){
+        return $this->version;
     }
 
     public function js($attrs = array()){
@@ -68,7 +51,7 @@ class assetAction extends Action{
 
     public function css($attrs = array()){
         if(count($this->css)){
-            print('<link rel="stylesheet" href="/asset/' . $this->theme . '/' . implode(',', $this->css) . '"' . $this->parseAttr($attrs) . '/>');
+            print('<link rel="stylesheet" href="/asset/' . $this->theme . '/' . $this->version . '/??' . implode(',', $this->css) . '"' . $this->parseAttr($attrs) . '/>');
             $this->css = array();
         }
         return $this;
@@ -80,10 +63,19 @@ class assetAction extends Action{
     public function _empty(){
         $debugMode = System::config('debug_mode');
 
-        //request /asset/default/base.1.0.0.css,res/on.png
+        //combo url /asset/default/1.1.0/??fileA,fileB
+        //single url  /asset/default/1.1.0/file
+        //single url2  /asset/default/file
         $queryvars = System::$queryvars;
         $theme = $queryvars[1];
-        $files = implode('/', array_slice($queryvars, 2));
+
+        $combo = $_SERVER['QUERY_STRING'];
+        if($combo){
+            $files = substr($combo, 1);
+        }else{
+            //file may like /folder/file
+            $files = implode('/', array_slice($queryvars, 2));
+        }
 
         $path = APP_TEMPLATE . $theme . '/assets/';
         $str = '';
@@ -92,25 +84,13 @@ class assetAction extends Action{
             //移除版本号信息
             $file = $path . preg_replace('/(\d+\.){3}/', '', $file);
 
-            if(!$debugMode){
-                $minFile = $file . '.min';
-
-                if(is_file($minFile)){
-                    $str .= file_get_contents($minFile);
-                    continue;
-                }
-            }
-
             if(is_file($file)){
                 $str .= file_get_contents($file);
             }
         }
 
         $this->headerContentType(substr($file, strrpos($file, '.') + 1));
-
-        if(!$debugMode){
-            header('Cache-Control: max-age=315360000');
-        }
+        header('Cache-Control: max-age=' . ($debugMode ? '0' : '315360000'));
 
         print $str;
         exit;

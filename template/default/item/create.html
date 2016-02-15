@@ -1,6 +1,6 @@
 <?php
 $isEditMode = isset($postObj);
-$title = $isEditMode ? ('编辑文章 &rsaquo; ' . $postObj->title) : '撰写文章';
+$title = $isEditMode ? ('编辑好物 &rsaquo; ' . $postObj->title) : '撰写好物';
 $css = 'my.postcompose.css';
 require '../my/header.html';
 ?>
@@ -63,7 +63,7 @@ print '<div class="sideinfo attr-list">' . implode('', $urlAttr) . '<s class="ar
                     <script>var categoryList=<?php print System::JSON($categoryList); ?>;</script>
                     <div id="category"><input type="hidden" name="category" value="<?php print $isEditMode ? $category : '';  ?>" /></div>
                     <?php if($isEditMode): ?>
-                    <span tabindex="0" class="btn" data-act="my.category/update">更新，不影响文章排序</span>
+                    <span tabindex="0" class="btn" data-act="my.category/update">更新，不影响好物排序</span>
                     <?php endif; ?>
                 </div>
             </div>
@@ -91,7 +91,7 @@ print '<div class="sideinfo attr-list">' . implode('', $urlAttr) . '<s class="ar
         <div class="rgt">
             <?php if($isEditMode): ?>
             <div class="box">
-                <div class="box-hd">文章信息</div>
+                <div class="box-hd">好物信息</div>
                 <div class="box-bd">
                     <dl class="attr">
                         <dt>原始作者：</dt>

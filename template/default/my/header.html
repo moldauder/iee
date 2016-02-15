@@ -8,15 +8,18 @@ $pageTitle = isset($title) ? ($title . ' &rsaquo; ' . $site_name) : $site_name;
         <meta charset="utf-8" />
         <title><?php print $pageTitle; ?></title>
         <?php $assetTool->import('reset.css,my.base.css' . (isset($css) ? (',' . $css) : ''))->css(); ?>
-        <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy-min.js"></script>
+        <script src="//g.alicdn.com/kissy/k/1.4.14/seed-min.js"></script>
+        <script>KISSY.config({combine:true})</script>
         <base target="_self" />
     </head>
     <body>
         <div id="header">
             <div class="container">
                 <ul class="menu">
-                    <li><a href="/item/all">文章列表</a></li>
-                    <li><a href="/item/create">撰写文章</a></li>
+                    <li><a href="/item/all">好物列表</a></li>
+                    <li><a href="/item/create">撰写好物</a></li>
+                    <li><a href="/information/all">资讯列表</a></li>
+                    <li><a href="/information/create">撰写资讯</a></li>
                     <?php if(IS_SUPER_USER): ?>
                     <li><a href="/submit/all">Submit</a></li>
                     <li><a href="/doumail/all">豆邮</a></li>

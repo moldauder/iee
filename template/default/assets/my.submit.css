@@ -1,18 +1,1 @@
-.grid-item .item-title{
-    height: 18px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    background: #E2EEEE;
-    padding: 2px 0 2px 6px;
-    border-radius: 3px;
-    position: relative;
-    left: -4px;
-    color: #4183C4;
-    margin-bottom: 5px;
-}
-.grid-item .attr{
-    line-height: 14px;
-    max-height: 56px;
-    overflow: hidden;
-}
+.grid-item .item-title{height:18px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:#e2eeee;padding:2px 0 2px 6px;border-radius:3px;position:relative;left:-4px;color:#4183c4;margin-bottom:5px}.grid-item .attr{line-height:14px;max-height:56px;overflow:hidden}

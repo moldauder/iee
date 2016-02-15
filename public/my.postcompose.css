@@ -1,0 +1,146 @@
+.grid{
+    overflow: hidden;
+    zoom: 1;
+}
+
+.postcompose-modal{
+    width: 560px;
+}
+.postcompose-modal .modal-body strong{
+    color: #072;
+    margin: 0 5px;
+}
+.postcompose-modal .modal-body .error,
+.postcompose-modal .modal-body .error strong{
+    color: #CA6445;
+    font-weight: normal;
+}
+
+.grid{
+    position: relative;
+}
+.grid .rgt{
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    width: 240px;
+
+    visibility: hidden;
+}
+.rgt .box{
+    background: #F0F3F5;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    padding: 10px;
+}
+.rgt .box-hd{
+    font-weight: bold;
+    color: #27A;
+}
+
+/* 附加信息展示 */
+.form-field{
+    position: relative;
+}
+.sideinfo{
+    position: absolute;
+    left: 652px;
+    top: 0;
+    background: #F0F6F3;
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 120;
+}
+.sideinfo .arrow{
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 8px;
+    border-color: transparent #F0F6F3 transparent transparent;
+    border-style: dashed solid dashed dashed;
+    top: 10px;
+    left: -16px;
+}
+
+/* 分类 */
+.category .item{
+    margin-bottom: 5px;
+    padding-left: 5px;
+    border-left: 4px solid #a9f1fa;
+}
+.category .item span{
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid #ccc;
+    padding: 0 3px;
+    color: #999;
+    cursor: pointer;
+    margin-right: 5px;
+    text-align: center;
+    min-width: 32px;
+    position: relative;
+    overflow: hidden;
+}
+.category .item span:hover{
+    border-color: #aaa;
+    color: #666;
+}
+
+.category .max .item span{
+    cursor: not-allowed;
+    border-color: #ddd;
+    color: #ddd;
+}
+
+.category .item ins{
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 8px;
+    height: 8px;
+    background: #FF6701;
+    transform: rotate(40deg);
+    visibility: hidden;
+}
+.category .item span.selected{
+    color: #000;
+    border: 2px solid #FF6701;
+    margin-top: -1px;
+    margin-left: -1px;
+    margin-bottom: -1px;
+    margin-right: 4px;
+}
+.category .item span.selected ins{
+    visibility: visible;
+}
+
+.category .tip{
+    display: inline-block;
+    *display: inlien;
+    *zoom: 1;
+    height: 23px;
+    line-height: 23px;
+    vertical-align: middle;
+    color: #aaa;
+}
+
+/* 链接相关信息 */
+.field-url .sideinfo{
+    top: -12px;
+}
+.field-url .attr-list{
+    width: 280px;
+}
+.field-url .attr-list .clear-taoke{
+    color: #c00;
+}
+
+/* 图片预览 */
+.field-img .sideinfo{
+    top: -150px;
+    width: 120px;
+    height: 158px;
+}
+.field-img .arrow{
+    top: 156px;
+}

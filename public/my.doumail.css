@@ -1,0 +1,70 @@
+.grid{
+    width: 970px;
+    padding-bottom: 22px;
+    margin-bottom: 20px;
+    border-bottom: 1px dotted #aaa;
+}
+.grid:last-of-type{
+    border-bottom: 0;
+}
+
+.grid ul{
+    padding: 20px;
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+.grid .lft{
+    float: left;
+    width: 10px;
+    margin-right: 10px;
+}
+.grid .rgt{
+    overflow: hidden;
+    zoom: 1;
+}
+.grid .disc{
+    display: block;
+    margin-top: 5px;
+    width: 8px;
+    height: 8px;
+    background: #ccc;
+}
+.grid .item-on .disc{
+    background: #007722;
+}
+
+.grid .tip{
+    color: #999;
+}
+
+.list .user{
+    display: inline-block;
+    width: 180px;
+}
+.list .expire{
+    color: #666;
+}
+.list .expire-pass{
+    color: #c30;
+}
+.list .expire-near{
+    color: #897;
+}
+
+/* 服务器输出 */
+#outbox{
+    margin: 10px 0;
+}
+#output{
+    width: 800px;
+    color: #666;
+    padding: 10px;
+    height: 30px;
+    background: #f9f9f9;
+    border: 1px solid #efefef;
+    border-radius: 2px;
+    display: table-cell;
+    vertical-align: middle;
+}

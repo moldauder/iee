@@ -1,0 +1,22 @@
+{
+  "name": "iee",
+  "description": "iee",
+  "version": "1.1.0",
+  "keywords": [],
+  "devDependencies": {
+    "gulp": "3.x.x",
+    "gulp-uglify": "1.x.x",
+    "gulp-less": "3.x.x",
+    "gulp-cssnano": "2.x.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moldauder/iee.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moldauder/iee/issues"
+  },
+  "homepage": "https://github.com/moldauder/iee#readme"
+}

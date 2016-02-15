@@ -201,21 +201,21 @@ class ItemAction extends AuthAction{
         $postObj = $biz->getPostById($id);
 
         if(!$postObj){
-            $this->assign('errMsg', '您要编辑的文章不存在');
+            $this->assign('errMsg', '您要编辑的好物不存在');
             $this->display('my:err');
         }
 
         if('NOT_INVALID_POST' === $postObj){
-            $this->assign('errMsg', '您要编辑的不是有效的文章，它可能是专辑的一部分');
+            $this->assign('errMsg', '您要编辑的不是有效的好物，它可能是专辑的一部分');
             $this->display('my:err');
         }
 
         $isEditable = $biz->isEditable($postObj);
         if(true !== $isEditable){
             if('NOT_YOUR_POST' === $isEditable){
-                $this->assign('errMsg', '这不是你所撰写的文章，您不能修改');
+                $this->assign('errMsg', '这不是你所撰写的好物，您不能修改');
             }else if('POST_IS_LOCK' == $isEditable){
-                $this->assign('errMsg', '文章被管理员锁定，您不能修改');
+                $this->assign('errMsg', '好物被管理员锁定，您不能修改');
             }
 
             $this->display('my:err');

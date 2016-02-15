@@ -1,1 +1,12 @@
-<script>(function(S){var m={};S.each(<?php print $assetTool->getConfigDesc(); ?>,function(ver,name){m['iee/'+name]={tag:ver}});S.config({debug:true,map:[[/\/iee(\/[\w-\.\/]+\.)(js|css)\?t=([\d\.]+)$/,'$1$3.$2']],packages:[{name:'iee',path:'/asset/default/',tag:''}],modules:m})})(KISSY);</script>
+<script>
+KISSY.config({
+    combine: true,
+    packages: {
+        iee: {
+            debug: true,
+            ignorePackageNameInUri: true,
+            path: '/asset/default/<?php print $assetTool->getVersion(); ?>/'
+        }
+    }
+});
+</script>

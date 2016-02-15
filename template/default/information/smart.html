@@ -1,0 +1,42 @@
+<?php
+$title = $postObj->title . ' | ' . System::config('site_name');
+require '../common/smart-header.html';
+
+$id = getPostRootId($postObj);
+//有些文章不存在buylink
+$link = empty($postObj->buylink) ? $postObj->outer_url : $postObj->buylink;
+$link = $link ? ('href="' . $link . '"') : '';
+?>
+<article class="stdpost">
+    <header><h1 class="title"><?php print $postObj->title;?></h1></header>
+    <section class="photo"><a <?php print $link; ?> target="_blank"><img alt="图片:<?php print $postObj->title; ?>" src="<?php print $postObj->img;?>" width="320" height="420" /></a></section>
+    <section class="content"><?php print $postObj->fullcontent;?></section>
+    <section class="action">
+        <?php if($postObj->price): ?><span class="price">&yen;<?php print $postObj->price; ?></span><?php endif; ?>
+        <?php if($link): ?><a class="go-view" <?php print $link;?>>点此拥有</a><?php endif; ?><ins class="post-share"></ins>
+    </section>
+
+    <?php if($postObj->albumItems): ?>
+    <section class="albums">
+    <?php foreach($postObj->albumItems as $item): ?>
+    <article>
+        <header><h2 class="title"><?php print $item->title; ?></h2></header>
+        <section class="photo"><img alt="图片:<?php print $item->title; ?>" src="<?php print $item->img;?>" width="320" height="420" /></a></section>
+        <section class="content"><?php print $item->fullcontent;?></section>
+        <?php if(!$isWeChat): ?>
+        <section class="action">
+            <?php
+            $link = empty($item->buylink) ? $item->outer_url : $item->buylink;
+            $link = $link ? ('href="' . $link . '"') : '';
+            ?>
+            <?php if($link): ?><a class="go-view" <?php print $link;?>>点此拥有</a><?php endif; ?>
+        </section>
+        <?php endif; ?>
+    </article>
+    <?php endforeach; ?>
+    </section>
+    <?php endif; ?>
+</article>
+<?php
+$assetTool->import('smart.item');
+require '../common/smart-footer.html'; ?>

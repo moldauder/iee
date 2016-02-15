@@ -1,0 +1,29 @@
+<?php
+$title = $postObj->title . ' | ' . System::config('site_name');
+$headerTag = 'div';
+
+
+$pageCls = 'item';
+require '../common/header.html';
+
+$assetTool->import('fp.item');
+if($isAlbum){
+    $assetTool->import('fp.album');
+}
+?>
+<div id="container">
+    <div id="slider">
+        <div id="post<?php print($postObj->id); ?>" class="panel"><?php require 'block.html'; ?></div>
+    </div>
+    <div id="trigger" class="carousel-trigger">
+        <?php if($prevPostObj): $prevPostId = getPostRootId($prevPostObj); ?>
+        <a href="/<?php print($prevPostId); ?>" data-act="fp.item/prev" title="上一篇：<?php print($prevPostObj->title); ?>" class="prev"></a>
+        <?php endif; ?>
+        <?php if($nextPostObj): $nextPostId = getPostRootId($nextPostObj); ?>
+        <a href="/<?php print($nextPostId); ?>" data-act="fp.item/next" title="下一篇：<?php print($nextPostObj->title); ?>" class="next"></a>
+        <?php endif; ?>
+    </div>
+</div>
+<?php
+$initJSMod = 'fp.item';
+require '../common/footer.html';

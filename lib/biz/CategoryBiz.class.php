@@ -1,6 +1,11 @@
 <?php
 /**
  * 文章分类控制
+ *
+ * 通过category字段标识细分品类，其中
+ *      category=item 好物
+ *      category=view view
+ *      category=inspiration 灵感
  */
 class CategoryBiz extends Biz{
 

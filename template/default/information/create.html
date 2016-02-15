@@ -1,0 +1,135 @@
+<?php
+$isEditMode = isset($postObj);
+$title = $isEditMode ? ('编辑资讯 &rsaquo; ' . $postObj->title) : '撰写资讯';
+$css = 'my.postcompose.css';
+require '../my/header.html';
+?>
+<h2><?php print $title; ?></h2>
+<form id="postComposeForm" action="information/save" method="post">
+    <div class="hide">
+        <input type="text" name="operate" />
+        <input type="text" name="submit" value="<?php print $isEditMode ? $postObj->submit : ''; ?>" />
+        <input type="text" name="id" value="<?php print $isEditMode ? $postObj->id : ''; ?>"/>
+    </div>
+
+    <div class="toolbar">
+        <span tabindex="0" class="btn" data-act="my.postcompose/save">保存草稿</span>
+        <span tabindex="0" class="btn btn-primary" data-act="my.postcompose/publish">保存并发布</span>
+    </div>
+    <div class="grid">
+        <div class="lft">
+            <div class="form-field">
+                <div class="field-hd"><label for="title">标题</label></div>
+                <div class="field-bd"><input type="text" id="title" value="<?php print $isEditMode ? $postObj->title : '' ?>" name="title" class="text" data-validate='["require"]' /></div>
+            </div>
+            <div class="form-field">
+                <div class="field-hd"><label for="postcontent">描述</label></div>
+                <div class="field-bd"><textarea class="text" rows="10" id="postcontent" name="content" data-validate='["require"]'><?php print $isEditMode ? $postObj->content : ''; ?></textarea></div>
+            </div>
+            <div class="form-field field-img">
+                <div class="field-hd"><label for="img">封面图片</label></div>
+                <div class="field-bd">
+                    <input type="text" id="img" name="cover" class="text" value="<?php print $isEditMode ? $postObj->img : ''; ?>" data-validate='["require"]' />
+                    <div class="field-formtip">
+                        <p>用于前台列表页中，正方形的图片</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-field field-img">
+                <div class="field-hd"><label for="img">详情首图</label></div>
+                <div class="field-bd">
+                    <input type="text" id="img2" name="img" class="text" value="<?php print $isEditMode ? $postObj->img : ''; ?>" />
+                    <div class="field-formtip">
+                        <p>用于资讯详情页中，第一张图片，非必须</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-field field-author">
+                <div class="field-hd"><label for="author">撰文</label></div>
+                <div class="field-bd">
+                    <input type="text" id="author" name="author" class="text" value="<?php print $isEditMode ? $postObj->author : ''; ?>" />
+                </div>
+            </div>
+            <div class="form-field field-photographer">
+                <div class="field-hd"><label for="photographer">摄影</label></div>
+                <div class="field-bd">
+                    <input type="text" id="photographer" name="photographer" class="text" value="<?php print $isEditMode ? $postObj->photographer : ''; ?>" />
+                </div>
+            </div>
+            <div class="form-field field-url">
+                <div class="field-hd"><label for="outer_url">链接</label></div>
+                <div class="field-bd field-url">
+                    <input type="text" id="outer_url" name="outer_url" class="text" value="<?php print $isEditMode ? $postObj->outer_url : ''; ?>" />
+                </div>
+                    <?php if($isEditMode): ?>
+<?php
+$urlAttr = array();
+if($postObj->price){
+    $urlAttr[] = '<dl><dt>价格：</dt><dd>' . $postObj->price . '</dd></dl>';
+}
+if($postObj->onsale){
+    $urlAttr[] = '<dl><dt>状态：</dt><dd>' . ('y' === $postObj->onsale ? '在售' : '下架') . '</dd></dl>';
+}
+if($postObj->outer_url){
+    $urlAttr[] = '<dl><dt>原始链接：</dt><dd><a target="_blank" href="' . $postObj->outer_url . '">' . $postObj->outer_url . '</a></dd></dl>';
+}
+if($postObj->buylink){
+$urlAttr[] = '<dl><dt>淘客链接：</dt><dd><a target="_blank" href="' . $postObj->buylink . '">' . $postObj->buylink . '</a><div><span tabinde="0" class="btn clear-taoke" data-act="my.postcompose/cleartaoke">清除淘客链接</span></div></dd></dl>';
+}
+
+if(!empty($urlAttr)){
+print '<div class="sideinfo attr-list">' . implode('', $urlAttr) . '<s class="arrow"></s></div>';
+}
+?>
+                    <?php endif; ?>
+            </div>
+            <div class="form-field">
+                <div class="field-hd"><label for="category">分类</label></div>
+                <div class="field-bd category">
+                    
+                </div>
+            </div>
+            <?php if(IS_SUPER_USER): ?>
+            <div class="form-field">
+                <div class="field-hd"><label for="author_3rd">第三方作者</label></div>
+                <div class="field-bd"><input type="text" id="author_3rd" name="author_3rd" value="<?php print $isEditMode ? $postObj->author_3rd : '';  ?>" class="text" /></div>
+            </div>
+            <div class="form-field">
+                <div class="field-hd"><label>专辑商品</label></div>
+                <div class="field-bd"><div class="fn-util fn-album-editor" data-var="albumItems"></div></div>
+            </div>
+            <?php if($isEditMode && $postObj->albumItems): ?>
+            <script>var albumItems=<?php print System::JSON($postObj->albumItems);  ?>;</script>
+            <?php endif; ?>
+
+            <div class="form-field">
+                <div class="field-hd"><label for="postcontent">图文内容</label></div>
+                <script src="/asset/default/tinymce/tinymce.min.js"></script>
+                <div class="field-bd"><textarea class="text" rows="16" id="wecontent" name="wecontent"><?php print $isEditMode ? $postObj->wecontent : ''; ?></textarea></div>
+            </div>
+
+            <?php endif; ?>
+        </div>
+        <div class="rgt">
+            <?php if($isEditMode): ?>
+            <div class="box">
+                <div class="box-hd">资讯信息</div>
+                <div class="box-bd">
+                    <dl class="attr">
+                        <dt>原始作者：</dt>
+                        <dd><?php print $postObj->nick; ?></dd>
+                    </dl>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="toolbar">
+        <span tabindex="0" class="btn" data-act="my.postcompose/save">保存草稿</span>
+        <span tabindex="0" class="btn btn-primary" data-act="my.postcompose/publish">保存并发布</span>
+    </div>
+</form>
+
+<?php
+$initJSMod = 'my.postcompose';
+require '../my/footer.html';
