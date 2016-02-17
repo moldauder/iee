@@ -18,29 +18,6 @@ class ItemAction extends AuthAction{
             }
         }
 
-        //淘宝客等信息更新, 每一小时都会触发更新
-        //86400 = one day
-        $needUpdateTaoke = System::config('auto_update_taoke') &&
-            ('tmall' === $postObj->host || 'taobao' === $postObj->host) &&
-            time() - strtotime($postObj->updated) > 3600;
-
-        if($needUpdateTaoke || $_GET['uptaoke']){
-            $updateData = array(
-                'updated' => date('Y-m-d H:i:s')
-            );
-
-            $outerUrlData = $this->_parseOuterUrl($postObj->outer_url);
-            if($outerUrlData && $outerUrlData['url']){
-                $postObj->outer_url  = $updateData['outer_url']  = $outerUrlData['url'];
-                $postObj->host       = $updateData['host']       = $outerUrlData['host'];
-                $postObj->buylink    = $updateData['buylink']    = $outerUrlData['buylink'];
-                $postObj->price      = $updateData['price']      = $outerUrlData['price'];
-                $postObj->price_unit = $updateData['price_unit'] = $outerUrlData['price_unit'];
-                $postObj->onsale     = $updateData['onsale']     = $outerUrlData['onsale'];
-                $biz->updatePost($postObj->id, $updateData);
-            }
-        }
-
         //for mobile access, easy print
         if($this->getMobileDetecter()->isMobile()){
             $this->assign('postObj', $postObj);
@@ -232,7 +209,7 @@ class ItemAction extends AuthAction{
     private function _displayCreate(){
         /* 查询分类信息 */
         $catBiz = System::B('Category');
-        $this->assign('categoryList', $catBiz->find());
+        $this->assign('categoryList', $catBiz->find('item'));
 
         $this->display('create');
     }
@@ -663,23 +640,6 @@ class ItemAction extends AuthAction{
 
         if($host){
             $ret['host'] = $host;
-        }
-
-        if($host === 'taobao' ||  $host === 'tmall'){
-            parse_str(strtolower($info['query']), $query);
-            $item_id = $query['id'];
-            if(preg_match('/^\d+$/', $item_id)){
-                System::importVendor('Taoke');
-                $taoke = new Taoke(System::config('taoke'));
-                $iteminfo = $taoke->getItem($item_id);
-                if(false !== $iteminfo){
-                    $ret['url']        = $iteminfo['detail_url'];
-                    $ret['buylink']    = $iteminfo['buylink'];
-                    $ret['price']      = $iteminfo['price'];
-                    $ret['price_unit'] = $iteminfo['price_unit'];
-                    $ret['onsale']     = $iteminfo['onsale'];
-                }
-            }
         }
 
         return $ret;
