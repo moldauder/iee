@@ -17,17 +17,6 @@ KISSY.add('iee/fp.item', function(S, DOM, Event, Anim, IO, Base){
         this.initEvents();
         this.handleHash();
         this.handleStdPost(this.sliderEl);
-
-        //if(window.TOP){
-            //TOP.api('rest', 'get',{
-                //method   : 'taobao.taobaoke.items.detail.get ',
-                //num_iids : '35569202248',
-                //fields   : 'num_iid,click_url,commission_rate',
-                //nick     : 'fattyq'
-            //},function(resp){
-                //console.log(resp);
-            //});
-        //}
     };
 
     Item.handleHash = function(){

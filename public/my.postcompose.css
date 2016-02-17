@@ -104,11 +104,7 @@
 }
 .category .item span.selected{
     color: #000;
-    border: 2px solid #FF6701;
-    margin-top: -1px;
-    margin-left: -1px;
-    margin-bottom: -1px;
-    margin-right: 4px;
+    border-color: #FF6701;
 }
 .category .item span.selected ins{
     visibility: visible;
@@ -143,4 +139,9 @@
 }
 .field-img .arrow{
     top: 156px;
+}
+
+.field-we .field-bd{
+    padding: 0;
+    margin-right: 3px;
 }

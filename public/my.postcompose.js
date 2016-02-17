@@ -12,8 +12,11 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
         if(DOM.get('#wecontent')){
             this.we = new tinymce.Editor('wecontent', {
                 menubar: false,
-                statusbar: false
+                statusbar: false,
+                plugins: 'image textcolor colorpicker',
+                toolbar: 'bold, italic, underline, strikethrough, alignleft, aligncenter, alignright, alignjustify, forecolor, backcolor, bullist, numlist, outdent, indent, blockquote, undo, redo, removeformat, image'
             }, tinymce.EditorManager);
+
             this.we.render();
         }
     };

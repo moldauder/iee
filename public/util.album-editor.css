@@ -10,6 +10,12 @@
     width: 499px;
 }
 
+
+.album-editor-modal .form-field select{
+    outline: none;
+    margin-right: 3px;
+}
+
 .album-editor-modal .modal-body{
     padding: 10px;
     height: 480px;

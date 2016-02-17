@@ -1,10 +1,12 @@
+html{
+    z-index: 1;
+}
 .suggest-list{
     position: absolute;
-    z-index: 499;
-
     background: #fff;
     border: 1px solid #817f82;
     overflow-y: auto;
+    z-index: 49;
 }
 .suggest-list-item{
     cursor: pointer;

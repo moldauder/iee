@@ -56,53 +56,26 @@ require '../my/header.html';
                     <input type="text" id="photographer" name="photographer" class="text" value="<?php print $isEditMode ? $postObj->photographer : ''; ?>" />
                 </div>
             </div>
-            <div class="form-field field-url">
-                <div class="field-hd"><label for="outer_url">链接</label></div>
-                <div class="field-bd field-url">
-                    <input type="text" id="outer_url" name="outer_url" class="text" value="<?php print $isEditMode ? $postObj->outer_url : ''; ?>" />
-                </div>
-                    <?php if($isEditMode): ?>
-<?php
-$urlAttr = array();
-if($postObj->price){
-    $urlAttr[] = '<dl><dt>价格：</dt><dd>' . $postObj->price . '</dd></dl>';
-}
-if($postObj->onsale){
-    $urlAttr[] = '<dl><dt>状态：</dt><dd>' . ('y' === $postObj->onsale ? '在售' : '下架') . '</dd></dl>';
-}
-if($postObj->outer_url){
-    $urlAttr[] = '<dl><dt>原始链接：</dt><dd><a target="_blank" href="' . $postObj->outer_url . '">' . $postObj->outer_url . '</a></dd></dl>';
-}
-if($postObj->buylink){
-$urlAttr[] = '<dl><dt>淘客链接：</dt><dd><a target="_blank" href="' . $postObj->buylink . '">' . $postObj->buylink . '</a><div><span tabinde="0" class="btn clear-taoke" data-act="my.postcompose/cleartaoke">清除淘客链接</span></div></dd></dl>';
-}
-
-if(!empty($urlAttr)){
-print '<div class="sideinfo attr-list">' . implode('', $urlAttr) . '<s class="arrow"></s></div>';
-}
-?>
-                    <?php endif; ?>
-            </div>
             <div class="form-field">
                 <div class="field-hd"><label for="category">分类</label></div>
                 <div class="field-bd category">
-                    
+                    <script>var categoryList=<?php print System::JSON($categoryList); ?>;</script>
+                    <div id="category"><input type="hidden" name="category" value="<?php print $isEditMode ? $category : '';  ?>" /></div>
+                    <?php if($isEditMode): ?>
+                    <span tabindex="0" class="btn" data-act="my.category/update">更新，不影响资讯排序</span>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php if(IS_SUPER_USER): ?>
             <div class="form-field">
-                <div class="field-hd"><label for="author_3rd">第三方作者</label></div>
-                <div class="field-bd"><input type="text" id="author_3rd" name="author_3rd" value="<?php print $isEditMode ? $postObj->author_3rd : '';  ?>" class="text" /></div>
-            </div>
-            <div class="form-field">
-                <div class="field-hd"><label>专辑商品</label></div>
+                <div class="field-hd"><label>商品</label></div>
                 <div class="field-bd"><div class="fn-util fn-album-editor" data-var="albumItems"></div></div>
             </div>
             <?php if($isEditMode && $postObj->albumItems): ?>
             <script>var albumItems=<?php print System::JSON($postObj->albumItems);  ?>;</script>
             <?php endif; ?>
 
-            <div class="form-field">
+            <div class="form-field field-we">
                 <div class="field-hd"><label for="postcontent">图文内容</label></div>
                 <script src="/asset/default/tinymce/tinymce.min.js"></script>
                 <div class="field-bd"><textarea class="text" rows="16" id="wecontent" name="wecontent"><?php print $isEditMode ? $postObj->wecontent : ''; ?></textarea></div>

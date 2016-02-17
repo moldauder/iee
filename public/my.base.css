@@ -109,6 +109,7 @@ select{
 .toolbar input[type="text"]{
     padding: 2px;
     line-height: 15px;
+    outline: none;
 }
 
 .toolbar-action{

@@ -41,8 +41,6 @@ function F($name){
             'db_charset'    => C('db_charset'),
             'db_prefix'    => C('db_prefix'),
         ));
-    }else if('Taoke' === $name){
-        $object = new Taoke(C('taoke'));
     }else{
         $object = new $name();
     }
