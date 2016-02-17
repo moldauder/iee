@@ -55,7 +55,7 @@ class FpAction extends Action{
 
         //读取分类信息
         $catBiz = System::B('Category');
-        $this->assign('categoryList', $catBiz->find());
+        $this->assign('categoryList', $catBiz->find('item'));
 
         $this->assign('isMobile', $this->getMobileDetecter()->isMobile());
 
