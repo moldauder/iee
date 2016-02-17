@@ -11,9 +11,19 @@ class CategoryBiz extends Biz{
 
     private $tableName = '^category';
 
-    public function find(){
+    /**
+     * @param {String|Array} $category 查询哪个分类下的类目
+     */
+    public function find($category){
+        $where = array();
+        $category = is_array($category) ? $category : array($category);
+        foreach ($category as $item) {
+            $where[] = '"' . $item . '"';
+        }
+
         $list = $this->getDBConnection()
             ->table($this->tableName)
+            ->where('category in (' . implode(',', $where) . ')')
             ->order('id asc')
             ->select();
 
