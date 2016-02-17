@@ -74,15 +74,15 @@ class assetAction extends Action{
             $files = substr($combo, 1);
         }else{
             //file may like /folder/file
-            $files = implode('/', array_slice($queryvars, 2));
+            //remove version string
+            $files = preg_replace('/(\d+\.){2}\d+/', '', implode('/', array_slice($queryvars, 2)));
         }
 
         $path = APP_TEMPLATE . $theme . '/assets/';
         $str = '';
 
         foreach(explode(',', $files) as $file){
-            //移除版本号信息
-            $file = $path . preg_replace('/(\d+\.){3}/', '', $file);
+            $file = $path . $file;
 
             if(is_file($file)){
                 $str .= file_get_contents($file);
