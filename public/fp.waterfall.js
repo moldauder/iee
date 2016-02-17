@@ -1,4 +1,4 @@
-KISSY.add('iee/fp.waterfall', function(S, DOM, Event){
+KISSY.add('iee/fp.waterfall', function(S, DOM, Event, Node){
 
     function Waterfall(config){
         this.config = S.merge({
@@ -30,14 +30,7 @@ KISSY.add('iee/fp.waterfall', function(S, DOM, Event){
                 self.check();
             });
 
-            Event.on(window, 'resize', function(){
-                self.resize();
-            });
-
-            self.resize();
             self.check();
-
-            //self.loadData();
         },
 
         checkLazyElements: function(root){
@@ -92,7 +85,7 @@ KISSY.add('iee/fp.waterfall', function(S, DOM, Event){
                 var el = self.data.shift();
                 self.checkLazyElements(el);
 
-                var node = S.one(el);
+                var node = Node.one(el);
                 node.appendTo(self.container);
 
                 node.css({
@@ -134,26 +127,11 @@ KISSY.add('iee/fp.waterfall', function(S, DOM, Event){
                DOM.offset(self.container).top + DOM.outerHeight(self.container) - self.config.diff <= scrollDiff){
                   self.loadData();
             }
-        },
-
-        resize: function(){
-            var self = this;
-            var config = self.config;
-            var count = Math.floor(DOM.viewportWidth() / config.colWidth);
-
-            count = count < config.minColCount ? config.minColCount : count;
-            count = count > config.maxColCount ? config.maxColCount : count;
-
-            DOM.width(self.container, count * config.colWidth);
-
-            self.fire('resize', {
-                colCount: count
-            });
         }
     });
 
     return Waterfall;
 
 }, {
-    requires: ['dom', 'event']
+    requires: ['dom', 'event', 'node']
 });
