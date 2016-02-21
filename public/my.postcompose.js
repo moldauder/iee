@@ -36,13 +36,14 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
 
         if(this.we){
             this.formEl.elements.wecontent.value = this.we.getContent();
+            console.log(this.we.getContent())
         }
-
-        var progress = new Modal.ProgressBar();
-        progress.show();
 
         self.checkObj.validate(function(isPass){
             if(isPass){
+                var progress = new Modal.ProgressBar();
+                progress.show();
+
                 IO({
                     url      : '/item/save',
                     type     : 'post',
@@ -66,27 +67,27 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
         var elements = this.formEl.elements;
         var isPublish = 'publish' === elements.operate.value;
 
-        elements.id.value = data.id;
-
         if(data.success){
-            modal.setBody('文章<strong>' + elements.title.value + '</strong>' + (isPublish ? '保存并发布' : '保存草稿') + '成功');
+            elements.id.value = data.id;
+            
+            modal.setBody('好物<strong>' + elements.title.value + '</strong>' + (isPublish ? '保存并发布' : '保存草稿') + '成功');
 
             var btns = [{
-                title  : '查看文章列表',
+                title  : '查看好物列表',
                 href   : '/item/all',
                 target : '_self'
             },{
                 title  : '继续编辑',
                 act    : 'my.postcompose/closeFeedback'
             },{
-                title  : '撰写新文章',
+                title  : '撰写新好物',
                 href   : '/item/create',
                 target : '_self'
             }];
 
             if(isPublish){
                 btns.push({
-                    title : '查看文章',
+                    title : '查看好物',
                     href: '/' + ('0' !== data.sid ?  data.sid : data.id)
                 });
             }
@@ -103,9 +104,9 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
         var isPublish = 'publish' === this.formEl.elements.operate.value;
         data = data || {};
 
-        modal.setBody('<div class="error">' + ((isPublish ? '保存发布文章' : '保存草稿') + '失败') + (data.msg ? ('，<strong>' + data.msg + '</strong>') : '') + '</div>');
+        modal.setBody('<div class="error">' + ((isPublish ? '保存发布好物' : '保存草稿') + '失败') + (data.msg ? ('，<strong>' + data.msg + '</strong>') : '') + '</div>');
         modal.setFooter([{
-            title  : '查看文章列表',
+            title  : '查看好物列表',
             href   : '/item/all',
             target : '_self'
         },{

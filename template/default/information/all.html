@@ -17,37 +17,6 @@ require '../my/header.html';
                 array('html' => '回收站', 'value' => 'trash'),
             ), $args['range']);
             ?></select>
-            <select name="type"><?php
-            renderOptions(array(
-                array('html' => '全部类型'),
-                array('html' => '文章', 'value' => 'post'),
-                array('html' => '专辑', 'value' => 'album')
-            ), $args['type']);
-            ?></select>
-            <?php if(IS_SUPER_USER): ?>
-            <select name="author"><?php
-                $authorOpts = array(
-                    array('html' => '全部作者')
-                );
-                foreach($userList as $user){
-                    $authorOpts[] = array(
-                        'html' => $user->nick,
-                        'value' => $user->id
-                    );
-                }
-                renderOptions($authorOpts, $args['author']);
-            ?></select>
-            <?php endif; ?>
-            <select name="host"><?php
-                renderOptions(array(
-                    array('html' => '全部来源'),
-                    array('html' => '淘宝', 'value' => 'taobao'),
-                    array('html' => '天猫', 'value' => 'tmall'),
-                    array('html' => '虾米', 'value' => 'xiami'),
-                    array('html' => '豆瓣', 'value' => 'douban'),
-                    array('html' => '优酷', 'value' => 'youku'),
-                ), $args['host']);
-                ?></select>
             <span tabindex="0" class="btn" data-act="my.postlist/search">筛选</span>
         </form>
     </div>
@@ -80,11 +49,13 @@ foreach($postList as $vo):
     <?php
     if(IS_SUPER_USER){
     ?>
+    <!--
     <div class="mark">
         <span class="url <?php print $classMap[$vo->fp]; ?>" data-url="/item/status/<?php print $id; ?>/fp" data-act="my.postlist/status">首页展现</span>
         <span class="url <?php print $classMap[$vo->lock]; ?>" data-url="/item/status/<?php print $id; ?>/lock" data-act="my.postlist/lock">锁定</span>
         <span class="url <?php print $classMap['0' === $vo->dotop ? 'n' : 'y']; ?>" data-url="/item/dotop/<?php print $id; ?>" data-act="my.postlist/status">置顶</span>
     </div>
+    -->
     <?php
     }else{
         if('y' === $vo->lock){
@@ -127,10 +98,12 @@ foreach($postList as $vo):
     <div class="history">由<span class="author"><?php print $vo->author === USERID ? '你' : $vo->nick; ?></span>最后编辑于<span class="modified"><?php print $vo->modified;?></span></div>
     <?php if(IS_SUPER_USER || 'n' === $vo->lock): ?>
     <div class="item-action">
-        <a href="/item/edit/<?php print $sid; ?>" class="edit">编辑</a>
+        <a href="/information/edit/<?php print $sid; ?>" class="edit">编辑</a>
+        <!--
         <span data-url="/item/trash/<?php print $id; ?>/y" class="url trash" data-act="my.postlist/trash">移入回收站</span>
         <span data-url="/item/trash/<?php print $id; ?>/n" class="url untrash" data-act="my.postlist/untrash">移出回收站</span>
         <span data-url="/item/remove/<?php print $id; ?>" class="url remove" data-act="my.postlist/remove">永久删除</span>
+        -->
     </div>
     <?php endif; ?>
 </div>

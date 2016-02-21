@@ -315,7 +315,7 @@ class Db implements Iterator{
 
     public function getError(){
         $this->_error = @mysql_error($this->_linkID);
-        return $this->error;
+        return $this->_error;
     }
 
     public function error(){

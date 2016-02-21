@@ -5,7 +5,7 @@ class InformationAction extends AuthAction{
         list($id) = System::$queryvars;
         $this->adapterHost();
 
-        $biz = System::B('Post');
+        $biz = System::B('Information');
         $postObj = $biz->getPostById($id);
 
         $isAjax = array_key_exists('async', $_GET);
@@ -85,73 +85,35 @@ class InformationAction extends AuthAction{
             'q'       => $_GET['q'],
             'author'  => $author,
             'page'    => $_GET['page'],
-            'host'    => $_GET['host'],
-            'has_cat' => $_GET['has_cat']
+            'type'    => 'post'
         );
 
         $args['status'] = array('publish', 'draft');
 
-        $range = $_GET['range'];
-        if($range){
-            if('trash' === $range){
-                $args['trash'] = 'y';
-            }else{
-                $args['status'] = array($range);
-            }
-        }
-
-        $type = $_GET['type'];
-        if($type){
-            $args['type'] = array($type);
-        }else{
-            $args['type'] = array('album', 'post');
-        }
-
-        $postBiz = System::B('Post');
-        $list = $postBiz->find($args);
+        $informationBiz = System::B('Information');
+        $list = $informationBiz->find($args);
 
         //上一页、下一页判定
         $total = count($list);
         if(0 < $total){
             $args['id'] = $list[0]->id;
             $args['page'] = 'prev';
-            $this->assign('hasPrev', 0 < count($postBiz->find($args)));
+            $this->assign('hasPrev', 0 < count($informationBiz->find($args)));
 
             $args['id'] = $list[$total - 1]->id;
             $args['page'] = 'next';
-            $this->assign('hasNext', 0 < count($postBiz->find($args)));
+            $this->assign('hasNext', 0 < count($informationBiz->find($args)));
         }
 
         $this->assign('postList', $list);
 
-        $this->assign('args', array_merge($args, array(
-            'range' => $_GET['range'],
-            'type' => $_GET['type']
-        )));
+        $this->assign('args', $args);
 
         $this->display();
     }
 
     public function create(){
         $this->checkLogin();
-
-        $submit = $_GET['submit'];
-        if(preg_match('/^\d+$/', $submit)){     //来自Submit
-            $biz = System::B('Submit');
-            $submitObj = $biz->getSubmitById($submit);
-            if($submitObj){
-                $postObj = new StdClass();
-
-                $postObj->submit     = $submit;
-                $postObj->author_3rd = $submitObj->nick;
-                $postObj->outer_url  = $submitObj->url;
-                $postObj->content    = $submitObj->remark;
-                $postObj->title      = $submitObj->title;
-
-                $this->assign('postObj', $postObj);
-            }
-        }
-
         $this->_displayCreate();
     }
 
@@ -173,7 +135,7 @@ class InformationAction extends AuthAction{
 
         list($actionName, $methodName, $id) = System::$queryvars;
 
-        $biz = System::B('Post');
+        $biz = System::B('Information');
 
         $postObj = $biz->getPostById($id);
 
@@ -236,7 +198,7 @@ class InformationAction extends AuthAction{
         }
 
         if('y' === $value || 'n' === $value){
-            $biz = System::B('Post');
+            $biz = System::B('Information');
             if($biz->updatestatus($field, $id, $value)){
                 $this->ajax(array(
                     'success' => true
@@ -253,28 +215,28 @@ class InformationAction extends AuthAction{
     /**
      * 把文章置顶
      */
-    public function dotop(){
-        $this->checkLogin();
-
-        if(!IS_SUPER_USER){
-            exit;
-        }
-
-        list($actionName, $methodName, $id, $value) = System::$queryvars;
-
-        $biz = System::B('Post');
-
-        if($biz->updateDotop($id, 'y' === $value)){
-            $this->ajax(array(
-                'success' => true
-            ), 'json');
-        }else{
-            $this->ajax(array(
-                'success' => false,
-                'msg' => $biz->getDBError()
-            ), 'json');
-        }
-    }
+    // public function dotop(){
+    //     $this->checkLogin();
+    //
+    //     if(!IS_SUPER_USER){
+    //         exit;
+    //     }
+    //
+    //     list($actionName, $methodName, $id, $value) = System::$queryvars;
+    //
+    //     $biz = System::B('Information');
+    //
+    //     if($biz->updateDotop($id, 'y' === $value)){
+    //         $this->ajax(array(
+    //             'success' => true
+    //         ), 'json');
+    //     }else{
+    //         $this->ajax(array(
+    //             'success' => false,
+    //             'msg' => $biz->getDBError()
+    //         ), 'json');
+    //     }
+    // }
 
     //移入、移出回收站
     public function trash(){
@@ -284,7 +246,7 @@ class InformationAction extends AuthAction{
             exit;
         }
 
-        $biz = System::B('Post');
+        $biz = System::B('Information');
 
         if(!$biz->hasRightToEdit($id)){
             $this->ajax(array(
@@ -309,7 +271,7 @@ class InformationAction extends AuthAction{
     public function remove(){
         list($actionName, $methodName, $id) = System::$queryvars;
 
-        $biz = System::B('Post');
+        $biz = System::B('Information');
 
         $postObj = $biz->getPurePostById($id);
 
@@ -346,8 +308,8 @@ class InformationAction extends AuthAction{
         $this->checkLogin();
 
         $id = System::filterVar($_POST['id']);
-        $postBiz = System::B('Post');
-        $postObj = $postBiz->getPurePostById($id);
+        $informationBiz = System::B('Information');
+        $postObj = $informationBiz->getPurePostById($id);
 
         if(!IS_SUPER_USER){
             if($postObj->author !== USERID){
@@ -368,43 +330,19 @@ class InformationAction extends AuthAction{
         //准备更新数据，目前只支持cateogry更新
         $category = System::filterVar($_POST['category']);
         if($category){
-            if(false !== $postBiz->updateCategory($id, $category)){
+            if(false !== $informationBiz->updateCategory($id, $category)){
                 $this->ajax(array(
                     'success' => true
                 ), 'json');
             }else{
                 $this->ajax(array(
-                    'msg' => $postBiz->getDBError(),
+                    'msg' => $informationBiz->getDBError(),
                     'success' => false
                 ), 'json');
             }
         }
     }
 
-    /**
-     * 清除淘客信息
-     */
-    public function cleartaoke(){
-        $this->checkLogin();
-
-        $id = System::filterVar($_POST['id']);
-        $postBiz = System::B('Post');
-        $postObj = $postBiz->getPurePostById($id);
-
-        if($postObj){
-            if(false !== $postBiz->updatePost($id, array(
-                'buylink' => ''
-            ))){
-                $this->ajax(array(
-                    'success' => true
-                ), 'json');
-            }
-        }
-
-        $this->ajax(array(
-            'success' => false
-        ), 'json');
-    }
 
     /**
      * 保存文章
@@ -418,17 +356,25 @@ class InformationAction extends AuthAction{
         $this->checkLogin();
 
         $postData = array();
-        $postBiz = System::B('Post');
+        $informationBiz = System::B('Information');
         $id = System::filterVar($_POST['id']);
 
         $isInsert = true;
-        $isAlbum = !empty($_POST['albumitem']);
 
         //图片信息
-        $postData['img'] = System::filterVar($_POST['img']);
-        if(!$this->_isValidImg($postData['img'])){
+        $postData['cover'] = System::filterVar($_POST['cover']);
+        if(!$this->_isValidImg($postData['cover'])){
             $this->ajax(array(
-                'msg'     => '请检查图片地址是否正确或者有效',
+                'msg'     => '请检查封面图片地址是否正确或者有效',
+                'success' => false
+            ), 'json');
+        }
+
+        //详情首图
+        $postData['banner'] = System::filterVar($_POST['banner']);
+        if($postData['banner'] && !$this->_isValidImg($postData['banner'])){
+            $this->ajax(array(
+                'msg'     => '请检查详情首图地址是否正确或者有效',
                 'success' => false
             ), 'json');
         }
@@ -442,27 +388,20 @@ class InformationAction extends AuthAction{
             ), 'json');
         }
 
-        //处理外部的URL地址
-        $outerUrlData = $this->_parseOuterUrl($_POST['outer_url']);
-        if(!$isAlbum && !$outerUrlData){    //如果是专辑，则允许不填写URL
+        //没有分类信息
+        if(!$_POST['category']){
             $this->ajax(array(
-                'msg' => '错误的链接地址',
+                'msg'     => '请至少选择一个分类',
                 'success' => false
             ), 'json');
         }
 
-        if($outerUrlData){
-            $postData['outer_url']  = $outerUrlData['url'];
-            $postData['host']       = $outerUrlData['host'];
-            $postData['buylink']    = $outerUrlData['buylink'];
-            $postData['price']      = $outerUrlData['price'];
-            $postData['price_unit'] = $outerUrlData['price_unit'];
-            $postData['onsale']     = $outerUrlData['onsale'];
-        }
+        $postData['writer'] = $_POST['writer'];
+        $postData['photographer'] = $_POST['photographer'];
 
         if($id){
             //编辑已有的文章
-            $postObj = $postBiz->getPurePostById($id);
+            $postObj = $informationBiz->getPurePostById($id);
 
             if(!$postObj){
                 $this->ajax(array(
@@ -479,96 +418,48 @@ class InformationAction extends AuthAction{
                     ), 'json');
                 }
 
-                if('y' === $postObj->lock){
-                    $this->ajax(array(
-                        'msg' => '文章已经被锁定，请联系管理员',
-                        'success' => false
-                    ), 'json');
-                }
+                // if('y' === $postObj->lock){
+                //     $this->ajax(array(
+                //         'msg' => '文章已经被锁定，请联系管理员',
+                //         'success' => false
+                //     ), 'json');
+                // }
             }
 
             $isInsert = false;
-            $postBiz->markRevision($postObj);
+            $informationBiz->markRevision($postObj);
 
-            $postData['lock']   = $postObj->lock;
-            $postData['fp']     = $postObj->fp;
-            $postData['trash']  = $postObj->trash;
+            // $postData['lock']   = $postObj->lock;
+            // $postData['fp']     = $postObj->fp;
+            // $postData['trash']  = $postObj->trash;
             $postData['author'] = $postObj->author;
-            $postData['sid']    = $postObj->sid ? $postObj->sid : $postObj->id;
+            $postData['sid'] = $postObj->sid ? $postObj->sid : $postObj->id;
         }else{
-            $postData['lock']   = 'n';
-            $postData['fp']     = IS_SUPER_USER ? 'y' : 'n';
-            $postData['trash']  = 'n';
+            // $postData['lock']   = 'n';
+            // $postData['fp']     = IS_SUPER_USER ? 'y' : 'n';
+            // $postData['trash']  = 'n';
             $postData['author'] = USERID;
-            $postData['sid']    = 0;
+            $postData['sid'] = 0;
         }
 
-        $postData['pid']      = 0;
         $postData['status']   = $operate;
+        $postData['type'] = 'post';
         $postData['updated'] = $postData['modified'] = date('Y-m-d H:i:s');
 
-        //第三方作者修订
-        $postData['author_3rd'] = System::filterVar($_POST['author_3rd']);
-        if($postData['author_3rd']){
-            $postData['author'] = '6';  //thankyou account
-        }
-
-        $postData['content'] = $this->filterContent($_POST['content']);
-        $postData['fullcontent']  = $postBiz->toDisplayContent($postData['content'], array(
-            'author_3rd' => $postData['author_3rd']
-        ));
-
-        //来自于微信等渠道的内容
-        $postData['wecontent'] = $_POST['wecontent'];
-
-        //设置文章类型
-        $postData['type'] = $isAlbum ? 'album' : 'post';
-
-        $albumData = array();
-        if($isAlbum){
-            foreach($_POST['albumitem'] as $albumItem){
-                $albumItem['pid'] = $postId;
-                $albumItem['type'] ='albumitem';
-
-                $albumItem['content'] = $this->filterContent($albumItem['content']);
-                $albumItem['fullcontent']  = $postBiz->toDisplayContent($albumItem['content']);
-
-                $outerUrlData = $this->_parseOuterUrl($albumItem['outer_url']);
-                if(!$outerUrlData){
-                    $this->ajax(array(
-                        'msg' => '在专辑商品中存在错误的链接地址',
-                        'success' => false
-                    ), 'json');
-                }
-
-                $albumItem['outer_url']  = $outerUrlData['url'];
-                $albumItem['buylink']    = $outerUrlData['buylink'];
-                $albumItem['price']      = $outerUrlData['price'];
-                $albumItem['price_unit'] = $outerUrlData['price_unit'];
-                $albumItem['onsale']     = $outerUrlData['onsale'];
-                $albumItem['host']       = $outerUrlData['host'];
-
-                $albumData[] = $albumItem;
-            }
-        }
+        $postData['desc'] = $this->filterDesc($_POST['desc']);
+        $postData['content'] = $this->filterDesc($_POST['content']);
 
         //写入文章
-        $postId = $postBiz->addPost($postData, array(
-            'album' => $albumData,
-            'category' => $_POST['category']
+        $postId = $informationBiz->addPost($postData, array(
+            'category' => $_POST['category'],
+            'goodsitem' => $_POST['goodsitem']
         ));
 
         if(false === $postId){
             $this->ajax(array(
-                'msg' => $postBiz->getDBError(),
+                'msg' => $informationBiz->getDBError(),
                 'success' => false
             ), 'json');
-        }
-
-        $submit = System::filterVar($_POST['submit']);
-        if(preg_match('/^\d+$/', $submit)){
-            $submitBiz = System::B('Submit');
-            $submitBiz->passByPost($submit, $postId, $postData->author);
         }
 
         $this->ajax(array(
@@ -589,7 +480,7 @@ class InformationAction extends AuthAction{
 
         $this->checkLogin();
 
-        $biz = System::B('Post');
+        $biz = System::B('Information');
         $list = $biz->find(array(
             'q'      => $q,
             'status' => 'publish',
@@ -662,7 +553,7 @@ class InformationAction extends AuthAction{
     }
 
     //调整内容，去掉多余的换行
-    private function filterContent($content){
+    private function filterDesc($content){
         $content = System::filterVar($content);
         $content = preg_replace('/[\n\r]+/', "\n\r", $content); //过多的换行变成一个
         return $content;

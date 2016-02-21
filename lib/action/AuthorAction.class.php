@@ -23,7 +23,7 @@ class AuthorAction extends Action{
             }
 
             $catBiz = System::B('Category');
-            $this->assign('categoryList', $catBiz->find());
+            $this->assign('categoryList', $catBiz->find('item'));
 
             $this->assign('authorObj', $authorObj);
             $this->display('author');

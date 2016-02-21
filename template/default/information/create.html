@@ -5,7 +5,7 @@ $css = 'my.postcompose.css';
 require '../my/header.html';
 ?>
 <h2><?php print $title; ?></h2>
-<form id="postComposeForm" action="information/save" method="post">
+<form id="informationComposeForm" action="information/save" method="post">
     <div class="hide">
         <input type="text" name="operate" />
         <input type="text" name="submit" value="<?php print $isEditMode ? $postObj->submit : ''; ?>" />
@@ -13,8 +13,8 @@ require '../my/header.html';
     </div>
 
     <div class="toolbar">
-        <span tabindex="0" class="btn" data-act="my.postcompose/save">保存草稿</span>
-        <span tabindex="0" class="btn btn-primary" data-act="my.postcompose/publish">保存并发布</span>
+        <span tabindex="0" class="btn" data-act="my.informationcompose/save">保存草稿</span>
+        <span tabindex="0" class="btn btn-primary" data-act="my.informationcompose/publish">保存并发布</span>
     </div>
     <div class="grid">
         <div class="lft">
@@ -23,31 +23,31 @@ require '../my/header.html';
                 <div class="field-bd"><input type="text" id="title" value="<?php print $isEditMode ? $postObj->title : '' ?>" name="title" class="text" data-validate='["require"]' /></div>
             </div>
             <div class="form-field">
-                <div class="field-hd"><label for="postcontent">描述</label></div>
-                <div class="field-bd"><textarea class="text" rows="10" id="postcontent" name="content" data-validate='["require"]'><?php print $isEditMode ? $postObj->content : ''; ?></textarea></div>
+                <div class="field-hd"><label for="desc">描述</label></div>
+                <div class="field-bd"><textarea class="text" rows="10" id="desc" name="desc" data-validate='["require"]'><?php print $isEditMode ? $postObj->desc : ''; ?></textarea></div>
             </div>
             <div class="form-field field-img">
-                <div class="field-hd"><label for="img">封面图片</label></div>
+                <div class="field-hd"><label for="cover">封面图片</label></div>
                 <div class="field-bd">
-                    <input type="text" id="img" name="cover" class="text" value="<?php print $isEditMode ? $postObj->img : ''; ?>" data-validate='["require"]' />
+                    <input type="text" id="cover" name="cover" class="text" value="<?php print $isEditMode ? $postObj->cover : ''; ?>" data-validate='["require"]' />
                     <div class="field-formtip">
                         <p>用于前台列表页中，正方形的图片</p>
                     </div>
                 </div>
             </div>
             <div class="form-field field-img">
-                <div class="field-hd"><label for="img">详情首图</label></div>
+                <div class="field-hd"><label for="banner">详情首图</label></div>
                 <div class="field-bd">
-                    <input type="text" id="img2" name="img" class="text" value="<?php print $isEditMode ? $postObj->img : ''; ?>" />
+                    <input type="text" id="banner" name="banner" class="text" value="<?php print $isEditMode ? $postObj->banner : ''; ?>" />
                     <div class="field-formtip">
                         <p>用于资讯详情页中，第一张图片，非必须</p>
                     </div>
                 </div>
             </div>
             <div class="form-field field-author">
-                <div class="field-hd"><label for="author">撰文</label></div>
+                <div class="field-hd"><label for="writer">撰文</label></div>
                 <div class="field-bd">
-                    <input type="text" id="author" name="author" class="text" value="<?php print $isEditMode ? $postObj->author : ''; ?>" />
+                    <input type="text" id="writer" name="writer" class="text" value="<?php print $isEditMode ? $postObj->writer : ''; ?>" />
                 </div>
             </div>
             <div class="form-field field-photographer">
@@ -69,16 +69,16 @@ require '../my/header.html';
             <?php if(IS_SUPER_USER): ?>
             <div class="form-field">
                 <div class="field-hd"><label>商品</label></div>
-                <div class="field-bd"><div class="fn-util fn-album-editor" data-var="albumItems"></div></div>
+                <div class="field-bd"><div class="fn-util fn-goods-editor" data-var="goodsItems"></div></div>
             </div>
-            <?php if($isEditMode && $postObj->albumItems): ?>
-            <script>var albumItems=<?php print System::JSON($postObj->albumItems);  ?>;</script>
+            <?php if($isEditMode && $postObj->goodsitem): ?>
+            <script>var goodsItems=<?php print System::JSON($postObj->goodsitem);  ?>;</script>
             <?php endif; ?>
 
             <div class="form-field field-we">
-                <div class="field-hd"><label for="postcontent">图文内容</label></div>
+                <div class="field-hd"><label for="informationContent">图文内容</label></div>
                 <script src="/asset/default/tinymce/tinymce.min.js"></script>
-                <div class="field-bd"><textarea class="text" rows="16" id="wecontent" name="wecontent"><?php print $isEditMode ? $postObj->wecontent : ''; ?></textarea></div>
+                <div class="field-bd"><textarea class="text" rows="16" id="informationContent" name="content"><?php print $isEditMode ? $postObj->content : ''; ?></textarea></div>
             </div>
 
             <?php endif; ?>
@@ -98,11 +98,11 @@ require '../my/header.html';
         </div>
     </div>
     <div class="toolbar">
-        <span tabindex="0" class="btn" data-act="my.postcompose/save">保存草稿</span>
-        <span tabindex="0" class="btn btn-primary" data-act="my.postcompose/publish">保存并发布</span>
+        <span tabindex="0" class="btn" data-act="my.informationcompose/save">保存草稿</span>
+        <span tabindex="0" class="btn btn-primary" data-act="my.informationcompose/publish">保存并发布</span>
     </div>
 </form>
 
 <?php
-$initJSMod = 'my.postcompose';
+$initJSMod = 'my.informationcompose';
 require '../my/footer.html';
