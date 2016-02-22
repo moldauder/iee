@@ -164,12 +164,10 @@ class InformationBiz extends Biz{
     /**
      * 转换文章内容为存储用
      */
-    // public function toDisplayContent($content, $data = array()){
-    //     //$content = trim($content);  //移除掉多余的换行、空
-    //     $content .= $data['author_3rd'] ?  (' (来自 ' . $data['author_3rd'] . ')') : '';
-    //
-    //     return '<p>' . preg_replace('/[\n\r]+/', '</p><p>', $content) . '</p>';
-    // }
+     public function toDisplayContent($content){
+         //$content = trim($content);  //移除掉多余的换行、空
+         return '<p>' . preg_replace('/[\n\r]+/', '</p><p>', $content) . '</p>';
+     }
 
     //批量调整fp、lock
     // public function updateStatus($field, $id, $value){
@@ -308,8 +306,15 @@ class InformationBiz extends Biz{
 
         $db->table('^information_good')->where('information', $postId)->delete();
 
+
         foreach($goods as $good){
             $good['information'] = $postId;
+
+            $content = $good['content'];
+            $content = System::filterVar($content);
+            $content = preg_replace('/[\n\r]+/', "\n\r", $content); //过多的换行变成一个
+            $good['content'] = $this->toDisplayContent($content);
+
             $db->table('^information_good')->data($good)->add();
         }
     }

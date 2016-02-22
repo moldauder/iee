@@ -33,7 +33,7 @@ KISSY.add('iee/util.goods-editor', function(S, DOM, Event, Modal, Validation){
                             '</div>' +
                             '<div class="form-field">' +
                                 '<div class="field-hd"><label for="goodsEditorImg">图片</label></div>' +
-                                '<div class="field-bd"><input id="goodsEditorImg" class="text" autocomplete="off" value="" type="text" data-validate=\'["require"]\' name="img" /></div>' +
+                                '<div class="field-bd"><input id="goodsEditorImg" class="text" autocomplete="off" value="" type="text" data-validate=\'["require"]\' name="img" placeholder="请上传1000x640的图片" /></div>' +
                             '</div>' +
                             '<div class="form-field">' +
                                 '<div class="field-hd"><label for="goodsEditorLink">链接</label></div>' +

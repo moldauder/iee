@@ -44,16 +44,16 @@ foreach($postList as $vo):
 ?>
 <div class="<?php print implode(' ', $cls); ?>" data-id="<?php print $vo->id; ?>">
     <div class="item-title">
-        <a title="<?php print $vo->title; ?>" href="/item/edit/<?php print $sid; ?>"><?php if('album' === $vo->type){ print '<sup>专辑</sup>'; } ?><?php if('y' === $vo->has_cat){ print '<sup>已分类</sup>'; } if('draft' === $vo->status){ print '<sup>草稿</sup>'; } ?><?php print $vo->title; ?></a>
+        <a title="<?php print $vo->title; ?>" href="/information/edit/<?php print $sid; ?>"><?php if('album' === $vo->type){ print '<sup>专辑</sup>'; } ?><?php if('y' === $vo->has_cat){ print '<sup>已分类</sup>'; } if('draft' === $vo->status){ print '<sup>草稿</sup>'; } ?><?php print $vo->title; ?></a>
     </div>
     <?php
     if(IS_SUPER_USER){
     ?>
     <!--
     <div class="mark">
-        <span class="url <?php print $classMap[$vo->fp]; ?>" data-url="/item/status/<?php print $id; ?>/fp" data-act="my.postlist/status">首页展现</span>
-        <span class="url <?php print $classMap[$vo->lock]; ?>" data-url="/item/status/<?php print $id; ?>/lock" data-act="my.postlist/lock">锁定</span>
-        <span class="url <?php print $classMap['0' === $vo->dotop ? 'n' : 'y']; ?>" data-url="/item/dotop/<?php print $id; ?>" data-act="my.postlist/status">置顶</span>
+        <span class="url <?php print $classMap[$vo->fp]; ?>" data-url="/information/status/<?php print $id; ?>/fp" data-act="my.postlist/status">首页展现</span>
+        <span class="url <?php print $classMap[$vo->lock]; ?>" data-url="/information/status/<?php print $id; ?>/lock" data-act="my.postlist/lock">锁定</span>
+        <span class="url <?php print $classMap['0' === $vo->dotop ? 'n' : 'y']; ?>" data-url="/information/dotop/<?php print $id; ?>" data-act="my.postlist/status">置顶</span>
     </div>
     -->
     <?php
@@ -100,9 +100,9 @@ foreach($postList as $vo):
     <div class="item-action">
         <a href="/information/edit/<?php print $sid; ?>" class="edit">编辑</a>
         <!--
-        <span data-url="/item/trash/<?php print $id; ?>/y" class="url trash" data-act="my.postlist/trash">移入回收站</span>
-        <span data-url="/item/trash/<?php print $id; ?>/n" class="url untrash" data-act="my.postlist/untrash">移出回收站</span>
-        <span data-url="/item/remove/<?php print $id; ?>" class="url remove" data-act="my.postlist/remove">永久删除</span>
+        <span data-url="/information/trash/<?php print $id; ?>/y" class="url trash" data-act="my.postlist/trash">移入回收站</span>
+        <span data-url="/information/trash/<?php print $id; ?>/n" class="url untrash" data-act="my.postlist/untrash">移出回收站</span>
+        <span data-url="/information/remove/<?php print $id; ?>" class="url remove" data-act="my.postlist/remove">永久删除</span>
         -->
     </div>
     <?php endif; ?>

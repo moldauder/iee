@@ -3,12 +3,11 @@ class InformationAction extends AuthAction{
 
     public function item(){
         list($id) = System::$queryvars;
+        $id = substr($id, 1);
         $this->adapterHost();
 
         $biz = System::B('Information');
         $postObj = $biz->getPostById($id);
-
-        $isAjax = array_key_exists('async', $_GET);
 
         if(!$postObj){
             if($isAjax){
@@ -25,28 +24,10 @@ class InformationAction extends AuthAction{
             $this->display('smart');
         }
 
-        $isAlbum = (bool)$postObj->albumItems;
-
         $baseArgs = array(
             'status' => 'publish',
-            'trash'  => 'n',
-            'type'   => array('post', 'album')
+            'type'   => 'post'
         );
-
-        if(!$isAlbum){
-            $authorID = $postObj->author;
-
-            $this->assign('recentPostList', $biz->find(array_merge($baseArgs, array(
-                'num'    => 7,
-                'author' => $authorID
-            ))));
-
-            $this->assign('postsNum', $biz->count(array_merge($baseArgs, array(
-                'author' => $authorID,
-            ))));
-        }
-
-        $this->assign('isAlbum', $isAlbum);
 
         $realId = $postObj->id;
 
@@ -61,12 +42,7 @@ class InformationAction extends AuthAction{
         ))));
 
         $this->assign('postObj', $postObj);
-
-        if($isAjax){
-            $this->display('block');
-        }else{
-            $this->display('item');
-        }
+        $this->display('item');
     }
 
     public function all(){
@@ -396,8 +372,9 @@ class InformationAction extends AuthAction{
             ), 'json');
         }
 
-        $postData['writer'] = $_POST['writer'];
-        $postData['photographer'] = $_POST['photographer'];
+        $postData['good_serial'] = System::filterVar($_POST['good_serial']);
+        $postData['writer'] = System::filterVar($_POST['writer']);
+        $postData['photographer'] = System::filterVar($_POST['photographer']);
 
         if($id){
             //编辑已有的文章
@@ -447,7 +424,9 @@ class InformationAction extends AuthAction{
         $postData['updated'] = $postData['modified'] = date('Y-m-d H:i:s');
 
         $postData['desc'] = $this->filterDesc($_POST['desc']);
-        $postData['content'] = $this->filterDesc($_POST['content']);
+        $postData['good_desc'] = $informationBiz->toDisplayContent($this->filterDesc($_POST['good_desc']));
+
+        $postData['content'] = $_POST['content'];
 
         //写入文章
         $postId = $informationBiz->addPost($postData, array(

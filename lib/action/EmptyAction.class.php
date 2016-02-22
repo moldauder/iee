@@ -9,6 +9,11 @@ class EmptyAction extends AuthAction{
                 System::switchAction('item', 'item');
             }
 
+            //i22这类页面
+            if(preg_match('/^i\d+/', $page)){
+                System::switchAction('information', 'item');
+            }
+
             if(in_array($page, array(
                 'about',
                 'foreverc'

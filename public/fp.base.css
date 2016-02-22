@@ -823,6 +823,148 @@ html .modal-album-mask{
     visibility: hidden;
 }
 
+.tpl-information #content{
+    width: 990px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+}
+.tpl-information .banner img{
+    width: 990px;
+    height: 417px;
+    vertical-align: top;
+}
+.tpl-information .date{
+    position: relative;
+    text-align: center;
+    margin: 60px 0 25px;
+    color: #D1C1A7;
+    font-weight: bold;
+    font-family: 'Hiragino Sans GB', tahoma;
+    font-size: 10px;
+    padding-top: 10px;
+}
+
+.tpl-information .date:before{
+    position: absolute;
+    content: "";
+    display: inline-block;
+    vertical-align: top;
+    background: #D1C1A7;
+    width: 20px;
+    height: 1px;
+    left: 485px;
+    top: 0;
+}
+.tpl-information h1{
+    font-size: 32px;
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+.tpl-information .attr{
+    font-size: 12px;
+    color: #B3B3B3;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.tpl-information .attr span{
+    margin: 0 5px;
+}
+
+.tpl-information .goods .hd{
+    text-align: center;
+    font-size: 14px;
+    color: #515151;
+    line-height: 24px;
+    padding-top: 60px;
+}
+
+.tpl-information .goods .hd .arrow{
+    margin-top: 20px;
+}
+
+.tpl-information .goods .serial{
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+.tpl-information .goods .serial span{
+    display: inline-block;
+    vertical-align: top;
+    background: #000;
+    color: #fff;
+    font-size: 14px;
+}
+.tpl-information .goods .desc{
+    text-align: center;
+    color: #7A7A7A;
+    font-size: 14px;
+    line-height: 1;
+}
+.tpl-information .goods .desc p{
+    margin-bottom: 20px;
+}
+
+.tpl-information .goods .item{
+    background: #f3f3f3;
+    margin-top: 40px;
+}
+.tpl-information .goods .item .img{
+    float: left;
+    width: 500px;
+    height: 320px;
+}
+.tpl-information .goods .item img{
+    width: 500px;
+    height: 320px;
+    vertical-align: top;
+}
+.tpl-information .goods .item .meta{
+    position: relative;
+    height: 320px;
+    margin-left: 540px;
+}
+.tpl-information .goods .item .meta h2{
+    font-size: 18px;
+    padding-top: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+    color: #515151;
+    font-weight: 400;
+}
+.tpl-information .goods .item .meta .detail{
+    color: #888;
+    font-size: 12px;
+    height: 160px;
+    overflow: hidden;
+}
+.tpl-information .goods .item .meta .detail p{
+    margin-bottom: 10px;
+}
+
+.tpl-information .goods .item .meta .bot{
+    position: absolute;
+    left: 0;
+    bottom: 30px;
+}
+.tpl-information .goods .item .meta .cost{
+    color: #515151;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.tpl-information .goods .item .meta a{
+    display: inline-block;
+    vertical-align: top;
+    background: #D1C1A7;
+    color: #fff;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    
+}
+
 /* 屏幕宽度控制 */
 .pw4 #header .wrapper,
 .pw4 .category .root ul{

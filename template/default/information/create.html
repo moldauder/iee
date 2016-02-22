@@ -29,7 +29,7 @@ require '../my/header.html';
             <div class="form-field field-img">
                 <div class="field-hd"><label for="cover">封面图片</label></div>
                 <div class="field-bd">
-                    <input type="text" id="cover" name="cover" class="text" value="<?php print $isEditMode ? $postObj->cover : ''; ?>" data-validate='["require"]' />
+                    <input type="text" id="cover" name="cover" class="text" value="<?php print $isEditMode ? $postObj->cover : ''; ?>" data-validate='["require"]' placeholder="请上传640x500的图片" />
                     <div class="field-formtip">
                         <p>用于前台列表页中，正方形的图片</p>
                     </div>
@@ -67,6 +67,18 @@ require '../my/header.html';
                 </div>
             </div>
             <?php if(IS_SUPER_USER): ?>
+            <div class="form-field field-photographer">
+                <div class="field-hd"><label for="goodserial">商品系列</label></div>
+                <div class="field-bd">
+                    <input type="text" id="goodserial" name="good_serial" placeholder="如：纯 色 系 列 Monochrome" class="text" value="<?php print $isEditMode ? $postObj->good_serial : ''; ?>" />
+                </div>
+            </div>
+            <div class="form-field field-photographer">
+                <div class="field-hd"><label for="gooddesc">商品系列描述</label></div>
+                <div class="field-bd">
+                    <textarea class="text" id="gooddesc" name="good_desc" rows="5"><?php print $isEditMode ? $postObj->good_desc : ''; ?></textarea>
+                </div>
+            </div>
             <div class="form-field">
                 <div class="field-hd"><label>商品</label></div>
                 <div class="field-bd"><div class="fn-util fn-goods-editor" data-var="goodsItems"></div></div>
