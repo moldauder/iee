@@ -313,7 +313,8 @@ class InformationBiz extends Biz{
             $content = $good['content'];
             $content = System::filterVar($content);
             $content = preg_replace('/[\n\r]+/', "\n\r", $content); //过多的换行变成一个
-            $good['content'] = $this->toDisplayContent($content);
+            $good['content'] = $content;
+            $good['fullcontent'] = $this->toDisplayContent($content);
 
             $db->table('^information_good')->data($good)->add();
         }

@@ -56,8 +56,8 @@ if($isAlbum){
         <div class="serial"><span>－<?php print $postObj->good_serial; ?>－</span></div>
         <?php endif; ?>
 
-        <?php if($postObj->good_desc): ?>
-        <div class="desc"><?php print $postObj->good_desc; ?></div>
+        <?php if($postObj->good_fulldesc): ?>
+        <div class="desc"><?php print $postObj->good_fulldesc; ?></div>
         <?php endif; ?>
 
         <?php foreach($goodsitem as $item): ?>
@@ -65,7 +65,7 @@ if($isAlbum){
             <div class="img"><img src="<?php print $item->img; ?>"/></div>
             <div class="meta">
                 <h2><?php print $item->title; ?></h2>
-                <div class="detail"><?php print $item->content; ?></div>
+                <div class="detail"><?php print $item->fullcontent; ?></div>
                 <div class="bot">
                     <div class="cost">
                         <?php

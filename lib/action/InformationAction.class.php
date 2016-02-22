@@ -424,7 +424,10 @@ class InformationAction extends AuthAction{
         $postData['updated'] = $postData['modified'] = date('Y-m-d H:i:s');
 
         $postData['desc'] = $this->filterDesc($_POST['desc']);
-        $postData['good_desc'] = $informationBiz->toDisplayContent($this->filterDesc($_POST['good_desc']));
+
+        $good_desc = $this->filterDesc($_POST['good_desc']);
+        $postData['good_desc'] = $good_desc;
+        $postData['good_fulldesc'] = $informationBiz->toDisplayContent($good_desc);
 
         $postData['content'] = $_POST['content'];
 
