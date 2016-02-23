@@ -76,7 +76,6 @@ mark{
 .price,
 .off-sign,
 #site-title a s,
-#socialm s,
 #loading p.end,
 .stdpost .action a,
 .tpl-item .side s,
@@ -92,11 +91,6 @@ mark{
 
 #content{ overflow: hidden; padding-bottom: 50px; }
 .tpl-index #content{ padding: 0 0 10px; overflow: visible; }
-
-.tpl-item #content,
-.tpl-about #content{
-    padding-top: 40px;
-}
 
 img{ vertical-align: top; }
 
@@ -146,10 +140,14 @@ img{ vertical-align: top; }
 html{ overflow-y:scroll; }
 .col-width{ margin: 0 auto; width: 990px; }
 
-#header{ background: #000; /*position: fixed;*/ top: 0; left: 0; z-index: 50; width: 100%; padding: 10px 0; }
+#header{
+    top: 0;
+    left: 0;
+    z-index: 50;
+    width: 100%; 
+}
 #header .wrapper{ width: 975px; margin: 0 auto; position: relative; }
-#site-title a{ display: block; width: 200px; }
-#site-title a s{ display: inline-block; vertical-align: middle; width: 100px; height: 18px; background-position: -60px -292px; }
+#site-title a{ display: block; width: 80px; height: 80px; margin: 45px auto; }
 #site-title a img{ vertical-align: middle; margin-right: 10px }
 #site-title span{ display: none; }
 
@@ -160,16 +158,17 @@ html{ overflow-y:scroll; }
     display: inline-block;
 }
 
-#socialm{ position: absolute; top: 15px; right: 0; }
-#socialm a{ float: left; width: 20px; height: 20px; margin-left: 20px; position: relative; }
-#socialm s{ display: block; width: 20px; height: 20px; background-position: -14px -342px; cursor: pointer; }
-#socialm span{ position: absolute; top: -18px; left: -21px; width: 60px; height: 20px; line-height: 20px; text-align: center; color: #fff; font-size: 12px; white-space: nowrap; visibility: hidden;  }
-#socialm a:hover span{ visibility: visible; }
-
-#socialm .about s{ background-position: -52px -342px; }
-#socialm .weibo s{ background-position: -90px -342px; }
-#socialm .mail s{ background-position: -129px -342px; }
-
+#socialm{
+    position: absolute;
+    top: 25px;
+    right: 0;
+}
+#socialm a{
+    margin-left: 20px; 
+}
+#socialm a img{
+    vertical-align: middle;
+}
 
 #colophon{ background: #f0f0f0; height: 64px; line-height: 64px; text-align: center; color: #333; font-weight: bold; border-top: 1px solid #ddd; padding: 20px 0; }
 
@@ -666,25 +665,26 @@ html .modal-album-mask{
     z-index: 101;
 }
 .category .root{
-    background: #f4f4f4;
+    background: #000;
     line-height: 39px;
     border-bottom: 1px solid #e9e9e9;
 }
 .category .root ul{
     width: 975px;
     margin: 0 auto;
+    text-align: center;
 }
 .category .root li{
     margin-right: 25px;
 }
 .category .root a{
     font-size: 14px;
-    color: #aaa;
+    color: #fff;
 }
 .category .root .active a,
 .category .root a:hover{
     text-decoration: none;
-    color: #333;
+    color: #D1C1A7;
 }
 
 .category .collapse a{
@@ -734,6 +734,7 @@ html .modal-album-mask{
 .sub-cat-color .list{
     width: 750px;
     margin: 0 auto;
+    text-align: center;
 }
 .sub-cat-color a{
     border-radius: 35px;

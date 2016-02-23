@@ -28,7 +28,7 @@ $desc = isset($desc) ? $desc : '一味，拥有生活的灵感。我们呈现那
         <?php
         $taokeConfig = System::config('taoke');
         if($taokeConfig && $taokeConfig['appKey']){
-            print '<script src="http://l.tbcdn.cn/apps/top/x/sdk.js?appkey=' . $taokeConfig['appKey'] . '"></script>';
+            print '<script src="//l.tbcdn.cn/apps/top/x/sdk.js?appkey=' . $taokeConfig['appKey'] . '"></script>';
         }
         ?>
         <?php if(!$isMobileAccess): ?>
@@ -38,17 +38,15 @@ $desc = isset($desc) ? $desc : '一味，拥有生活的灵感。我们呈现那
     <body>
         <?php if($isMobileAccess): ?>
         <div id="header" class="mobile-header">
-            <<?php print($headerTag); ?> id="site-title"><a href="/" title="一味 拥有生活的灵感" rel="home" target="_self"><img src="http://pic.yupoo.com/iewei/CsyJBJHp/Sc6vB.png" height="53" width="53" /><s></s><span>一味</span></a></<?php print($headerTag);?>>
+            <<?php print($headerTag); ?> id="site-title"><a href="/" title="一味" rel="home" target="_self"><img src="/asset/default/res/logo.png" height="80" width="80" /><span>一味</span></a></<?php print($headerTag);?>>
         </div>
         <?php else: ?>
         <div id="header">
             <div class="wrapper">
-                <div id="logo-box"><<?php print($headerTag); ?> id="site-title"><a href="/" title="一味 拥有生活的灵感" rel="home" target="_self"><img src="http://pic.yupoo.com/iewei/CsyJBJHp/Sc6vB.png" height="53" width="53" /><s></s><span>一味</span></a></<?php print($headerTag);?>></div>
+                <<?php print($headerTag); ?> id="site-title"><a href="/" title="一味" rel="home" target="_self"><img src="/asset/default/res/logo.png" height="80" width="80" /><span>一味</span></a></<?php print($headerTag);?>>
                 <div id="socialm">
-                    <a class="fp" href="/"><span>首页</span><s></s></a>
-                    <a class="about" href="/about"><span>关于一味</span><s></s></a>
-                    <a class="weibo" href="http://weibo.com/iiiewei"><span>关注</span><s></s></a>
-                    <a class="mail" href="mailto:iewei.inc@gmail.com"><span>联系</span><s></s></a>
+                    <a class="about" href="/about"><img src="/asset/default/res/about.png" width="17" height="16" /></a>
+                    <a class="mail" href="mailto:iewei.inc@gmail.com"><img src="/asset/default/res/contact.png" width="18" height="12" /></a>
                 </div>
             </div>
         </div>
