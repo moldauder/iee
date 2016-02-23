@@ -963,7 +963,7 @@ html .modal-album-mask{
     height: 30px;
     line-height: 30px;
     padding: 0 10px;
-    
+    text-decoration: none;
 }
 
 /* 屏幕宽度控制 */
