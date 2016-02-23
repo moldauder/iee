@@ -88,17 +88,6 @@ img{
     padding-top: 10px;
 }
 
-.tpl-information .date:before{
-    position: absolute;
-    content: "";
-    display: inline-block;
-    vertical-align: top;
-    background: #D1C1A7;
-    width: 20px;
-    height: 1px;
-    left: 485px;
-    top: 0;
-}
 .tpl-information h1{
     font-size: 32px;
     text-align: center;
