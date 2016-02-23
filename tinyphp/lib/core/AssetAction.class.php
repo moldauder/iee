@@ -43,7 +43,7 @@ class assetAction extends Action{
 
     public function js($attrs = array()){
         if(count($this->js)){
-            print('<script src="/asset/' . $this->theme . '/' . implode(',', $this->js) . '"' . $this->parseAttr($attrs) . '></script>');
+            print('<script src="/asset/' . $this->theme . '/' . $this->version . '/??' . implode(',', $this->js) . '"' . $this->parseAttr($attrs) . '></script>');
             $this->js = array();
         }
         return $this;
