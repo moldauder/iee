@@ -73,3 +73,124 @@ img{
 .footer a{
     color: #aaa;
 }
+
+.tpl-information .banner img{
+    width: 100%;
+}
+.tpl-information .date{
+    position: relative;
+    text-align: center;
+    margin: 60px 0 25px;
+    color: #D1C1A7;
+    font-weight: bold;
+    font-family: 'Hiragino Sans GB', tahoma;
+    font-size: 10px;
+    padding-top: 10px;
+}
+
+.tpl-information .date:before{
+    position: absolute;
+    content: "";
+    display: inline-block;
+    vertical-align: top;
+    background: #D1C1A7;
+    width: 20px;
+    height: 1px;
+    left: 485px;
+    top: 0;
+}
+.tpl-information h1{
+    font-size: 32px;
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+.tpl-information .attr{
+    font-size: 12px;
+    color: #B3B3B3;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.tpl-information .attr span{
+    margin: 0 5px;
+}
+
+.tpl-information .goods .hd{
+    text-align: center;
+    font-size: 14px;
+    color: #515151;
+    line-height: 24px;
+    padding-top: 60px;
+}
+
+.tpl-information .goods .hd .arrow{
+    margin-top: 20px;
+}
+
+.tpl-information .goods .serial{
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+.tpl-information .goods .serial span{
+    display: inline-block;
+    vertical-align: top;
+    background: #000;
+    color: #fff;
+    font-size: 14px;
+}
+.tpl-information .goods .desc{
+    text-align: center;
+    color: #7A7A7A;
+    font-size: 14px;
+    line-height: 1;
+}
+.tpl-information .goods .desc p{
+    margin-bottom: 20px;
+}
+
+.tpl-information .goods .item{
+    background: #f3f3f3;
+    margin-top: 40px;
+
+    background-size: 150px 96px;
+    background-repeat: no-repeat;
+    background-position: 6px 50%;
+
+    padding: 6px 0 12px 166px;
+}
+.tpl-information .goods .item h2{
+    font-size: 16px;
+    margin-bottom: 6px;
+    text-align: left;
+    color: #515151;
+    font-weight: 400;
+}
+.tpl-information .goods .item .detail{
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+.tpl-information .goods .item .detail p{
+    margin-bottom: 1px;
+}
+
+.tpl-information .goods .item .cost{
+    color: #515151;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+.tpl-information .goods .item a{
+    display: inline-block;
+    vertical-align: top;
+    background: #D1C1A7;
+    color: #fff;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    text-decoration: none;
+}
+
+

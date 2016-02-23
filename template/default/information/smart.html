@@ -7,36 +7,84 @@ $id = getPostRootId($postObj);
 $link = empty($postObj->buylink) ? $postObj->outer_url : $postObj->buylink;
 $link = $link ? ('href="' . $link . '"') : '';
 ?>
-<article class="stdpost">
-    <header><h1 class="title"><?php print $postObj->title;?></h1></header>
-    <section class="photo"><a <?php print $link; ?> target="_blank"><img alt="图片:<?php print $postObj->title; ?>" src="<?php print $postObj->img;?>" width="320" height="420" /></a></section>
-    <section class="content"><?php print $postObj->fullcontent;?></section>
-    <section class="action">
-        <?php if($postObj->price): ?><span class="price">&yen;<?php print $postObj->price; ?></span><?php endif; ?>
-        <?php if($link): ?><a class="go-view" <?php print $link;?>>点此拥有</a><?php endif; ?><ins class="post-share"></ins>
-    </section>
 
-    <?php if($postObj->albumItems): ?>
-    <section class="albums">
-    <?php foreach($postObj->albumItems as $item): ?>
-    <article>
-        <header><h2 class="title"><?php print $item->title; ?></h2></header>
-        <section class="photo"><img alt="图片:<?php print $item->title; ?>" src="<?php print $item->img;?>" width="320" height="420" /></a></section>
-        <section class="content"><?php print $item->fullcontent;?></section>
-        <?php if(!$isWeChat): ?>
-        <section class="action">
-            <?php
-            $link = empty($item->buylink) ? $item->outer_url : $item->buylink;
-            $link = $link ? ('href="' . $link . '"') : '';
-            ?>
-            <?php if($link): ?><a class="go-view" <?php print $link;?>>点此拥有</a><?php endif; ?>
-        </section>
+<div class="tpl-information">
+
+<div class="banner"><img src="<?php print $postObj->banner; ?>" /></div>
+<div class="date">
+    <?php
+     $timestamp = strtotime($postObj->modified);
+     print strtoupper(date('jS F Y', $timestamp));
+    ?>
+</div>
+<h1><?php print $postObj->title; ?></h1>
+<div class="attr">
+    <?php
+        $writer = $postObj->writer;
+        if($writer){
+            print '<span>撰文 ' . $writer . '</span>';
+        }
+
+        $photographer = $postObj->photographer;
+        if($photographer){
+            print '<span>摄影 ' . $photographer . '</span>';
+        }
+
+    ?>
+</div>
+<div class="content"><?php print $postObj->content; ?></div>
+
+<?php
+     $goodsitem = $postObj->goodsitem;
+     if($goodsitem){
+?>
+<div class="goods">
+    <div class="hd">
+        <p>以</p>
+        <p>下</p>
+        <p>是</p>
+        <p>商</p>
+        <p>品</p>
+        <p>信</p>
+        <p>息</p>
+        <p class="arrow">↓</p>
+    </div>
+    <div class="bd">
+        <?php if($postObj->good_serial): ?>
+        <div class="serial"><span>－<?php print $postObj->good_serial; ?>－</span></div>
         <?php endif; ?>
-    </article>
+
+        <?php if($postObj->good_fulldesc): ?>
+        <div class="desc"><?php print $postObj->good_fulldesc; ?></div>
+        <?php endif; ?>
+
+        <?php foreach($goodsitem as $item): ?>
+        <div class="item" style="background-image:url(<?php print $item->img; ?>)">
+            <h2><?php print $item->title; ?></h2>
+            <div class="detail"><?php print $item->fullcontent; ?></div>
+            <div class="bot">
+                <div class="cost">
+                    <?php
+                     $currencyMap = array(
+                     'rmb' => '￥',
+                     'dollar' => '$'
+                     );
+                    ?>
+                    <span class="currency"><?php print $currencyMap[$item->currency]; ?></span>
+                    <?php print $item->price; ?>
+                </div>
+                <a href="<?php print $item->url; ?>">立刻拥有</a>
+            </div>
+        </div>
+    </div>
     <?php endforeach; ?>
-    </section>
-    <?php endif; ?>
-</article>
+</div>
+<?php
+     }
+ ?>
+
+</div>
+
 <?php
 $assetTool->import('smart.item');
 require '../common/smart-footer.html'; ?>
