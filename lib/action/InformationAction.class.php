@@ -538,7 +538,10 @@ class InformationAction extends AuthAction{
     private function filterDesc($content){
         $content = System::filterVar($content);
         $content = preg_replace('/[\n\r]+/', "\n\r", $content); //过多的换行变成一个
+
+        //替换微信公众号的图片地址
+        $content = preg_replace('/http(s)?:\/\/mmbiz\.qlogo\.cn\/mmbiz\/', '/wximg/', $content);
+
         return $content;
     }
-
 }

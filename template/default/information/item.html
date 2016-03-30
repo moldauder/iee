@@ -12,7 +12,10 @@ if($isAlbum){
 }
 ?>
 
+<?php if($postObj->banner): ?>
 <div class="banner"><img src="<?php print $postObj->banner; ?>" /></div>
+<?php endif; ?>
+
 <div class="date">
     <?php
      $timestamp = strtotime($postObj->modified);
