@@ -429,7 +429,10 @@ class InformationAction extends AuthAction{
         $postData['good_desc'] = $good_desc;
         $postData['good_fulldesc'] = $informationBiz->toDisplayContent($good_desc);
 
-        $postData['content'] = $_POST['content'];
+        //替换微信公众号的图片地址
+        $content = $_POST['content'];
+        $content = preg_replace('/https?:\/\/mmbiz\.qlogo\.cn\/mmbiz\//', '/wximg/', $content);
+        $postData['content'] = $content;
 
         //写入文章
         $postId = $informationBiz->addPost($postData, array(
@@ -538,9 +541,6 @@ class InformationAction extends AuthAction{
     private function filterDesc($content){
         $content = System::filterVar($content);
         $content = preg_replace('/[\n\r]+/', "\n\r", $content); //过多的换行变成一个
-
-        //替换微信公众号的图片地址
-        $content = preg_replace('/http(s)?:\/\/mmbiz\.qlogo\.cn\/mmbiz\/', '/wximg/', $content);
 
         return $content;
     }

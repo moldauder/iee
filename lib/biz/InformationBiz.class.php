@@ -292,12 +292,10 @@ class InformationBiz extends Biz{
                 continue;
             }
 
-            if($db->table('^information_category')->data(array(
+            $db->table('^information_category')->data(array(
                 'post' => $postId,
                 'category' => $cat
-            ))->add()){
-                $hasCat = true;
-            }
+            ))->add();
         }
     }
 
