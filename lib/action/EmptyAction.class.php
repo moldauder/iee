@@ -5,6 +5,12 @@ class EmptyAction extends AuthAction{
         list($page) = System::$queryvars;
 
         if($page){
+            if('view' === $page){
+                System::switchAction('information', 'views');
+            }else if('inspiration' === $page){
+                System::switchAction('information', 'inspirations');
+            }
+
             if(preg_match('/^\d+$/', $page)){
                 System::switchAction('item', 'item');
             }

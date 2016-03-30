@@ -13,10 +13,12 @@ $assetTool->import('fp,waterfall,submit');
 ?>
 <?php
 if(!$isMobile){
+    renderNav();
+
     renderCategory($categoryList, array(
         'first' => array(
             'link' => '/',
-            'html' => '首页'
+            'html' => '全部'
         ),
         'curCatObj' => isset($catObj) ? $catObj : null
     ));

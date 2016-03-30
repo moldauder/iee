@@ -169,6 +169,47 @@ function renderTinyPost($postObj, $params = array()){
 }
 
 /**
+ * 渲染大导航
+ */
+function renderNav(){
+    print '<div class="top-nav"><ul>';
+
+    $variable = array(
+        array(
+            'title' => '首页',
+            'key' => 'fp',
+            'url' => '/'
+        ),
+        array(
+            'title' => 'VIEW',
+            'key' => 'view',
+            'url' => '/view'
+        ),
+        array(
+            'title' => '灵感',
+            'key' => 'inspiration',
+            'url' => '/inspiration'
+        ),
+        //array(
+            //'title' => '好物',
+            //'key' => 'thing',
+            //'url' => '/thing'
+        //),
+        array(
+            'title' => '商店',
+            'key' => 'shop',
+            'url' => '/shop'
+        )
+    );
+
+    foreach ($variable as $key => $value) {
+        print '<li id="J_Nav' . $value['key'] . '"><a href="' . $value['url'] . '">' . $value['title'] . '</a></li>';
+    }
+
+    print '</ul></div>';
+}
+
+/**
  * 渲染颜色分类
  */
 function renderCategory($categoryList, $params = array()){

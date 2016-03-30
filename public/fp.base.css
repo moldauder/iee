@@ -144,7 +144,7 @@ html{ overflow-y:scroll; }
     top: 0;
     left: 0;
     z-index: 50;
-    width: 100%; 
+    width: 100%;
 }
 #header .wrapper{ width: 975px; margin: 0 auto; position: relative; }
 #site-title a{ display: block; width: 80px; height: 80px; margin: 45px auto; }
@@ -164,7 +164,7 @@ html{ overflow-y:scroll; }
     right: 0;
 }
 #socialm a{
-    margin-left: 20px; 
+    margin-left: 20px;
 }
 #socialm a img{
     vertical-align: middle;
@@ -333,7 +333,7 @@ s.connector{ display: inline-block; width: 16px; height: 1px; background: #7f7f7
 
 /* submiturl */
 #sh{display: none;}
-#pi{ position: relative; padding-top: 10px; }
+#pi{ position: relative; padding-top: 20px; }
 .submiturl{
     background: url(http://pic.yupoo.com/iewei/CsyJBLYS/WXGES.jpg);
     overflow: hidden;
@@ -656,6 +656,7 @@ html .modal-album-mask{
     display: inline-block;
     *display: inline;
     *zoom: 1;
+    vertical-align: middle;
 }
 .category-fixed{
     position: fixed;
@@ -675,7 +676,7 @@ html .modal-album-mask{
     text-align: center;
 }
 .category .root li{
-    margin-right: 25px;
+    margin: 0 15px;
 }
 .category .root a{
     font-size: 14px;
@@ -970,4 +971,21 @@ html .modal-album-mask{
 .pw4 #header .wrapper,
 .pw4 .category .root ul{
     width: 1200px;
+}
+
+.top-nav ul{
+    width: 975px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+.top-nav li{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 15px;
+}
+.top-nav a{
+    color: #000;
+    text-decoration: none;
 }
