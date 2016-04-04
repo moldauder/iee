@@ -1,0 +1,47 @@
+<?php
+$assetTool->import('fp.base.css');
+
+$title = isset($title) ? $title : System::config('site_name');
+
+$isMobileAccess = false;
+if(isset($isMobile) && $isMobile){
+    $isMobileAccess = true;
+}
+
+$headerTag = isset($headerTag) ? $headerTag : 'h1';
+$headerTag = ('h1' === strtolower($headerTag)) ? 'h1' : 'div';
+
+$pageCls = isset($pageCls) ? ('tpl-' . $pageCls) : '';
+$desc = isset($desc) ? $desc : '一味，拥有生活的灵感。我们呈现那些美的、有灵气的、带着生活的经历和温度的物品。唤醒察觉的心，去获取感知生活的灵力与发现美。';
+?>
+<!DOCTYPE HTML>
+<html class="<?php print($pageCls); ?>">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="<?php print($desc); ?>"/>
+        <meta property="wb:webmaster" content="f7d4153e5eb8642c" />
+        <title><?php print($title); ?></title>
+        <?php $assetTool->css();?>
+        <?php if(!$isMobileAccess): ?>
+        <base target="_blank" />
+        <?php endif; ?>
+    </head>
+    <body>
+        <?php if($isMobileAccess): ?>
+        <div id="header" class="mobile-header">
+            <<?php print($headerTag); ?> id="site-title"><a href="/" title="一味" rel="home" target="_self"><img src="/asset/default/res/logo.png" height="80" width="80" /><span>一味</span></a></<?php print($headerTag);?>>
+        </div>
+        <?php else: ?>
+        <div id="header">
+            <div class="wrapper">
+                <<?php print($headerTag); ?> id="site-title"><a href="/" title="一味" rel="home" target="_self"><img src="/asset/default/res/logo.png" height="80" width="80" /><span>一味</span></a></<?php print($headerTag);?>>
+                <div id="socialm">
+                    <a href="/about"><img src="/asset/default/res/about.png" width="17" height="16" /></a>
+                    <a href="/1564"><img src="/asset/default/res/wechat.png" width="21" height="18" /></a>
+                    <a href="mailto:iewei.inc@gmail.com"><img src="/asset/default/res/contact.png" width="18" height="12" /></a>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <div id="content">

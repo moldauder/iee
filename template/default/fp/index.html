@@ -8,8 +8,7 @@ if(isset($catObj)){
     $title = preg_replace('/(.+)(\/(.+)?)/', '$3 &rsaquo; $1', $catObj->name) . ' | ' . System::config('site_name');
 }
 
-require '../common/header.html';
-$assetTool->import('fp,waterfall,submit');
+require '../common/jq-header.html';
 ?>
 <?php
 if(!$isMobile){
@@ -24,19 +23,18 @@ if(!$isMobile){
     ));
 }
 ?>
-<div id="pi"><div id="waterfall" class="waterfall"><?php foreach($list as $idx=>$obj){ print renderTinyPost($obj, array(
-    'lazyImg' => $idx > 8,
-    'isMobile' => $isMobile
-)); }; ?></div><div id="loading"></div></div>
-<script><?php
-if(isset($startId)){
-    print 'var startId="' . $startId . '";';
-}
+
+<div id="waterfall" class="waterfall"></div>
+
+<script>
+<?php
 if($isMobile){
     print 'var isMobile=true;';
 }
-?></script>
-<?php
-$assetTool->import('fp.fp,fp.waterfall,fp.submit');
 ?>
-<?php $initJSMod = 'fp.fp'; require '../common/footer.html';
+</script>
+
+<?php
+$assetTool->import('fp');
+?>
+<?php require '../common/jq-footer.html';

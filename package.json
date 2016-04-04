@@ -5,9 +5,10 @@
   "keywords": [],
   "devDependencies": {
     "gulp": "3.x.x",
-    "gulp-uglify": "1.x.x",
+    "gulp-cssnano": "2.x.x",
     "gulp-less": "3.x.x",
-    "gulp-cssnano": "2.x.x"
+    "gulp-uglify": "1.x.x",
+    "webpack": "^1.12.14"
   },
   "repository": {
     "type": "git",

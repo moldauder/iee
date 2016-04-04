@@ -1,0 +1,1 @@
+var MonthName=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];exports.stddate=function(a){var s=a.split(" ")[0].split("-");if(3===s.length){var n=s[1]-1;return n>-1&&12>n&&(s[1]=MonthName[n]),'<div class="stddate"><span class="day">'+s[2]+'</span><span class="month">'+s[1]+'</span><span class="year">'+s[0]+"</span></div>"}return""};

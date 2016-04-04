@@ -76,7 +76,7 @@ mark{
 .price,
 .off-sign,
 #site-title a s,
-#loading p.end,
+#waterfall-loading p.end,
 .stdpost .action a,
 .tpl-item .side s,
 .tpl-about #content h1 span,
@@ -180,16 +180,16 @@ html{ overflow-y:scroll; }
     height: 60px;
     z-index: 100;
     outline: none;
-    display: none;
     cursor: pointer;
     background-position: -16px -125px;
+    opacity: 0;
 }
 .gotop-hover{
-    background: url(http://pic.yupoo.com/iewei/Cam6yIZo/XryK.gif) no-repeat;
+    background: url(//pic.yupoo.com/iewei/Cam6yIZo/XryK.gif) no-repeat;
 }
 
-#loading{ clear: both; padding: 40px 0; text-align: center; }
-#loading p.end{ width: 54px; height: 47px; margin: 0 auto; background-position: -50px -52px;  }
+#waterfall-loading .loading{ clear: both; text-align: center; }
+#waterfall-loading p.end{ width: 54px; height: 47px; margin: 0 auto; background-position: -50px -52px;  }
 
 #main{ /* margin-top: 104px; */ padding-top: 10px; }
 
@@ -197,21 +197,10 @@ html{ overflow-y:scroll; }
     width: 975px;
     margin: 0 auto;
 }
-.waterfallContainer:after, .waterfall:after{
-    content: " ";
-    display: block;
-    clear: both;
-    visibility: hidden;
-}
 .waterfall .pin{
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    position: relative;
+    position: absolute;
     overflow: hidden;
     width: 320px;
-    height: 420px;
-    margin: 0 5px 5px 0;
 }
 .waterfall img{ display: block; }
 .waterfall .extra{ position: absolute; visibility: hidden; top: 0; left: 0; width: 100%; height: 100%; }
