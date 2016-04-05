@@ -291,7 +291,7 @@ class InformationBiz extends Biz{
         $db->table('^information_category')->where('post', $postId)->delete();
 
         foreach(explode(',', $category) as $cat){
-            if(!preg_match('/^\d[1-9]*$/', $cat)){
+            if(!preg_match('/^\d+$/', $cat)){
                 continue;
             }
 
@@ -299,6 +299,8 @@ class InformationBiz extends Biz{
                 'post' => $postId,
                 'category' => $cat
             ))->add();
+
+
         }
     }
 

@@ -324,7 +324,7 @@ class PostBiz extends Biz{
 
         $hasCat = false;
         foreach(explode(',', $category) as $cat){
-            if(!preg_match('/^\d[1-9]*$/', $cat)){
+            if(!preg_match('/^\d+$/', $cat)){
                 continue;
             }
 
