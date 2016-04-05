@@ -19,7 +19,7 @@ class WximgAction extends AuthAction{
         list($n, $filename) = System::$queryvars;
         if(!$filename){ return; }
 
-        $filename = APP_PATH . 'wximg/' . $filename;
+        $filename = APP_PATH . 'wximgcache/' . $filename;
 
         $fmt = strtolower($_GET['wx_fmt']) || 'jpog';
         header('Content-Type: ' . $$this->MIMES[$fmt]);
