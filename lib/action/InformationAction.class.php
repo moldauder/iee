@@ -339,21 +339,21 @@ class InformationAction extends AuthAction{
 
         //图片信息
         $postData['cover'] = System::filterVar($_POST['cover']);
-        if(!$this->_isValidImg($postData['cover'])){
-            $this->ajax(array(
-                'msg'     => '请检查封面图片地址是否正确或者有效',
-                'success' => false
-            ), 'json');
-        }
+        // if(!$this->_isValidImg($postData['cover'])){
+        //     $this->ajax(array(
+        //         'msg'     => '请检查封面图片地址是否正确或者有效',
+        //         'success' => false
+        //     ), 'json');
+        // }
 
         //详情首图
         $postData['banner'] = System::filterVar($_POST['banner']);
-        if($postData['banner'] && !$this->_isValidImg($postData['banner'])){
-            $this->ajax(array(
-                'msg'     => '请检查详情首图地址是否正确或者有效',
-                'success' => false
-            ), 'json');
-        }
+        // if($postData['banner'] && !$this->_isValidImg($postData['banner'])){
+        //     $this->ajax(array(
+        //         'msg'     => '请检查详情首图地址是否正确或者有效',
+        //         'success' => false
+        //     ), 'json');
+        // }
 
         //标题信息
         $postData['title']    = System::filterVar($_POST['title']);

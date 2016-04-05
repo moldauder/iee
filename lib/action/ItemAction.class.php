@@ -426,12 +426,12 @@ class ItemAction extends AuthAction{
 
         //图片信息
         $postData['img'] = System::filterVar($_POST['img']);
-        if(!$this->_isValidImg($postData['img'])){
-            $this->ajax(array(
-                'msg'     => '请检查图片地址是否正确或者有效',
-                'success' => false
-            ), 'json');
-        }
+        // if(!$this->_isValidImg($postData['img'])){
+        //     $this->ajax(array(
+        //         'msg'     => '请检查图片地址是否正确或者有效',
+        //         'success' => false
+        //     ), 'json');
+        // }
 
         //标题信息
         $postData['title']    = System::filterVar($_POST['title']);
