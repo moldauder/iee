@@ -1,5 +1,9 @@
 var MonthName = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
+/**
+ * @param {String} timeStr  2016-03-30 23:12:50
+ * @return 30 MAR 2016
+ */
 exports.stddate = function(timeStr){
     var ymd = timeStr.split(' ')[0].split('-');
 

@@ -171,7 +171,7 @@ function renderTinyPost($postObj, $params = array()){
 /**
  * 渲染大导航
  */
-function renderNav(){
+function renderNav($currentNav){
     print '<div class="top-nav"><ul>';
 
     $variable = array(
@@ -190,20 +190,26 @@ function renderNav(){
             'key' => 'inspiration',
             'url' => '/inspiration'
         ),
-        //array(
-            //'title' => '好物',
-            //'key' => 'thing',
-            //'url' => '/thing'
-        //),
+        array(
+            'title' => '好物',
+            'key' => 'thing',
+            'url' => '/thing'
+        ),
         array(
             'title' => '商店',
             'key' => 'shop',
-            'url' => '/shop'
+            'url' => 'http://weidian.com/?userid=1607166',
+            'target' => '_blank'
         )
     );
 
-    foreach ($variable as $key => $value) {
-        print '<li id="J_Nav' . $value['key'] . '"><a href="' . $value['url'] . '">' . $value['title'] . '</a></li>';
+    foreach ($variable as $value) {
+        $key = $value['key'];
+
+        $target = $value['target'];
+        $target = $target ? $target : '_self';
+
+        print '<li ' . ($currentNav === $key ? ' class="active" ' : '') . '><a target="' . $target . '" href="' . $value['url'] . '">' . $value['title'] . '</a></li>';
     }
 
     print '</ul></div>';

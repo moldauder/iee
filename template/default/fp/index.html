@@ -12,15 +12,17 @@ require '../common/jq-header.html';
 ?>
 <?php
 if(!$isMobile){
-    renderNav();
+    renderNav(FP_PAGE_TYPE);
 
-    renderCategory($categoryList, array(
-        'first' => array(
-            'link' => '/',
-            'html' => '全部'
-        ),
-        'curCatObj' => isset($catObj) ? $catObj : null
-    ));
+    if(FP_PAGE_TYPE === 'thing'){
+        renderCategory($categoryList, array(
+            'first' => array(
+                'link' => '/',
+                'html' => '全部'
+            ),
+            'curCatObj' => isset($catObj) ? $catObj : null
+        ));
+    }
 }
 ?>
 
@@ -31,7 +33,12 @@ if(!$isMobile){
 if($isMobile){
     print 'var isMobile=true;';
 }
+if(isset($catObj)){
+    print 'var curCatId=' . $catObj->id . ';';
+}
+
 ?>
+var pageType = '<?php print FP_PAGE_TYPE; ?>';
 </script>
 
 <?php

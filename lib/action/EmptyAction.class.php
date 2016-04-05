@@ -5,12 +5,6 @@ class EmptyAction extends AuthAction{
         list($page) = System::$queryvars;
 
         if($page){
-            if('view' === $page){
-                System::switchAction('information', 'views');
-            }else if('inspiration' === $page){
-                System::switchAction('information', 'inspirations');
-            }
-
             if(preg_match('/^\d+$/', $page)){
                 System::switchAction('item', 'item');
             }
@@ -27,6 +21,9 @@ class EmptyAction extends AuthAction{
                 $this->display('page:' . $page);
             }
         }
+
+        //thing、view、inspiration，默认是fp
+        define('FP_PAGE_TYPE', $page ? $page : 'fp');
 
         System::switchAction('fp', 'index');
     }

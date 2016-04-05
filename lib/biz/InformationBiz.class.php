@@ -44,7 +44,7 @@ class InformationBiz extends Biz{
         //处理分类
         if($args['cat']){
             // unset($args['dotop']);    //在有分类的情况下强制移除置顶
-            $db->where('informations.id in (select post from ' . System::config('db_prefix') . 'post_category where category=' . $args['cat'] . ')');
+            $db->where('informations.id in (select post from ' . System::config('db_prefix') . 'information_category where category=' . $args['cat'] . ')');
         }
 
         //置顶
@@ -240,8 +240,11 @@ class InformationBiz extends Biz{
             'id',
             'author',
             'title',
-            'img',
-            'onsale'
+            'cover',
+            'banner',
+            'desc',
+            'modified',
+            'sid'
         );
 
         foreach($list as $postObj){
@@ -268,7 +271,7 @@ class InformationBiz extends Biz{
             if($data['goodsitem']){
                 $this->updateGoods($id, $data['goodsitem']);
             }
-            
+
 
             //更新分类
             if($data['category']){

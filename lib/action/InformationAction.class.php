@@ -1,14 +1,6 @@
 <?php
 class InformationAction extends AuthAction{
 
-    public function inspirations(){
-        print 'aa';
-    }
-
-    public function views(){
-        print 'ss';
-    }
-
     public function item(){
         list($id) = System::$queryvars;
         $id = substr($id, 1);
