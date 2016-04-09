@@ -422,6 +422,7 @@ class InformationAction extends AuthAction{
         $postData['status']   = $operate;
         $postData['type'] = 'post';
         $postData['updated'] = $postData['modified'] = date('Y-m-d H:i:s');
+        $postData['fp'] = 'n';
 
         $postData['desc'] = $this->filterDesc($_POST['desc']);
 
