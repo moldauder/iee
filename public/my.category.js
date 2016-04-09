@@ -79,7 +79,7 @@ KISSY.add('iee/my.category', function(S, DOM, Event, IO){
     Biz.update = function(trigger){
         IO({
             type: 'post',
-            url: '/item/put',
+            url: trigger.getAttribute('data-url') || '/item/put',
             data: {
                 category: this.valueEl.value,
                 id: this.valueEl.form.elements['id'].value

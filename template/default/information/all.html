@@ -1,9 +1,9 @@
 <?php
-$title = '好物列表';
+$title = '资讯列表';
 $css = 'my.postlist.css';
 require '../my/header.html';
 ?>
-<h2>好物列表</h2>
+<h2>资讯列表</h2>
 <script>var queryvars={range:'<?php print $args['range'] ?>',type:'<?php print $args['type']; ?>',author:'<?php print $args['author']; ?>'};</script>
 <div class="toolbar">
     <div class="toolbar-filter">
@@ -49,13 +49,11 @@ foreach($postList as $vo):
     <?php
     if(IS_SUPER_USER){
     ?>
-    <!--
+
     <div class="mark">
-        <span class="url <?php print $classMap[$vo->fp]; ?>" data-url="/information/status/<?php print $id; ?>/fp" data-act="my.postlist/status">首页展现</span>
-        <span class="url <?php print $classMap[$vo->lock]; ?>" data-url="/information/status/<?php print $id; ?>/lock" data-act="my.postlist/lock">锁定</span>
-        <span class="url <?php print $classMap['0' === $vo->dotop ? 'n' : 'y']; ?>" data-url="/information/dotop/<?php print $id; ?>" data-act="my.postlist/status">置顶</span>
+        <span class="url <?php print $classMap[$vo->fp]; ?>" data-url="/information/status/<?php print $id; ?>/fp" data-act="my.postlist/status">轮播展现</span>
     </div>
-    -->
+
     <?php
     }else{
         if('y' === $vo->lock){

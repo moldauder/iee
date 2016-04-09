@@ -13,8 +13,8 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
             this.we = new tinymce.Editor('wecontent', {
                 menubar: false,
                 statusbar: false,
-                plugins: 'image textcolor colorpicker',
-                toolbar: 'bold, italic, underline, strikethrough, alignleft, aligncenter, alignright, alignjustify, forecolor, backcolor, bullist, numlist, outdent, indent, blockquote, undo, redo, removeformat, image'
+                plugins: 'image textcolor colorpicker link fullscreen',
+                toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | forecolor backcolor | bullist numlist | outdent indent blockquote | undo redo | link unlink | removeformat image | fullscreen'
             }, tinymce.EditorManager);
 
             this.we.render();
@@ -69,7 +69,7 @@ KISSY.add('iee/my.postcompose', function(S, DOM, Event, IO, Modal, Validation, C
 
         if(data.success){
             elements.id.value = data.id;
-            
+
             modal.setBody('好物<strong>' + elements.title.value + '</strong>' + (isPublish ? '保存并发布' : '保存草稿') + '成功');
 
             var btns = [{

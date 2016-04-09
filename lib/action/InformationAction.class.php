@@ -169,7 +169,7 @@ class InformationAction extends AuthAction{
 
         list($actionName, $methodName, $id, $field, $value) = System::$queryvars;
 
-        if(!in_array($field, array('fp', 'lock'))){
+        if(!in_array($field, array('fp'))){
             exit;
         }
 

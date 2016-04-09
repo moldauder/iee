@@ -170,12 +170,12 @@ class InformationBiz extends Biz{
      }
 
     //批量调整fp、lock
-    // public function updateStatus($field, $id, $value){
-    //     return $this->getDBConnection()->table($this->tableName)
-    //         ->where('id in (' . $id . ')')
-    //         ->data(array($field => $value))
-    //         ->save();
-    // }
+    public function updateStatus($field, $id, $value){
+        return $this->getDBConnection()->table($this->tableName)
+            ->where('id in (' . $id . ')')
+            ->data(array($field => $value))
+            ->save();
+    }
 
     //调整置顶状态
     // public function updateDotop($id, $isDotop){

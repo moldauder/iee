@@ -12,8 +12,8 @@ KISSY.add('iee/my.informationcompose', function(S, DOM, Event, IO, Modal, Valida
             this.we = new tinymce.Editor('informationContent', {
                 menubar: false,
                 statusbar: false,
-                plugins: 'image textcolor colorpicker',
-                toolbar: 'bold, italic, underline, strikethrough, alignleft, aligncenter, alignright, alignjustify, forecolor, backcolor, bullist, numlist, outdent, indent, blockquote, undo, redo, removeformat, image'
+                plugins: 'image textcolor colorpicker link fullscreen',
+                toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | forecolor backcolor | bullist numlist | outdent indent blockquote | undo redo | link unlink | removeformat image | fullscreen'
             }, tinymce.EditorManager);
 
             this.we.render();

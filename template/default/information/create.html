@@ -62,7 +62,7 @@ require '../my/header.html';
                     <script>var categoryList=<?php print System::JSON($categoryList); ?>;</script>
                     <div id="category"><input type="hidden" name="category" value="<?php print $isEditMode ? $category : '';  ?>" /></div>
                     <?php if($isEditMode): ?>
-                    <span tabindex="0" class="btn" data-act="my.category/update">更新，不影响资讯排序</span>
+                    <span tabindex="0" class="btn" data-url="/information/put" data-act="my.category/update">更新，不影响资讯排序</span>
                     <?php endif; ?>
                 </div>
             </div>
