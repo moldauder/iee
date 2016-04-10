@@ -22,13 +22,11 @@ if($slider.length){
     $sliderItems = $slider.find('a');
     last_info_id = $sliderItems.last().attr('data-id');
 
-    if($sliderItems.length > 3){
-        $slider.unslider({
-            infinite: true,
-            arrows: true,
-            nav: false
-        });
-    }
+    $slider.unslider({
+        infinite: true,
+        arrows: $sliderItems.length > 3,
+        nav: false
+    });
 }
 
 
