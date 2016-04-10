@@ -19,13 +19,16 @@ var queryInformation = (pageType ==='thing') ? false : true;
 //轮播
 var $slider = $('#J_Slider');
 if($slider.length){
-    last_info_id = $slider.find('a').last().attr('data-id');
+    $sliderItems = $slider.find('a');
+    last_info_id = $sliderItems.last().attr('data-id');
 
-    $slider.unslider({
-        infinite: true,
-        arrows: true,
-        nav: false
-    });
+    if($sliderItems.length > 3){
+        $slider.unslider({
+            infinite: true,
+            arrows: true,
+            nav: false
+        });
+    }
 }
 
 
