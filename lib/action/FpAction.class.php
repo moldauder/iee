@@ -27,6 +27,17 @@ class FpAction extends Action{
             }
         }
 
+        //查询资讯关键轮播
+        if(FP_PAGE_TYPE === 'fp'){
+            $informationBiz = System::B('Information');
+            $sliderInfos = $informationBiz->find(array(
+                'status' => 'publish',
+                'type'   => array('post'),
+                'fp' => 'y'
+            ));
+            $this->assign('sliderInfos', $sliderInfos);
+        }
+
         $this->assign('isMobile', $this->getMobileDetecter()->isMobile());
         $this->display();
     }

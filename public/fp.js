@@ -4,6 +4,7 @@
 
 require('./gotop.js');
 require('./waterfall.min.js')
+require('./unslider.js')
 
 var Base = require('./base.js');
 var pageType = window.pageType || '';
@@ -13,6 +14,22 @@ var last_post_id = '';
 
 var last_info_id = '';
 var queryInformation = (pageType ==='thing') ? false : true;
+
+
+//轮播
+var $slider = $('#J_Slider');
+if($slider.length){
+    last_info_id = $slider.find('a').last().attr('data-id');
+
+    $slider.unslider({
+        infinite: true,
+        arrows: true,
+        nav: false
+    });
+}
+
+
+//瀑布流
 
 var $waterfall = $('#waterfall');
 

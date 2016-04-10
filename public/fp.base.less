@@ -404,129 +404,132 @@ html {
     .pin {
         text-decoration: none;
     }
-    .pin-item {
-        &:hover {
-            .extra {
-                visibility: visible;
-            }
-            .type-album {
-                visibility: hidden;
-            }
-        }
+}
+
+.pin-item {
+    &:hover {
         .extra {
-            position: absolute;
-            visibility: hidden;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .author,
-        .desc,
-        .mask,
-        .title {
-            position: absolute;
-            width: 300px;
-            color: #ccc;
-            cursor: pointer;
-        }
-        .mask {
-            background: #000;
-            height: 100%;
-            width: 100%;
-            top: 0;
-            left: 0;
-            filter: alpha(opacity=60);
-            opacity: 0.6;
-        }
-        .desc {
-            top: 286px;
-            border-top: 1px solid #999;
-            overflow: hidden;
-            font-size: 12px;
-            line-height: 20px;
-            height: 80px;
-            left: 10px;
-        }
-        .title {
-            top: 254px;
-            left: 0;
-            color: #fff;
-            text-align: center;
-            line-height: 20px;
-            height: 20px;
-            overflow: hidden;
-            left: 10px;
-        }
-        .stddate {
-            top: 110px;
-            left: 100px;
-            color: #ccc;
-        }
-        .author {
-            top: 374px;
-            left: 10px;
-            text-align: right;
-            color: #fff;
-            font-size: 14px;
-            font-family: georgia;
-            text-transform: capitalize;
-            s {
-                display: inline-block;
-                width: 16px;
-                height: 1px;
-                background: #fff;
-                overflow: hidden;
-                vertical-align: super;
-                margin-right: 3px;
-            }
+            visibility: visible;
         }
         .type-album {
-            border-width: 15px;
-            border-color: #fff #fff #000 #000;
-            border-style: dashed dashed solid solid;
-            filter: alpha(opacity=90);
-            opacity: 0.9;
-            position: absolute;
-            top: -1px;
-            right: -1px;
-            width: 0;
-            height: 0;
+            visibility: hidden;
         }
     }
-    .pin-info {
-        .extra{
-            padding: 20px 30px 40px 30px;
+    .extra {
+        position: absolute;
+        visibility: hidden;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .author,
+    .desc,
+    .mask,
+    .title {
+        position: absolute;
+        width: 300px;
+        color: #ccc;
+        cursor: pointer;
+    }
+    .mask {
+        background: #000;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+    }
+    .desc {
+        top: 286px;
+        border-top: 1px solid #999;
+        overflow: hidden;
+        font-size: 12px;
+        line-height: 20px;
+        height: 80px;
+        left: 10px;
+    }
+    .title {
+        top: 254px;
+        left: 0;
+        color: #fff;
+        text-align: center;
+        line-height: 20px;
+        height: 20px;
+        overflow: hidden;
+        left: 10px;
+    }
+    .stddate {
+        top: 110px;
+        left: 100px;
+        color: #ccc;
+    }
+    .author {
+        top: 374px;
+        left: 10px;
+        text-align: right;
+        color: #fff;
+        font-size: 14px;
+        font-family: georgia;
+        text-transform: capitalize;
+        s {
+            display: inline-block;
+            width: 16px;
+            height: 1px;
+            background: #fff;
+            overflow: hidden;
+            vertical-align: super;
+            margin-right: 3px;
         }
-        .date {
-            color: #D1C1A7;
-            font-size: 10px;
-            text-align: let;
-            position: relative;
-            padding-top: 10px;
-
-            &:before{
-                content: "";
-                position: absolute;
-                width: 20px;
-                height: 1px;
-                background: #D1C1A7;
-                top: 0;
-                left: 0;
-            }
-        }
-        .title {
-            font-size: 18px;
-            color: #000;
-            margin-top: 30px;
-        }
-        .desc {
-            font-size: 12px;
-            color: #999;
-            margin-top: 20px;
-        }
+    }
+    .type-album {
+        border-width: 15px;
+        border-color: #fff #fff #000 #000;
+        border-style: dashed dashed solid solid;
+        filter: alpha(opacity=90);
+        opacity: 0.9;
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        width: 0;
+        height: 0;
     }
 }
+
+.pin-info {
+    .extra{
+        padding: 20px 30px 40px 30px;
+    }
+    .date {
+        color: #D1C1A7;
+        font-size: 10px;
+        text-align: let;
+        position: relative;
+        padding-top: 10px;
+
+        &:before{
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 1px;
+            background: #D1C1A7;
+            top: 0;
+            left: 0;
+        }
+    }
+    .title {
+        font-size: 18px;
+        color: #000;
+        margin-top: 30px;
+    }
+    .desc {
+        font-size: 12px;
+        color: #999;
+        margin-top: 20px;
+    }
+}
+
 .tpl-author,
 .tpl-item {
     background: url("http://pic.yupoo.com/iewei/C9TCNuSu/fQAH5.png") repeat;
@@ -1398,6 +1401,73 @@ html .modal-album-mask {
         color: #000;
         text-decoration: none;
     }
+}
 
 
+.slider-wrap{
+    background: #000;
+    padding: 20px 0;
+
+    @pin-height: 500px;
+
+    .unslider{
+        position: relative;
+        width: 1000px;
+        margin: 0 auto;
+    }
+
+    .my-slider{
+        height: @pin-height;
+        overflow: hidden;
+
+        ul{
+            position: absolute;
+            overflow: hidden;
+            height: @pin-height;
+        }
+
+        li{
+            float: left;
+            width: 1000px;
+            overflow: hidden;
+        }
+
+    }
+
+    .unslider-arrow{
+        position: absolute;
+        @size: 48px;
+        width: @size;
+        height: @size;
+        background-size: contain;
+        top: (@pin-height - @size) / 2;
+        z-index: 9;
+        cursor: pointer;
+        font-size: 0;
+
+        &.next{
+            right: 0 - @size;
+            background-image: url(/asset/default/res/right.png);
+        }
+
+        &.prev{
+            left: 0 - @size;
+            background-image: url(/asset/default/res/left.png);
+        }
+    }
+
+    .pin-list{
+        width: 1020px;
+    }
+
+    .pin{
+        float: left;
+        width: 320px;
+        height: @pin-height;
+        overflow: hidden;
+        position: relative;
+        margin-right: 20px;
+        background: #fff;
+        text-decoration: none;
+    }
 }

@@ -1,5 +1,42 @@
 <?php
 /**
+ * 渲染首页的轮播
+ */
+function renderSliderPanel($list){
+    $html = '<div class="pin-list">';
+
+    foreach($list as $vo){
+        $html .= '<a data-id="' . $vo->id . '" href="/i' . ('0' !== $vo->sid ? $vo->sid : $vo->id) . '" class="pin pin-info">';
+            $html .= '<img src="' . $vo->cover . '" width="320" height="250" />';
+            $html .= '<div class="extra">';
+                $html .= '<div class="date">' . date('jS M Y', strtotime($vo->modified)) . '</div>';
+                $html .= '<div class="title">' . $vo->title . '</div>';
+                $html .= '<div class="desc">' . $vo->desc . '</div>';
+            $html .= '</div>';
+        $html .= '</a>';
+    }
+
+    return $html . '</div>';
+}
+
+function renderSlider($sliderInfos){
+    $infoCount = count($sliderInfos);
+    if($infoCount < 3){
+        return;
+    }
+
+    print '<div class="slider-wrap">';
+    print '<div class="my-slider" id="J_Slider"><ul>';
+
+    for($i = 0; $i < floor($infoCount  / 3); $i++){
+        print '<li>' . renderSliderPanel(array_slice($sliderInfos, $i * 3, 3)) . '</li>';
+    }
+
+    print '</ul></div>';
+    print '</div>';
+}
+
+/**
  * 渲染下拉菜单
  */
 function renderOptions($options = array(), $value = ''){
