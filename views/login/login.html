@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>iee &rsaquo; 登录</title>
+    <meta name='robots' content='noindex,nofollow' />
+    <link rel="stylesheet" href="/asset/default/1.1.0/??my.login.css" /> </head>
+
+<body>
+    <div class="login">
+        <form method="post">
+            {% if msg %}
+            <div class="err"><p>{{msg}}</p></div>
+            {% endif %}
+
+            <p>
+                <label for="userName">用户名
+                    <br />
+                    <input type="text" name="userName" id="userName" class="input" autofocus="autofocus" value="" size="20" tabindex="10" />
+                </label>
+            </p>
+            <p>
+                <label for="pwd">密码
+                    <br />
+                    <input type="password" name="pwd" id="pwd" class="input" size="20" tabindex="20" />
+                </label>
+            </p>
+            <p class="submit">
+                <input type="submit" class="button" value="登录" tabindex="100" />
+            </p>
+        </form>
+        <p class="backto"><a href="/">&larr; 回到iee</a></p>
+    </div>
+</body>
+
+</html>

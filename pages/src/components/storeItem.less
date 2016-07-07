@@ -1,0 +1,44 @@
+@size: 160px;
+
+.StoreItem{
+	position: relative;
+	vertical-align: top;
+	overflow: hidden;
+	cursor: default;
+	border-radius: 2px;
+	margin: 0 10px 10px 0;
+
+	img{
+		width: @size;
+		height: @size;
+		vertical-align: top;
+	}
+}
+
+.title{
+	position: absolute;
+	padding: 2px 4px;
+	box-sizing: border-box;
+	background: rgba(0, 0, 0, 0.5);
+	color: #eee;
+	text-align: center;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
+.action{
+	@action-height: 22px;
+	visibility: hidden;
+
+	position: absolute;
+	top: (@size - @action-height) / 2;
+	left: 0;
+	width: 100%;
+	height: @action-height;
+	text-align: center;
+
+	button{
+		margin: 0 5px;
+	}
+}
