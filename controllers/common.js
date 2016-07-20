@@ -14,7 +14,7 @@ Common.upload = function* (next){
 
 	let image = this.request.body.files.image;
 	if(image){
-		let saveName = moment().format('YYMMDD') + '/' + (uuid.v1().replace(/-/g, '').substr(0, 16));
+		let saveName = moment().format('YYMMDD') + '/' + (uuid.v1().replace(/-/g, ''));
 
 		/**
 			{
@@ -34,7 +34,7 @@ Common.upload = function* (next){
 		});
 
 		this.body = [{
-			uid: saveName,
+			uid: saveName.replace('/', '-'),
 			name: image.name,
 			status: 'done',
 			url: object.url,
